@@ -1,14 +1,14 @@
 {
-    "name": "psliwa/php-pdf",
-    "description": "Pdf and graphic files generator library for PHP.",
+    "name": "littlerocket/php-pdf",
+    "description": "Pdf and graphic files generator library for PHP. Fixed for PHP7",
     "keywords": ["PDF", "PHPPdf"],
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name":     "Piotr Śliwa",
-            "homepage": "http://ohey.pl",
-            "email":    "peter.pl7@gmail.com"
+            "name":     "Daan Gebraad",
+            "homepage": "https://littlerocket.nl",
+            "email":    "daan@littlerocket.nl"
         }
     ],
     "require": {
