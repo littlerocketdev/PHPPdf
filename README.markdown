@@ -1086,6 +1086,6 @@ Technical requirements
 
 This library works with php 7.0 and up.
 
-[1]: https://github.com/littlerocket/PdfBundle
+[1]: https://github.com/littlerocketdev/PdfBundle
 [2]: https://github.com/avalanche123/Imagine
 [3]: http://framework.zend.com/manual/en/zend.barcode.objects.html
