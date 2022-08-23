@@ -1,8 +1,6 @@
 Information
 ===========
 
-[![Build Status](https://secure.travis-ci.org/psliwa/PHPPdf.png?branch=master)](http://travis-ci.org/psliwa/PHPPdf)
-
 Examples
 =========
 
@@ -67,7 +65,7 @@ PHPPdf is available at packagist.org, so you can use composer to download this l
 *(add to require section in your composer.json file)*
 
 ```json
-    "psliwa/php-pdf": "*"
+    "littlerocket/php-pdf": "*"
 ```
 
 You should choose last stable version (or wildcard of stable version), wildcard char ("*") is only an example.
@@ -1086,8 +1084,8 @@ TODO - plans
 Technical requirements
 ----------------
 
-This library works with php 5.3 and up.
+This library works with php 7.0 and up.
 
-[1]: https://github.com/psliwa/PdfBundle
+[1]: https://github.com/littlerocket/PdfBundle
 [2]: https://github.com/avalanche123/Imagine
 [3]: http://framework.zend.com/manual/en/zend.barcode.objects.html
