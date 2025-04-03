@@ -13,8 +13,7 @@
     ],
     "require": {
         "zendframework/zendpdf":  "~2.0.0",
-        "zendframework/zend-cache":  "^2.0",
-        "symfony/polyfill-mbstring": "^1.31"
+        "zendframework/zend-cache":  "^2.0"
     },
     "require-dev": {
         "zendframework/zend-barcode": "^2.0",
