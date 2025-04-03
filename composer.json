@@ -1,6 +1,6 @@
 {
     "name": "littlerocket/php-pdf",
-    "description": "Pdf and graphic files generator library for PHP. Fixed for PHP7",
+    "description": "Pdf and graphic files generator library for PHP. Fixed for PHP8",
     "keywords": ["PDF", "PHPPdf"],
     "type": "library",
     "license": "MIT",
@@ -13,13 +13,14 @@
     ],
     "require": {
         "zendframework/zendpdf":  "~2.0.0",
-        "zendframework/zend-cache":  "^2.0"
+        "zendframework/zend-cache":  "^2.0",
+        "symfony/polyfill-mbstring": "^1.31"
     },
     "require-dev": {
         "zendframework/zend-barcode": "^2.0",
         "zendframework/zend-validator": "^2.0",
         "imagine/imagine": ">=0.2.0,<0.6.0",
-        "phpunit/phpunit": ">=4,<5.4.0"
+        "phpunit/phpunit": "^10.0.0"
     },
     "suggest": {
     	"zendframework/zend-barcode":  "If you want to use barcodes",
@@ -27,6 +28,6 @@
     	"imagine/imagine": "If you want to use image generating (required version: >=v0.2.6)"
     },
     "autoload": {
-        "psr-0": { "PHPPdf": "lib/", "Imagine": "lib/" }
+        "psr-4": { "PHPPdf\\": "lib/", "Imagine\\": "lib/" }
     }
 }
