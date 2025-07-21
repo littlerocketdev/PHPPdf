@@ -277,7 +277,7 @@ class Png extends BasePng
         }
     }
     
-    private function decode($imageData, $width, $colors, $bits)
+    private function decode(string $imageData, $width, int $colors, int $bits)
     {
         $decodingObjFactory = ObjectFactory::createFactory(1);
         $decodingStream = $decodingObjFactory->newStreamObject($imageData);
@@ -292,7 +292,7 @@ class Png extends BasePng
         return $decodingStream->value;
     }
     
-    private function open($isRemote, $imageFileName)
+    private function open(bool $isRemote, $imageFileName): false|\PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream
     {
         try 
         {
@@ -318,7 +318,7 @@ class Png extends BasePng
         }
     }
     
-    private function seek($index)
+    private function seek(int|float $index): void
     {
         $this->stream->seek($index);
     }
@@ -328,7 +328,7 @@ class Png extends BasePng
         return $this->stream->read($length);
     }
     
-    private function close()
+    private function close(): void
     {
         $this->stream->close();
         $this->stream = null;

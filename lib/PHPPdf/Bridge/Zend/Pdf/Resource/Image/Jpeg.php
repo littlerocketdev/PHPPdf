@@ -89,7 +89,7 @@ class Jpeg extends BaseJpeg
         $this->_imageProperties['jpegColorType'] = $imageInfo['channels'];
     }
     
-    private function open($isRemote, $imageFileName)
+    private function open(bool $isRemote, $imageFileName): false|\PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream
     {
         try 
         {

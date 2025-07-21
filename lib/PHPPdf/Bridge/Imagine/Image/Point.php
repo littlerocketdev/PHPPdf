@@ -44,7 +44,7 @@ class Point implements PointInterface
         return new self($this->x + $amount, $this->y + $amount);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('(%d, %d)', $this->x, $this->y);
     }

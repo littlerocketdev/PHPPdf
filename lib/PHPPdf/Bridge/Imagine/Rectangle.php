@@ -11,15 +11,15 @@ use PHPPdf\Bridge\Imagine\Image\Point;
 
 class Rectangle
 {
-    private $point;
-    private $box;
+    private \Imagine\Image\PointInterface $point;
+    private \Imagine\Image\BoxInterface $box;
 
-    public static function createWithSize(BoxInterface $size)
+    public static function createWithSize(BoxInterface $size): self
     {
         return new self(new Point(0, 0), $size);
     }
 
-    public static function create(PointInterface $point, BoxInterface $size)
+    public static function create(PointInterface $point, BoxInterface $size): self
     {
         return new self($point, $size);
     }
@@ -40,7 +40,7 @@ class Rectangle
         return $this->box;
     }
 
-    public function intersection(Rectangle $rectangle)
+    public function intersection(Rectangle $rectangle): ?\PHPPdf\Bridge\Imagine\Rectangle
     {
         if($this->disjoint($rectangle)) return null;
 
@@ -53,7 +53,7 @@ class Rectangle
         return new Rectangle(new Point($x1, $y1), new Box($x2 - $x1, $y2 - $y1));
     }
 
-    private function disjoint(Rectangle $rectangle)
+    private function disjoint(Rectangle $rectangle): bool
     {
         return
             $rectangle->point->getX() > $this->box->getWidth() + $this->point->getX() ||

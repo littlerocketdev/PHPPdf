@@ -295,7 +295,7 @@ class Tiff extends BaseTiff
         $this->_resource->skipFilters();
     }
     
-    private function open($isRemote, $imageFileName)
+    private function open(bool $isRemote, $imageFileName): false|\PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream
     {
         try 
         {
@@ -321,7 +321,7 @@ class Tiff extends BaseTiff
         }
     }
     
-    private function seek($index, $seekMode = InputStream::SEEK_CUR)
+    private function seek($index, int $seekMode = InputStream::SEEK_CUR)
     {
         return $this->stream->seek($index, $seekMode);
     }
@@ -331,7 +331,7 @@ class Tiff extends BaseTiff
         return $this->stream->read($length);
     }
     
-    private function close()
+    private function close(): void
     {
         $this->stream->close();
     }
