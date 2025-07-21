@@ -22,18 +22,18 @@ use PHPPdf\Core\Parser\Exception\DuplicatedIdException;
  */
 class Manager implements DocumentParserListener
 {
-    private $nodes = array();
-    private $wrappers = array();
+    private array $nodes = array();
+    private array $wrappers = array();
     
-    private $managedNodes = array();
-    private $behavioursTasks;
+    private array $managedNodes = array();
+    private \PHPPdf\Core\DrawingTaskHeap $behavioursTasks;
     
     public function __construct()
     {
         $this->behavioursTasks = new DrawingTaskHeap();
     }
     
-    public function register($id, Node $node)
+    public function register($id, Node $node): void
     {
         if(isset($this->nodes[$id]))
         {
@@ -70,14 +70,14 @@ class Manager implements DocumentParserListener
         return $wrapper;
     }
     
-    public function clear()
+    public function clear(): void
     {
         $this->behavioursTasks = new DrawingTaskHeap();
         $this->wrappers = array();
         $this->nodes = array();
     }
     
-    public function onEndParsePlaceholders(Document $document, PageCollection $root, Node $node, DocumentParsingContext $context)
+    public function onEndParsePlaceholders(Document $document, PageCollection $root, Node $node, DocumentParsingContext $context): void
     {
         if($this->isPage($node))
         {
@@ -85,7 +85,7 @@ class Manager implements DocumentParserListener
         }
     }
     
-    public function onStartParseNode(Document $document, PageCollection $root, Node $node, DocumentParsingContext $context)
+    public function onStartParseNode(Document $document, PageCollection $root, Node $node, DocumentParsingContext $context): void
     {
         if(!$this->isPage($node) && $this->isPage($node->getParent()))
         {
@@ -93,12 +93,12 @@ class Manager implements DocumentParserListener
         }
     }
     
-    private function isPage($node)
+    private function isPage($node): bool
     {
         return $node instanceof \PHPPdf\Core\Node\Page;
     }
     
-    public function onEndParseNode(Document $document, PageCollection $root, Node $node, DocumentParsingContext $context)
+    public function onEndParseNode(Document $document, PageCollection $root, Node $node, DocumentParsingContext $context): void
     {
         if(!$this->isPage($node) && $this->isPage($node->getParent()))
         {
@@ -125,7 +125,7 @@ class Manager implements DocumentParserListener
         }
     }
     
-    private function processDynamicPage(Document $document, Node $node)
+    private function processDynamicPage(Document $document, Node $node): void
     {
         if($this->isDynamicPage($node->getParent()) && $this->isOutOfPage($node))
         {
@@ -158,7 +158,7 @@ class Manager implements DocumentParserListener
         }
     }
     
-    private function isDynamicPage($node)
+    private function isDynamicPage($node): bool
     {
         return $node instanceof \PHPPdf\Core\Node\DynamicPage;
     }
@@ -175,13 +175,13 @@ class Manager implements DocumentParserListener
         return $page->getDiagonalPoint()->getY() > $node->getFirstPoint()->getY() && $node->getFloat() == Node::FLOAT_NONE;
     }
     
-    public function onEndParsing(Document $document, PageCollection $root)
+    public function onEndParsing(Document $document, PageCollection $root): void
     {
         $document->invokeTasks($this->behavioursTasks);
         $this->behavioursTasks = new DrawingTaskHeap();
     }
 
-    private function invokePreFormatIfItHasntInvokedYet(Document $document, Node $node)
+    private function invokePreFormatIfItHasntInvokedYet(Document $document, Node $node): void
     {
         if(!$this->preFormatHasBeenInvoked($node))
         {

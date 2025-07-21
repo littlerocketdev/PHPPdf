@@ -20,8 +20,8 @@ use PHPPdf\Core\Engine\GraphicsContext,
  */
 abstract class TextEnumerationStrategy extends AbstractEnumerationStrategy
 {
-    private $widthOfTextCache = array();
-    private $initialIndex = 1;
+    private array $widthOfTextCache = array();
+    private int $initialIndex = 1;
     
     private $enumerationText = null;
         
@@ -94,7 +94,7 @@ abstract class TextEnumerationStrategy extends AbstractEnumerationStrategy
         return str_split($text);
     }
     
-    public function reset()
+    public function reset(): void
     {
         $this->widthOfTextCache = array();
     }

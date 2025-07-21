@@ -37,7 +37,7 @@ class Background extends ComplexAttribute
 
     private $image = null;
     private $repeat;
-    private $useRealDimension;
+    private bool $useRealDimension;
     private $imageWidth = null;
     private $imageHeight = null;
     private $positionX = null;
@@ -54,7 +54,7 @@ class Background extends ComplexAttribute
         $this->setPosition($positionX, $positionY);
     }
     
-    private function setPosition($positionX, $positionY)
+    private function setPosition($positionX, $positionY): void
     {
         $allowedXPositions = array(self::POSITION_LEFT, self::POSITION_CENTER, self::POSITION_RIGHT);
         if(!in_array($positionX, $allowedXPositions) && !$this->isNumeric($positionX))
@@ -84,7 +84,7 @@ class Background extends ComplexAttribute
         return $numericValue === substr($value, 0, strlen($numericValue));
     }
 
-    private function setRepeat($repeat)
+    private function setRepeat($repeat): void
     {
         if(!is_numeric($repeat))
         {
@@ -99,7 +99,7 @@ class Background extends ComplexAttribute
         return $this->repeat;
     }
     
-    private function setImageDimension($width, $height)
+    private function setImageDimension($width, $height): void
     {
         if($this->image === null)
         {
@@ -127,7 +127,7 @@ class Background extends ComplexAttribute
         }
     }
     
-    private function drawRectangleBackground(GraphicsContext $graphicsContext, Node $node, Document $document)
+    private function drawRectangleBackground(GraphicsContext $graphicsContext, Node $node, Document $document): void
     {
         if($this->getColor() !== null)
         {
@@ -217,7 +217,7 @@ class Background extends ComplexAttribute
         }
     }
     
-    private function getImageDimension(UnitConverter $converter, $image, Node $node)
+    private function getImageDimension(UnitConverter $converter, $image, Node $node): array
     {
         $width = $converter->convertUnit($this->imageWidth);
         $height = $converter->convertUnit($this->imageHeight);
@@ -236,7 +236,7 @@ class Background extends ComplexAttribute
         return array($width, $height);
     }
     
-    private function convertPercentageDimension(UnitConverter $converter, Node $node, $width, $height)
+    private function convertPercentageDimension(UnitConverter $converter, Node $node, $width, $height): array
     {
         $width = $converter->convertPercentageValue($width, $this->getWidth($node));
         $height = $converter->convertPercentageValue($height, $this->getHeight($node));
@@ -291,7 +291,7 @@ class Background extends ComplexAttribute
         return $node->getHeight();
     }
     
-    private function drawCircleBackground(GraphicsContext $gc, Node $node, Document $document)
+    private function drawCircleBackground(GraphicsContext $gc, Node $node, Document $document): void
     {
         $point = $node->getMiddlePoint();
         

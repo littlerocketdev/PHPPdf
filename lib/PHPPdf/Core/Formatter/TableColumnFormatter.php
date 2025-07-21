@@ -16,7 +16,7 @@ use PHPPdf\Core\Node\Node,
  */
 class TableColumnFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $node->convertRelativeWidthsOfColumns();
         $node->reduceColumnsWidthsByMargins();

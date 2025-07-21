@@ -40,16 +40,16 @@ class StylesheetConstraint extends BagContainer implements \Countable
 {
     const TAG_WILDCARD = 'any';
 
-    private $constraints = array();
-    private $classes = array();
-    private $tag = self::TAG_WILDCARD;
+    private array $constraints = array();
+    private array $classes = array();
+    private string $tag = self::TAG_WILDCARD;
 
-    public function addClass($class)
+    public function addClass($class): void
     {
         $this->classes[$class] = true;
     }
 
-    public function hasClass($class)
+    public function hasClass($class): bool
     {
         return isset($this->classes[$class]);
     }
@@ -59,7 +59,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
         return array_keys($this->classes);
     }
 
-    public function setTag($tag)
+    public function setTag($tag): void
     {
         $this->tag = (string) $tag;
     }
@@ -69,7 +69,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
         return $this->tag;
     }
 
-    public function removeClass($class)
+    public function removeClass($class): void
     {
         if($this->hasClass($class))
         {
@@ -83,7 +83,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
      * @param string Constraint tag
      * @param StylesheetConstraint Constraint to add
      */
-    public function addConstraint($tag, StylesheetConstraint $constraint)
+    public function addConstraint($tag, StylesheetConstraint $constraint): void
     {
         $tag = (string) $tag;
         $constraint->setTag($tag);
@@ -145,7 +145,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
             }
         }
 
-        usort($containers, function($container1, $container2){
+        usort($containers, function($container1, $container2): float|int{
             $result = $container1->getWeight() - $container2->getWeight();
             
             if($result == 0)
@@ -164,14 +164,17 @@ class StylesheetConstraint extends BagContainer implements \Countable
         return isset($queryElement['tag']) ? $queryElement['tag'] : null;
     }
 
-    private function getClassesFromQueryElement($queryElement)
+    /**
+     * @return mixed[]
+     */
+    private function getClassesFromQueryElement($queryElement): array
     {
         $classes = (array) (isset($queryElement['classes']) ? $queryElement['classes'] : array());
 
         return $classes;
     }
 
-    private function getMatchingIndex($constraint, $tag, array $classes)
+    private function getMatchingIndex($constraint, $tag, array $classes): int|float
     {
         $matchingIndex = 0;
         $constraintClasses = $constraint->getClasses();
@@ -184,7 +187,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
         return $matchingIndex;
     }
 
-    private function getClassMatchingIndex($constraint, $classes)
+    private function getClassMatchingIndex($constraint, array $classes): int
     {
         $constraintClasses = $constraint->getClasses();
 
@@ -211,7 +214,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
         return $data;
     }
 
-    protected function restoreDataAfterUnserialize($data)
+    protected function restoreDataAfterUnserialize(array $data)
     {
         parent::restoreDataAfterUnserialize($data);
 

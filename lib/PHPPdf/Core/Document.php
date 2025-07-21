@@ -38,22 +38,22 @@ class Document extends AbstractStringFilterContainer implements Engine
     const DRAWING_PRIORITY_FOREGROUND2 = 20;
     const DRAWING_PRIORITY_FOREGROUND3 = 30;
 
-    private $processed = false;
+    private bool $processed = false;
 
     /**
      * @var PHPPdf\Core\Engine\Engine
      */
     private $engine;
 
-    private $complexAttributeFactory = null;
+    private ?\PHPPdf\Core\ComplexAttribute\ComplexAttributeFactory $complexAttributeFactory = null;
 
-    private $fontRegistry = null;
+    private ?\PHPPdf\Core\FontRegistry $fontRegistry = null;
 
-    private $formatters = array();
+    private array $formatters = array();
     
-    private $unitConverter = null;
+    private ?\PHPPdf\Core\UnitConverter $unitConverter = null;
     
-    private $colorPalette = null;
+    private \PHPPdf\Core\ColorPalette $colorPalette;
 
     public function __construct(Engine $engine)
     {
@@ -68,7 +68,7 @@ class Document extends AbstractStringFilterContainer implements Engine
      * 
      * @return array Array of ComplexAttribute objects
      */
-    public function getComplexAttributes(AttributeBag $bag)
+    public function getComplexAttributes(AttributeBag $bag): array
     {
         $complexAttributes = array();
 
@@ -96,12 +96,12 @@ class Document extends AbstractStringFilterContainer implements Engine
         return $complexAttributes;
     }
 
-    public function setComplexAttributeFactory(ComplexAttributeFactory $complexAttributeFactory)
+    public function setComplexAttributeFactory(ComplexAttributeFactory $complexAttributeFactory): void
     {
         $this->complexAttributeFactory = $complexAttributeFactory;
     }
     
-    public function setUnitConverter(UnitConverter $converter)
+    public function setUnitConverter(UnitConverter $converter): void
     {
         $this->unitConverter = $converter;
     }
@@ -109,14 +109,14 @@ class Document extends AbstractStringFilterContainer implements Engine
     /**
      * Reset Document state
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->processed = false;
         $this->engine->reset();
     }
     
     //TODO: this is only test and temporary method
-    public function setEngine($engine)
+    public function setEngine($engine): void
     {
         $this->engine = $engine;
     }
@@ -139,7 +139,7 @@ class Document extends AbstractStringFilterContainer implements Engine
         return $this->fontRegistry;
     }
 
-    public function setFontRegistry(FontRegistry $registry)
+    public function setFontRegistry(FontRegistry $registry): void
     {
         $this->fontRegistry = $registry;
     }
@@ -151,7 +151,7 @@ class Document extends AbstractStringFilterContainer implements Engine
      *
      * @param array $pages Array of pages to draw
      */
-    public function draw($pages)
+    public function draw($pages): void
     {
         if($this->isProcessed())
         {
@@ -190,7 +190,7 @@ class Document extends AbstractStringFilterContainer implements Engine
         $this->invokeTasks($tasks);
     }
 
-    public function invokeTasks($tasks)
+    public function invokeTasks($tasks): void
     {
         foreach($tasks as $task)
         {
@@ -198,7 +198,7 @@ class Document extends AbstractStringFilterContainer implements Engine
         }
     }
 
-    public function addDrawingTask(Callable $callable, $priority = self::DRAWING_PRIORITY_FOREGROUND3)
+    public function addDrawingTask(Callable $callable, $priority = self::DRAWING_PRIORITY_FOREGROUND3): void
     {
         $this->drawingTasksQueue->insert($callable, $priority);
     }
@@ -247,7 +247,7 @@ class Document extends AbstractStringFilterContainer implements Engine
         return $this->engine->createGraphicsContext($size, $encoding);
     }
     
-    public function attachGraphicsContext(GraphicsContext $gc)
+    public function attachGraphicsContext(GraphicsContext $gc): void
     {
         $this->engine->attachGraphicsContext($gc);
     }
@@ -282,7 +282,7 @@ class Document extends AbstractStringFilterContainer implements Engine
         return $this->engine->loadEngine($file, $encoding);
     }
     
-    public function setMetadataValue($name, $value)
+    public function setMetadataValue($name, $value): void
     {
         $this->engine->setMetadataValue($name, $value);
     }
@@ -292,12 +292,12 @@ class Document extends AbstractStringFilterContainer implements Engine
         return $this->getFontRegistry()->get($name);
     }
     
-    public function setFontDefinition($name, array $definition)
+    public function setFontDefinition($name, array $definition): void
     {
         $this->getFontRegistry()->register($name, $definition);
     }
     
-    public function addFontDefinitions(array $definitions)
+    public function addFontDefinitions(array $definitions): void
     {
         foreach($definitions as $name => $definition)
         {
@@ -333,17 +333,17 @@ class Document extends AbstractStringFilterContainer implements Engine
         return $this->engine->render();
     }
     
-    public function reset()
+    public function reset(): void
     {
         $this->initialize();
     }
 
-    public function setColorPalette(ColorPalette $colorPalette)
+    public function setColorPalette(ColorPalette $colorPalette): void
     {
         $this->colorPalette = $colorPalette;
     }
     
-	public function addColorsToPalette(array $colors)
+	public function addColorsToPalette(array $colors): void
 	{
 		$this->colorPalette->merge($colors);
 	}

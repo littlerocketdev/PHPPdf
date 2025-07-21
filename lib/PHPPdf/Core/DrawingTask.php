@@ -18,9 +18,9 @@ use PHPPdf\Core\Document;
 class DrawingTask
 {
     private $callback;
-    private $arguments;
+    private array $arguments;
     private $priority;
-    private $order;
+    private ?int $order = null;
 
     public function __construct($callback, array $arguments = array(), $priority = Document::DRAWING_PRIORITY_FOREGROUND2)
     {
@@ -32,7 +32,7 @@ class DrawingTask
     /**
      * @throws PHPPdf\Core\Exception\DrawingException If error occurs while drawing
      */
-    public function invoke()
+    public function invoke(): mixed
     {
         return call_user_func_array($this->callback, $this->arguments);
     }
@@ -47,12 +47,12 @@ class DrawingTask
         return $this->order;
     }
 
-    public function setOrder($order)
+    public function setOrder($order): void
     {
         $this->order = (int) $order;
     }
     
-    public function compareTo(DrawingTask $task)
+    public function compareTo(DrawingTask $task): int|float
     {
         $diff = ($this->priority - $task->priority);
 

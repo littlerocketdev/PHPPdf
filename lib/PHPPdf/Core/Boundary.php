@@ -21,9 +21,9 @@ use PHPPdf\Exception\LogicException;
 class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
 {
     private $points = array();
-    private $numberOfPoints = 0;
-    private $closed = false;
-    private $current = 0;
+    private int $numberOfPoints = 0;
+    private bool $closed = false;
+    private int $current = 0;
     private $diagonalPointXIndex = null;
     private $diagonalPointYIndex = null;
 
@@ -32,7 +32,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
      * 
      * @return Boundary Self
      */
-    public function setNext($param1, $param2 = null)
+    public function setNext($param1, $param2 = null): static
     {
         if($this->closed)
         {
@@ -76,7 +76,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
     /**
      * Close boundary. Adding next points occurs LogicException
      */
-    public function close()
+    public function close(): void
     {
         if($this->numberOfPoints <= 2)
         {
@@ -95,7 +95,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
      * @param Boundary $boundary
      * @return boolean
      */
-    public function intersects(Boundary $boundary)
+    public function intersects(Boundary $boundary): bool
     {
         $firstPoint = $this->getFirstPoint();
         $diagonalPoint = $this->getDiagonalPoint();
@@ -150,7 +150,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
         return false;
     }
 
-    private function contains(Point $point, $include = false)
+    private function contains(Point $point, $include = false): bool
     {
         $firstPoint = $this->getFirstPoint();
         $diagonalPoint = $this->getDiagonalPoint();
@@ -198,12 +198,12 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
         return $this->current;
     }
 
-    public function next()
+    public function next(): void
     {
         $this->current++;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->current = 0;
     }
@@ -220,7 +220,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
      * @param integer $x First vector's coordinate
      * @param integer $y Second vector's coordinate
      */
-    public function translate($x, $y)
+    public function translate($x, $y): static
     {
         if(!$x && !$y)
         {
@@ -242,7 +242,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
      * @param integer $x First vector's coordinate
      * @param integer $y Second vector's coordinate
      */
-    public function pointTranslate($pointIndex, $x, $y)
+    public function pointTranslate($pointIndex, $x, $y): static
     {
         if($x || $y)
         {
@@ -299,7 +299,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
     /**
      * Clears points and status of the object
      */
-    public function reset()
+    public function reset(): void
     {
         $this->closed = false;
         $this->points = array();
@@ -357,7 +357,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
         ));
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $data = unserialize($serialized);
         $points = $data['points'];

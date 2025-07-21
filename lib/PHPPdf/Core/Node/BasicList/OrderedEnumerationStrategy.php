@@ -21,12 +21,12 @@ class OrderedEnumerationStrategy extends TextEnumerationStrategy
 {
     private $pattern = '%s.';
     
-    protected function assembleEnumerationText(BasicList $list, $number)
+    protected function assembleEnumerationText(BasicList $list, $number): string
     {
         return sprintf($this->pattern, $number);
     }
 
-    public function setPattern($pattern)
+    public function setPattern($pattern): void
     {
         $this->pattern = $pattern;
     }

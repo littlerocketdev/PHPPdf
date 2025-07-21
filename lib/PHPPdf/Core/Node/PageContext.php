@@ -15,8 +15,8 @@ namespace PHPPdf\Core\Node;
  */
 class PageContext
 {
-    private $dynamicPage;
-    private $pageNumber;
+    private \PHPPdf\Core\Node\DynamicPage $dynamicPage;
+    private int $pageNumber;
 
     public function __construct($pageNumber, DynamicPage $dynamicPage)
     {

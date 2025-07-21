@@ -22,11 +22,11 @@ use PHPPdf\Core\Facade;
  */
 class MarkdownDocumentParser implements DocumentParser, FacadeAware
 {
-    private $documentParser;
-    private $markdownParser;
+    private \PHPPdf\Core\Parser\DocumentParser $documentParser;
+    private \PHPPdf\Parser\Parser $markdownParser;
     private $stylesheetFilepath;
     private $documentTemplateFilepath;
-    private $facade;
+    private ?\PHPPdf\Core\Facade $facade = null;
     
     public function __construct(DocumentParser $documentParser, Parser $markdownParser = null)
     {        
@@ -34,7 +34,7 @@ class MarkdownDocumentParser implements DocumentParser, FacadeAware
         $this->markdownParser = $markdownParser ? : new MarkdownParser();
     }
     
-    public function setFacade(Facade $facade)
+    public function setFacade(Facade $facade): void
     {
         $this->facade = $facade;
     }
@@ -52,12 +52,12 @@ class MarkdownDocumentParser implements DocumentParser, FacadeAware
         return $this->documentParser->parse($markdownOutput, $this->getStylesheetConstraint());
     }
     
-    public function setStylesheetFilepath($filepath)
+    public function setStylesheetFilepath($filepath): void
     {
         $this->stylesheetFilepath = $filepath;
     }
     
-    public function setDocumentTemplateFilepath($filepath)
+    public function setDocumentTemplateFilepath($filepath): void
     {
         $this->documentTemplateFilepath = $filepath;
     }
@@ -74,17 +74,17 @@ class MarkdownDocumentParser implements DocumentParser, FacadeAware
         return null;
     }
 
-    public function setNodeFactory(NodeFactory $factory)
+    public function setNodeFactory(NodeFactory $factory): void
     {
         $this->documentParser->setNodeFactory($factory);
     }
     
-    public function setComplexAttributeFactory(ComplexAttributeFactory $complexAttributeFactory)
+    public function setComplexAttributeFactory(ComplexAttributeFactory $complexAttributeFactory): void
     {
         $this->documentParser->setComplexAttributeFactory($complexAttributeFactory);
     }
     
-    public function addListener(DocumentParserListener $listener)
+    public function addListener(DocumentParserListener $listener): void
     {
         $this->documentParser->addListener($listener);
     }
@@ -94,7 +94,7 @@ class MarkdownDocumentParser implements DocumentParser, FacadeAware
         return $this->documentParser->getNodeManager();
     }
     
-    public function setDocument(Document $document)
+    public function setDocument(Document $document): void
     {
         $this->documentParser->setDocument($document);
     }

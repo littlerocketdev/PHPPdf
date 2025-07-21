@@ -16,7 +16,7 @@ use PHPPdf\Core\Node\Node,
  */
 class StickyNote extends Behaviour
 {
-    private $text;
+    private string $text;
     
     public function __construct($text)
     {        

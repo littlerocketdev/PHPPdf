@@ -23,7 +23,7 @@ class PageBreakingFormatter extends BaseFormatter
     protected $node;
     protected $totalVerticalTranslation = 0;
     
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $columnFormatter = new ColumnBreakingFormatter();
 
@@ -57,7 +57,7 @@ class PageBreakingFormatter extends BaseFormatter
         $this->node = null;
     }
 
-    private function breakChildIfNecessary(Node $node)
+    private function breakChildIfNecessary(Node $node): void
     {
         $this->getSubjectOfBreaking()->markAsFormatted($node);
         $childHasBeenBroken = false;
@@ -132,12 +132,12 @@ class PageBreakingFormatter extends BaseFormatter
         return $node;
     }
 
-    private function addToSubjectOfBreaking(Node $node)
+    private function addToSubjectOfBreaking(Node $node): void
     {
         $this->getSubjectOfBreaking()->getCurrentPage()->add($node);
     }
 
-    private function breakSubjectOfBreakingAndIncraseTranslation(Node $node, $nodeYCoordStart, $gapBeetwenBottomOfOriginalNodeAndEndOfPage)
+    private function breakSubjectOfBreakingAndIncraseTranslation(Node $node, $nodeYCoordStart, int|float $gapBeetwenBottomOfOriginalNodeAndEndOfPage): void
     {
         $translation = $this->node->getPage()->getHeight() + $this->node->getPage()->getMarginBottom() - $nodeYCoordStart;
         $verticalTranslation = $translation - $gapBeetwenBottomOfOriginalNodeAndEndOfPage;
@@ -157,7 +157,7 @@ class PageBreakingFormatter extends BaseFormatter
         return $this->node;
     }
     
-    private function shouldBeBroken(Node $node, $pageYCoordEnd)
+    private function shouldBeBroken(Node $node, $pageYCoordEnd): bool
     {
         $yEnd = $node->getDiagonalPoint()->getY();
 

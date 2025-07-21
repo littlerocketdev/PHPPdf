@@ -13,7 +13,7 @@ namespace PHPPdf\Core\Node\Runtime;
  */
 class NumberOfPages extends PageText
 {
-    protected function getTextAfterEvaluating()
+    protected function getTextAfterEvaluating(): string
     {
         $page = $this->getPage();
         $context = $page->getContext();

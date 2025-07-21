@@ -30,7 +30,7 @@ class PageInfo extends PageText
         $this->setAttribute('dummy-text', sprintf($this->getAttribute('format'), $dummy, $dummy));
     }
 
-    protected function getTextAfterEvaluating()
+    protected function getTextAfterEvaluating(): string
     {
         $page = $this->getPage();
         $context = $page->getContext();
@@ -41,7 +41,7 @@ class PageInfo extends PageText
         return sprintf($this->getAttribute('format'), $pageNumber, $numberOfPage);
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         parent::unserialize($serialized);
 

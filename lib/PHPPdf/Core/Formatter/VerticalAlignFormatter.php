@@ -16,7 +16,7 @@ use PHPPdf\Core\Document,
  */
 class VerticalAlignFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $verticalAlign = $node->getRecurseAttribute('vertical-align');
         
@@ -28,7 +28,7 @@ class VerticalAlignFormatter extends BaseFormatter
         $this->processVerticalAlign($node, $verticalAlign);
     }
     
-    private function processVerticalAlign(Node $node, $verticalAlign)
+    private function processVerticalAlign(Node $node, $verticalAlign): void
     {
         $minYCoord = $this->getMinimumYCoordOfChildren($node);
 
@@ -41,7 +41,7 @@ class VerticalAlignFormatter extends BaseFormatter
     {
         $children = $node->getChildren();
         
-        usort($children, function($firstChild, $secondChild){
+        usort($children, function($firstChild, $secondChild): int{
             if($firstChild->getDiagonalPoint()->getY() < $secondChild->getDiagonalPoint()->getY())
             {
                 return 1;
@@ -70,7 +70,7 @@ class VerticalAlignFormatter extends BaseFormatter
         return $minYCoord;
     }
     
-    private function getVerticalTranslation(Node $node, $minYCoord, $verticalAlign)
+    private function getVerticalTranslation(Node $node, $minYCoord, $verticalAlign): float|int
     {
         $difference = $minYCoord - ($node->getDiagonalPoint()->getY() + $node->getPaddingBottom());
         
@@ -82,7 +82,7 @@ class VerticalAlignFormatter extends BaseFormatter
         return $difference;
     }
     
-    private function verticalTranslateOfNodes(array $nodes, $verticalTranslation)
+    private function verticalTranslateOfNodes(array $nodes, $verticalTranslation): void
     {
         foreach($nodes as $node)
         {

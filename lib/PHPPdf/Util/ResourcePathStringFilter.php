@@ -17,7 +17,7 @@ namespace PHPPdf\Util;
  */
 class ResourcePathStringFilter implements StringFilter
 {
-    private $path;
+    private ?string $path = null;
     
     public function filter($value)
     {

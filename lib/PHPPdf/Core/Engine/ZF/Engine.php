@@ -24,13 +24,13 @@ use ZendPdf\Outline\AbstractOutline;
  */
 class Engine extends AbstractEngine
 {
-    private static $loadedEngines = array();
+    private static array $loadedEngines = array();
     
-    private $zendPdf = null;
-    private $colors = array();
-    private $images = array();
-    private $graphicsContexts = array();
-    private $outlines = array();
+    private ?\ZendPdf\PdfDocument $zendPdf;
+    private array $colors = array();
+    private array $images = array();
+    private array $graphicsContexts = array();
+    private array $outlines = array();
     
     public function __construct(PdfDocument $zendPdf = null, UnitConverter $unitConverter = null)
     {
@@ -38,12 +38,12 @@ class Engine extends AbstractEngine
         $this->zendPdf = $zendPdf;
     }
     
-    public function createGraphicsContext($graphicsContextSize, $encoding)
+    public function createGraphicsContext($graphicsContextSize, $encoding): \PHPPdf\Core\Engine\ZF\GraphicsContext
     {
         return new GraphicsContext($this, $graphicsContextSize, $encoding);
     }
     
-    public function attachGraphicsContext(BaseGraphicsContext $gc)
+    public function attachGraphicsContext(BaseGraphicsContext $gc): void
     {
         $this->getZendPdf()->pages[] = $gc->getPage();
         $this->graphicsContexts[] = $gc;
@@ -72,7 +72,7 @@ class Engine extends AbstractEngine
     /**
      * @return Font
      */
-    public function createFont($fontData)
+    public function createFont($fontData): \PHPPdf\Core\Engine\ZF\Font
     {
         return new Font($fontData);
     }
@@ -105,7 +105,7 @@ class Engine extends AbstractEngine
     /**
      * @internal
      */
-    public function registerOutline($id, AbstractOutline $outline)
+    public function registerOutline($id, AbstractOutline $outline): void
     {
         $this->outlines[$id] = $outline;
     }
@@ -156,7 +156,7 @@ class Engine extends AbstractEngine
         }
     }
     
-    public function setMetadataValue($name, $value)
+    public function setMetadataValue($name, $value): void
     {
         switch($name)
         {
@@ -179,7 +179,7 @@ class Engine extends AbstractEngine
         }
     }
     
-    public function reset()
+    public function reset(): void
     {
         $this->graphicsContexts = array();
         $this->outlines = array();

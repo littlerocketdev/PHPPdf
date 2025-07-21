@@ -23,7 +23,7 @@ use PHPPdf\Core\Engine\Image as BaseImage;
 class Image implements BaseImage
 {
     private $imagePath;
-    private $imagine;
+    private \Imagine\Image\ImagineInterface $imagine;
     private $image;
     
     public function __construct($imagePath, ImagineInterface $imagine)

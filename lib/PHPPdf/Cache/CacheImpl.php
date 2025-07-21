@@ -69,7 +69,7 @@ class CacheImpl implements Cache
         return StorageFactory::adapterFactory($name);
     }
 
-    private function cacheEngineDosntExistException($engine, \Exception $e = null)
+    private function cacheEngineDosntExistException(string $engine, \Exception $e = null): \PHPPdf\Exception\RuntimeException
     {
         return new RuntimeException(sprintf('Cache engine "%s" dosn\'t exist.', $engine), 1, $e);
     }
@@ -99,7 +99,7 @@ class CacheImpl implements Cache
         }
     }
 
-    private function wrapLowLevelException(\Exception $e, $methodName)
+    private function wrapLowLevelException(\Zend\Cache\Exception\ExceptionInterface&\Throwable $e, string $methodName): never
     {
         throw new RuntimeException(sprintf('Error while invoking "%s".', $methodName), 0, $e);
     }

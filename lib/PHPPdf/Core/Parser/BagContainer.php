@@ -18,8 +18,8 @@ use PHPPdf\Core\AttributeBag;
  */
 class BagContainer implements \Serializable
 {
-    protected $attributeBag;
-    protected $weight;
+    protected \PHPPdf\Core\AttributeBag $attributeBag;
+    protected float $weight;
     protected $order = 0;
 
     public function __construct(array $attributes = array(), $weight = 0)
@@ -48,12 +48,12 @@ class BagContainer implements \Serializable
         return $this->getAttributeBag()->getAll();
     }
     
-    public function add($name, $value)
+    public function add($name, $value): void
     {
         $this->getAttributeBag()->add($name, $value);
     }
 
-    public function setOrder($order)
+    public function setOrder($order): void
     {
         $this->order = (int) $order;
     }
@@ -68,7 +68,7 @@ class BagContainer implements \Serializable
         return $this->weight;
     }
 
-    public function addWeight($weight)
+    public function addWeight($weight): void
     {
         $this->weight += $weight;
     }
@@ -78,7 +78,7 @@ class BagContainer implements \Serializable
         return serialize($this->getDataToSerialize());
     }
 
-    protected function getDataToSerialize()
+    protected function getDataToSerialize(): array
     {
         return array(
             'attributes' => $this->getAttributeBag()->getAll(),
@@ -86,20 +86,20 @@ class BagContainer implements \Serializable
         );
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $data = unserialize($serialized);
 
         $this->restoreDataAfterUnserialize($data);
     }
 
-    protected function restoreDataAfterUnserialize($data)
+    protected function restoreDataAfterUnserialize(array $data)
     {
         $this->attributeBag = new AttributeBag($data['attributes']);
         $this->weight = (float) $data['weight'];
     }
     
-    public function apply(Node $node)
+    public function apply(Node $node): void
     {
         $attributes = $this->getAll();
         
@@ -124,7 +124,7 @@ class BagContainer implements \Serializable
      * @param array $containers
      * @return BagContainer Result of merging
      */
-    public static function merge(array $containers)
+    public static function merge(array $containers): static
     {
         $attributeBags = array();
 

@@ -17,8 +17,8 @@ use PHPPdf\Exception\InvalidArgumentException;
  */
 class PdfUnitConverter extends AbstractUnitConverter
 {
-    private $dpi;
-    private $unitsPerPixel;
+    private int $dpi;
+    private float|int $unitsPerPixel;
     
     public function __construct($dpi = 96)
     {
@@ -43,23 +43,23 @@ class PdfUnitConverter extends AbstractUnitConverter
         return $this->doConvertUnit($value, $unit);
     }
 
-    protected function convertPxUnit($value)
+    protected function convertPxUnit($value): float
     {
         $value = (float) $value;
         return $value * $this->unitsPerPixel;
     }
 
-    protected function convertInUnit($value)
+    protected function convertInUnit($value): float
     {
         return ((float) $value)*self::UNITS_PER_INCH;
     }
        
-    protected function convertPtUnit($value)
+    protected function convertPtUnit($value): float
     {
         return (float) $value;
     }
     
-    protected function convertMmUnit($value)
+    protected function convertMmUnit($value): float
     {
         return $this->convertInUnit($value)/self::MM_PER_INCH;
     }

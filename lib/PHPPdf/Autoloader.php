@@ -13,7 +13,7 @@ namespace PHPPdf;
  */
 class Autoloader
 {
-    public static function register($basePath = null)
+    public static function register($basePath = null): void
     {
         if($basePath === null)
         {

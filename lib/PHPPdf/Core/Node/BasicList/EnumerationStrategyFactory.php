@@ -21,7 +21,7 @@ class EnumerationStrategyFactory
      * @param string Type of enumeration strategy
      * @return EnumerationStrategy
      */
-    public function create($type)
+    public function create($type): \PHPPdf\Core\Node\BasicList\UnorderedEnumerationStrategy|\PHPPdf\Core\Node\BasicList\OrderedEnumerationStrategy|\PHPPdf\Core\Node\BasicList\ImageEnumerationStrategy
     {
         $strategy = null;
         

@@ -26,15 +26,15 @@ use PHPPdf\Core\DrawingTask;
 class Text extends Node
 {   
     private $text;
-    private $textTransformator = null;
+    private ?\PHPPdf\Core\Node\TextTransformator $textTransformator = null;
     
-    private $words = array();
-    private $wordsSizes = array();
-    private $pointsOfWordsLines = array();
+    private array $words = array();
+    private array $wordsSizes = array();
+    private array $pointsOfWordsLines = array();
     
     protected $lineParts = array();
     
-    private $childTexts = array();
+    private array $childTexts = array();
 
     public function __construct($text = '', array $attributes = array(), UnitConverter $converter = null)
     {
@@ -43,19 +43,19 @@ class Text extends Node
         parent::__construct($attributes, $converter);
     }
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         
         $this->setAttribute('text-align', null);
     }
     
-    public function setTextTransformator(TextTransformator $transformator)
+    public function setTextTransformator(TextTransformator $transformator): void
     {
         $this->textTransformator = $transformator;
     }
 
-    public function setText($text)
+    public function setText($text): void
     {
         if($this->textTransformator !== null)
         {
@@ -82,7 +82,7 @@ class Text extends Node
         return $this->text;
     }
     
-    public function addLineOfWords(array $words, $widthOfLine, Point $point)
+    public function addLineOfWords(array $words, $widthOfLine, Point $point): void
     {
         $this->wordsInRows[] = $words;
         $this->lineSizes[] = $widthOfLine;
@@ -132,7 +132,7 @@ class Text extends Node
         return $clone;
     }
 
-    private function reorganize(Point $leftTopCornerPoint)
+    private function reorganize(Point $leftTopCornerPoint): void
     {
         $boundary = $this->getBoundary();
         $boundary->reset();
@@ -143,7 +143,7 @@ class Text extends Node
                  ->close();
     }
 
-    public function add(Node $node)
+    public function add(Node $node): void
     {
         if(!$node instanceof Text)
         {
@@ -152,7 +152,7 @@ class Text extends Node
         $this->childTexts[] = $node;
     }
     
-    public function setWordsSizes(array $words, array $sizes)
+    public function setWordsSizes(array $words, array $sizes): void
     {
         if(count($words) != count($sizes))
         {
@@ -178,7 +178,7 @@ class Text extends Node
         return $this->pointsOfWordsLines;
     }
     
-    public function translate($x, $y)
+    public function translate($x, $y): void
     {
         parent::translate($x, $y);
         
@@ -188,7 +188,7 @@ class Text extends Node
         }
     }
     
-    public function addLinePart(LinePart $linePart)
+    public function addLinePart(LinePart $linePart): void
     {
         $this->lineParts[] = $linePart;
     }
@@ -198,7 +198,7 @@ class Text extends Node
         return $this->lineParts;
     }
     
-    public function removeLinePart(LinePart $linePart)
+    public function removeLinePart(LinePart $linePart): void
     {
         $key = array_search($linePart, $this->lineParts, true);
         
@@ -233,23 +233,23 @@ class Text extends Node
         return $copy;
     }
     
-    public function isLeaf()
+    public function isLeaf(): bool
     {
         return true;
     }
     
-    public function isInline()
+    public function isInline(): bool
     {
         return true;
     }
 
-    protected function isAbleToExistsAboveCoord($yCoord)
+    protected function isAbleToExistsAboveCoord($yCoord): bool
     {
         $yCoord += $this->getAncestorWithFontSize()->getAttribute('line-height');
         return $this->getFirstPoint()->getY() > $yCoord;
     }
     
-    public function flush()
+    public function flush(): void
     {
         $this->lineParts = array();
 

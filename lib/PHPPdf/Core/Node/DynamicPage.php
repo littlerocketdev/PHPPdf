@@ -23,11 +23,11 @@ class DynamicPage extends Page
 {
     private $prototype = null;
     private $currentPage = null;
-    private $pages = array();
-    private $pagesHistory = array();
-    private $currentPageNumber = 1;
-    private $nodeFormattingMap = array();
-    private $numberOfPages = 0;
+    private array $pages = array();
+    private array $pagesHistory = array();
+    private int $currentPageNumber = 1;
+    private array $nodeFormattingMap = array();
+    private int $numberOfPages = 0;
 
     public function __construct(Page $prototype = null, UnitConverter $unitConverter = null)
     {
@@ -36,12 +36,12 @@ class DynamicPage extends Page
         $this->initialize();
     }
     
-    public function markAsFormatted(Node $node)
+    public function markAsFormatted(Node $node): void
     {
         $this->nodeFormattingMap[spl_object_hash($node)] = true;
     }
     
-    public function isMarkedAsFormatted(Node $node)
+    public function isMarkedAsFormatted(Node $node): bool
     {
         return isset($this->nodeFormattingMap[spl_object_hash($node)]);
     }
@@ -69,7 +69,7 @@ class DynamicPage extends Page
         return $this->prototype;
     }
 
-    public function setPrototypePage(Page $page)
+    public function setPrototypePage(Page $page): void
     {
         $this->prototype = $page;
     }
@@ -108,7 +108,7 @@ class DynamicPage extends Page
         return $copy;
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->pages = array();
         $this->currentPage = null;
@@ -121,7 +121,7 @@ class DynamicPage extends Page
         return $this->pages;
     }
     
-    public function removeAllPagesExceptsCurrent()
+    public function removeAllPagesExceptsCurrent(): void
     {
         $this->pages = $this->currentPage ? array($this->currentPage) : array();
     }
@@ -157,7 +157,7 @@ class DynamicPage extends Page
         return $this->getPrototypePage()->setAttribute($name, $value);
     }
     
-    public function mergeComplexAttributes($name, array $attributes = array())
+    public function mergeComplexAttributes($name, array $attributes = array()): void
     {
         $this->prototype->mergeComplexAttributes($name, $attributes);
     }
@@ -240,7 +240,7 @@ class DynamicPage extends Page
         $this->prototype = $data['prototype'];
     }
 
-    public function flush()
+    public function flush(): void
     {
         foreach($this->pages as $page)
         {
@@ -253,7 +253,7 @@ class DynamicPage extends Page
         parent::flush();
     }
 
-    public function collectUnorderedDrawingTasks(Document $document, DrawingTaskHeap $tasks)
+    public function collectUnorderedDrawingTasks(Document $document, DrawingTaskHeap $tasks): void
     {
         foreach($this->getPages() as $page)
         {
@@ -261,7 +261,7 @@ class DynamicPage extends Page
         }
     }
 
-    public function collectPostDrawingTasks(Document $document, DrawingTaskHeap $tasks)
+    public function collectPostDrawingTasks(Document $document, DrawingTaskHeap $tasks): void
     {
         foreach($this->pagesHistory as $page)
         {

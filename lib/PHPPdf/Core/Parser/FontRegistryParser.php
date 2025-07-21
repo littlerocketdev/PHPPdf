@@ -21,10 +21,10 @@ class FontRegistryParser extends XmlParser
 {
     const ROOT_TAG = 'fonts';
 
-    private $currentFontName = null;
-    private $currentFontStyles = array();
+    private ?string $currentFontName = null;
+    private array $currentFontStyles = array();
 
-    protected function createRoot()
+    protected function createRoot(): array
     {
         return array();
     }
@@ -41,7 +41,7 @@ class FontRegistryParser extends XmlParser
         }
     }
 
-    private function parseFont(\XMLReader $reader)
+    private function parseFont(\XMLReader $reader): void
     {
         $name = trim($reader->getAttribute('name'));
 
@@ -53,7 +53,7 @@ class FontRegistryParser extends XmlParser
         $this->currentFontName = $name;
     }
 
-    private function parseFontStyle(\XMLReader $reader)
+    private function parseFontStyle(\XMLReader $reader): void
     {
         $name = $reader->name;
 

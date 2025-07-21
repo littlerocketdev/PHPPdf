@@ -23,12 +23,12 @@ use PHPPdf\Core\Node\Node,
  */
 class ColumnBreakingFormatter extends BaseFormatter
 {
-    private $staticBreakYCoord = null;
-    private $stopBreaking = false;
+    private null|int|float $staticBreakYCoord = null;
+    private bool $stopBreaking = false;
     
-    private $lastVerticalTranslation = 0;
+    private int|float $lastVerticalTranslation = 0;
     
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $this->lastVerticalTranslation = 0;
 
@@ -50,7 +50,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         }
     }
 
-    private function moveAllChildrenToSingleContainer(ColumnableContainer $columnableContainer)
+    private function moveAllChildrenToSingleContainer(ColumnableContainer $columnableContainer): \PHPPdf\Core\Node\Container
     {
         $container = new Container();
 
@@ -68,14 +68,14 @@ class ColumnBreakingFormatter extends BaseFormatter
         return $container;        
     }
     
-    private function setDimension(ColumnableContainer $columnableContainer, Container $container)
+    private function setDimension(ColumnableContainer $columnableContainer, Container $container): void
     {
         $container->setWidth($columnableContainer->getWidth());
         $container->setHeight($columnableContainer->getHeight());
         $this->setPointsToBoundary($columnableContainer->getBoundary(), $container->getBoundary());
     }
     
-    private function setPointsToBoundary(Boundary $source, Boundary $destination)
+    private function setPointsToBoundary(Boundary $source, Boundary $destination): void
     {
         $destination->setNext($source[0])
                     ->setNext($source[1])
@@ -84,7 +84,7 @@ class ColumnBreakingFormatter extends BaseFormatter
                     ->close();
     }
     
-    private function breakContainerIntoColumns(ColumnableContainer $columnableContainer, Container $container)
+    private function breakContainerIntoColumns(ColumnableContainer $columnableContainer, Container $container): void
     {
         $numberOfBreaks = 0;
         $breakYCoord = $this->getBreakYCoord($columnableContainer, $numberOfBreaks++, $container);
@@ -105,7 +105,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         while($container);
     }
     
-    private function getBreakYCoord(ColumnableContainer $columnableContainer, $numberOfBreaks, Container $container = null)
+    private function getBreakYCoord(ColumnableContainer $columnableContainer, int $numberOfBreaks, Container $container = null)
     {
         $numberOfColumns = $columnableContainer->getAttribute('number-of-columns');
         
@@ -146,21 +146,21 @@ class ColumnBreakingFormatter extends BaseFormatter
         return max($minBreakYCoord, $forcedBreakYCoord);
     }
     
-    private function getNumberOfRow(ColumnableContainer $container, $numberOfBreaks)
+    private function getNumberOfRow(ColumnableContainer $container, int|float $numberOfBreaks): float
     {
         $numberOfColumns = $container->getAttribute('number-of-columns');
         
         return floor($numberOfBreaks/$numberOfColumns);
     }
     
-    private function getNumberOfColumn(ColumnableContainer $columnableContainer, $numberOfBreaks)
+    private function getNumberOfColumn(ColumnableContainer $columnableContainer, int|float $numberOfBreaks): int
     {
         $numberOfColumns = $columnableContainer->getAttribute('number-of-columns');
         
         return $numberOfBreaks % $numberOfColumns;
     }
     
-    private function getDiagonalYCoordOfColumn($columnableContainer, $container, $columnNumber, $rowNumber)
+    private function getDiagonalYCoordOfColumn(\PHPPdf\Core\Node\ColumnableContainer $columnableContainer, \PHPPdf\Core\Node\Container $container, $columnNumber, $rowNumber)
     {
         $numberOfColumns = $columnableContainer->getAttribute('number-of-columns');
         
@@ -178,14 +178,14 @@ class ColumnBreakingFormatter extends BaseFormatter
         }
     }
     
-    private function getCurrentPageDiagonalYCoord(ColumnableContainer $columnableContainer, $rowNumber)
+    private function getCurrentPageDiagonalYCoord(ColumnableContainer $columnableContainer, $rowNumber): int|float
     {
         $page = $columnableContainer->getPage();
 
         return $this->getPageDiagonalYCoord($columnableContainer) - ($rowNumber)*$page->getHeight();
     }
     
-    private function getPageDiagonalYCoord(ColumnableContainer $columnableContainer)
+    private function getPageDiagonalYCoord(ColumnableContainer $columnableContainer): int|float
     {
         $page = $columnableContainer->getPage();
         
@@ -194,7 +194,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         return $page->getDiagonalPoint()->getY() - $numberOfPage*$page->getHeight();
     }
     
-    private function shouldColumnsBeEqual(ColumnableContainer $columnableContainer, Container $container, $columnNumber, $rowNumber)
+    private function shouldColumnsBeEqual(ColumnableContainer $columnableContainer, Container $container, $columnNumber, $rowNumber): bool
     {       
         $parent = $columnableContainer->getParent();
         $height = $container->getFirstPoint()->getY() - ($this->getPageDiagonalYCoord($columnableContainer) - ($rowNumber*$parent->getHeight()));
@@ -215,7 +215,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         return ($yEnd < $pageYCoordEnd);
     }
     
-    private function breakContainer(Container $container, $breakYCoord, $numberOfBreaks)
+    private function breakContainer(Container $container, $breakYCoord, int $numberOfBreaks)
     {
         $breakPoint = $container->getFirstPoint()->getY() - $breakYCoord;
         
@@ -233,7 +233,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         }
     }
     
-    private function resizeAndMoveContainersToColumnHeight(Container $originalContainer, Container $productOfBroke, $numberOfBreaks)
+    private function resizeAndMoveContainersToColumnHeight(Container $originalContainer, Container $productOfBroke, int $numberOfBreaks): void
     {
         $numberOfBreaks--;
         $columnableContainer = $originalContainer->getParent();
@@ -253,7 +253,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         }
     }
     
-    private function translateProductOfBroke(Container $productOfBroke, Container $originalContainer)
+    private function translateProductOfBroke(Container $productOfBroke, Container $originalContainer): void
     {
         $columnableContainer = $originalContainer->getParent();
         
@@ -278,7 +278,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         $productOfBroke->translate($xCoordTranslate, $yCoordTranslate);
     }
     
-    private function resizeColumnableContainer(ColumnableContainer $columnableContainer)
+    private function resizeColumnableContainer(ColumnableContainer $columnableContainer): void
     {
         $originalHeight = $columnableContainer->getHeight();
         

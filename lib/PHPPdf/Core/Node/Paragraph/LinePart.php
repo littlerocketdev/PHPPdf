@@ -21,14 +21,14 @@ use PHPPdf\Core\Node\Node,
  */
 class LinePart implements Drawable
 {
-    private $text;
-    private $words;
-    private $line;
+    private \PHPPdf\Core\Node\Text|array $text;
+    private string $words;
+    private ?\PHPPdf\Core\Node\Paragraph\Line $line = null;
     private $xTranslation;
     private $yTranslation;
     private $width;
     private $wordSpacing = null;
-    private $numberOfWords = null;
+    private ?int $numberOfWords = null;
     
     public function __construct($words, $width, $xTranslation, Text $text)
     {
@@ -39,7 +39,7 @@ class LinePart implements Drawable
         $this->xTranslation = $xTranslation;
     }
     
-    public function setWords($words)
+    public function setWords($words): void
     {
         if(is_array($words))
         {
@@ -60,7 +60,7 @@ class LinePart implements Drawable
         return $this->numberOfWords;
     }
     
-    public function setLine(Line $line)
+    public function setLine(Line $line): void
     {
         $this->line = $line;
     }
@@ -68,14 +68,14 @@ class LinePart implements Drawable
     /**
      * @param float Word spacing in units
      */
-    public function setWordSpacing($wordSpacing)
+    public function setWordSpacing($wordSpacing): void
     {
         $this->wordSpacing = $wordSpacing;
     }
     
-    public function collectOrderedDrawingTasks(Document $document, DrawingTaskHeap $tasks)
+    public function collectOrderedDrawingTasks(Document $document, DrawingTaskHeap $tasks): void
     {
-        $tasks->insert(new DrawingTask(function(Text $text, $point, $words, $width, $document, $linePartWordSpacing, Point $translation) {
+        $tasks->insert(new DrawingTask(function(Text $text, $point, $words, $width, $document, $linePartWordSpacing, Point $translation): void {
             $gc = $text->getGraphicsContext();
             $gc->saveGS();
             $fontSize = $text->getFontSizeRecursively();
@@ -180,7 +180,7 @@ class LinePart implements Drawable
         return $this->text;
     }
     
-    public function setText(Text $text)
+    public function setText(Text $text): void
     {
         if($this->text !== $text)
         {
@@ -207,7 +207,7 @@ class LinePart implements Drawable
         return $width;
     }
     
-    public function getWordSpacingSum()
+    public function getWordSpacingSum(): int|float
     {
         if($this->wordSpacing === null)
         {
@@ -222,12 +222,12 @@ class LinePart implements Drawable
         return $this->line->getHeight();
     }
     
-    public function horizontalTranslate($translate)
+    public function horizontalTranslate($translate): void
     {
         $this->xTranslation += $translate;
     }
     
-    public function verticalTranslate($translate)
+    public function verticalTranslate($translate): void
     {
         $this->yTranslation += $translate;
     }
@@ -237,7 +237,7 @@ class LinePart implements Drawable
         return $this->xTranslation;
     }
     
-    public function flush()
+    public function flush(): void
     {
         $this->text = array();
         $this->line = null;

@@ -19,10 +19,10 @@ use PHPPdf\Core\Document;
  */
 class Line
 {
-    private $parts = array();
+    private array $parts = array();
     private $yTranslation;
     private $xTranslation;
-    private $paragraph;
+    private \PHPPdf\Core\Node\Paragraph $paragraph;
     
     public function __construct(Paragraph $paragraph, $xTranslation, $yTranslation)
     {
@@ -31,13 +31,13 @@ class Line
         $this->paragraph = $paragraph;
     }
     
-    public function addPart(LinePart $linePart)
+    public function addPart(LinePart $linePart): void
     {
         $linePart->setLine($this);
         $this->parts[] = $linePart;
     }
     
-    public function addParts(array $parts)
+    public function addParts(array $parts): void
     {
         foreach($parts as $part)
         {
@@ -45,7 +45,7 @@ class Line
         }
     }
     
-    public function setYTranslation($translation)
+    public function setYTranslation($translation): void
     {
         $this->yTranslation = $translation;
     }
@@ -55,7 +55,7 @@ class Line
         return $this->yTranslation;
     }
     
-    public function setXTranslation($translation)
+    public function setXTranslation($translation): void
     {
         $this->xTranslation = $translation;
     }
@@ -70,12 +70,12 @@ class Line
         return $this->parts;
     }
     
-    public function setParagraph($paragraph)
+    public function setParagraph($paragraph): void
     {
         $this->paragraph = $paragraph;
     }
     
-    private function getHorizontalTranslation()
+    private function getHorizontalTranslation(): int|float
     {
         $align = $this->paragraph->getRecurseAttribute('text-align');
         switch($align)
@@ -92,12 +92,12 @@ class Line
         }
     }
     
-    private function getRealWidth()
+    private function getRealWidth(): int|float
     {
         return $this->paragraph->getWidth() - $this->paragraph->getParentPaddingLeft() - $this->paragraph->getParentPaddingRight();
     }
     
-    public function getTotalWidth()
+    public function getTotalWidth(): int|float
     {
         $width = 0;
         foreach($this->parts as $part)
@@ -128,7 +128,7 @@ class Line
         return $height;
     }
     
-    public function format($formatJustify = true)
+    public function format($formatJustify = true): void
     {
         $this->setXTranslation($this->getHorizontalTranslation());
         
@@ -150,7 +150,7 @@ class Line
         }
     }
     
-    private function getNumberOfWords()
+    private function getNumberOfWords(): int|float
     {
         $count = 0;
         
@@ -162,7 +162,7 @@ class Line
         return $count;
     }
     
-    public function flush()
+    public function flush(): void
     {
         foreach($this->parts as $part)
         {

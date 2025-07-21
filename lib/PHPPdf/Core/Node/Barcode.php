@@ -69,7 +69,7 @@ class Barcode extends Node
         parent::initializeType();
     }
     
-    public function setType($type)
+    public function setType($type): void
     {
         $const = sprintf('%s::TYPE_%s', __CLASS__, strtoupper($type));
         
@@ -83,43 +83,43 @@ class Barcode extends Node
         $this->setAttributeDirectly('type', $type);
     }
     
-    public function setDrawCode($flag)
+    public function setDrawCode($flag): void
     {
         $flag = $this->filterBooleanValue($flag);
         $this->setAttributeDirectly('draw-code', $flag);
     }
     
-    public function setWithChecksum($flag)
+    public function setWithChecksum($flag): void
     {
         $flag = $this->filterBooleanValue($flag);
         $this->setAttributeDirectly('with-checksum', $flag);
     }
 
-    public function setWithChecksumInText($flag)
+    public function setWithChecksumInText($flag): void
     {
         $flag = $this->filterBooleanValue($flag);
         $this->setAttributeDirectly('with-checksum-in-text', $flag);
     }
     
-    public function setBarHeight($height)
+    public function setBarHeight($height): void
     {
         $height = $this->convertUnit($height);
         $this->setAttributeDirectly('bar-height', $height);
     }
     
-    public function setBarThinWidth($value)
+    public function setBarThinWidth($value): void
     {
         $value = $this->convertUnit($value);
         $this->setAttributeDirectly('bar-thin-width', $value);
     }
 
-    public function setBarThickWidth($value)
+    public function setBarThickWidth($value): void
     {
         $value = $this->convertUnit($value);
         $this->setAttributeDirectly('bar-thick-width', $value);
     }
     
-    public function setAttribute($name, $value)
+    public function setAttribute($name, $value): void
     {
         $this->barcode = null;
 
@@ -128,7 +128,7 @@ class Barcode extends Node
     
     protected function doDraw(Document $document, DrawingTaskHeap $tasks)
     {
-        $callback = function(Barcode $node, Document $document){
+        $callback = function(Barcode $node, Document $document): void{
             $barcode = $node->getBarcode($document);
             $gc = $node->getGraphicsContext();
             $gc->drawBarcode($node->getFirstPoint()->getX(), $node->getFirstPoint()->getY(), $barcode);
@@ -196,12 +196,12 @@ class Barcode extends Node
         }
     }
     
-    private function convertBarcodeColor(Document $document, $color)
+    private function convertBarcodeColor(Document $document, $color): string
     {
         return strtoupper($document->getColorFromPalette($color));;
     }
     
-    private function getOrientation()
+    private function getOrientation(): float
     {
         $radians = (float) Util::convertAngleValue($this->getAttributeDirectly('rotate'));
         
@@ -215,7 +215,7 @@ class Barcode extends Node
         $this->setWidth($barcode->getWidth(true)/2);
     }
     
-    public function getRotate()
+    public function getRotate(): null
     {
         return null;
     }

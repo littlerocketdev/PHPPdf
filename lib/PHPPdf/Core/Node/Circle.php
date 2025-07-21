@@ -17,7 +17,7 @@ class Circle extends Container
         static::addAttribute('radius');
     }
     
-    public function setRadius($value)
+    public function setRadius($value): void
     {
         $radius = $this->convertUnit($value);
         $this->setAttributeDirectly('radius', $this->convertUnit($value));
@@ -33,7 +33,7 @@ class Circle extends Container
         static::setAttributeSetters(array('radius' => 'setRadius'));
     }
 
-    public function getShape()
+    public function getShape(): string
     {
         return self::SHAPE_ELLIPSE;
     }

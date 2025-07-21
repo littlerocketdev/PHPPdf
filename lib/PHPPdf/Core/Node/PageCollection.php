@@ -21,27 +21,27 @@ use PHPPdf\Core\Formatter\Formatter;
  */
 class PageCollection extends Container
 {
-    public function getAttribute($name)
+    public function getAttribute($name): null
     {
         return null;
     }
 
-    public function setAttribute($name, $value)
+    public function setAttribute($name, $value): static
     {
         return $this;
     }
 
-    public function breakAt($height)
+    public function breakAt($height): never
     {
         throw new LogicException('PageCollection can\'t be broken.');
     }
     
-    public function getGraphicsContext()
+    public function getGraphicsContext(): null
     {
         return null;
     }
     
-    public function getAllDrawingTasks(Document $document)
+    public function getAllDrawingTasks(Document $document): \PHPPdf\Core\DrawingTaskHeap
     {
         $tasks = new DrawingTaskHeap();
         $this->collectOrderedDrawingTasks($document, $tasks);
@@ -51,7 +51,7 @@ class PageCollection extends Container
         return $tasks;
     }
     
-    public function collectPostDrawingTasks(Document $document, DrawingTaskHeap $tasks)
+    public function collectPostDrawingTasks(Document $document, DrawingTaskHeap $tasks): void
     {
         foreach($this->getChildren() as $child)
         {

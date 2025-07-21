@@ -14,7 +14,7 @@ use PHPPdf\Core\Node\Node;
 
 class ImageRatioFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $originalRatio = $node->getOriginalRatio();
         $currentRatio = $node->getCurrentRatio();
@@ -37,7 +37,7 @@ class ImageRatioFormatter extends BaseFormatter
         }
     }
 
-    private function floatEquals($f1, $f2)
+    private function floatEquals($f1, $f2): bool
     {
         $f1 = round($f1*1000);
         $f2 = round($f2*1000);

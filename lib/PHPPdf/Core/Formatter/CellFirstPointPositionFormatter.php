@@ -16,7 +16,7 @@ use PHPPdf\Core\Node\Node,
  */
 class CellFirstPointPositionFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $parent = $node->getParent();
         $boundary = $node->getBoundary();

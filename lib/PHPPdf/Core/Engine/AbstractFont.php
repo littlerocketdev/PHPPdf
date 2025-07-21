@@ -17,7 +17,7 @@ use PHPPdf\Exception\InvalidArgumentException;
  */
 abstract class AbstractFont implements Font
 {
-    protected $fontResources = array();
+    protected array $fontResources;
     protected $currentStyle = null;
 
     public function __construct(array $fontResources)
@@ -28,7 +28,7 @@ abstract class AbstractFont implements Font
         $this->setStyle(self::STYLE_NORMAL);
     }
 
-    private function throwsExceptionIfFontsAreInvalid(array $fonts)
+    private function throwsExceptionIfFontsAreInvalid(array $fonts): void
     {
         $types = array(
             self::STYLE_NORMAL,
@@ -53,7 +53,7 @@ abstract class AbstractFont implements Font
         }
     }
 
-    public function setStyle($style)
+    public function setStyle($style): void
     {
         $style = $this->convertStyleType($style);
 

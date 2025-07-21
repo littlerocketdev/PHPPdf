@@ -57,7 +57,7 @@ class Border extends ComplexAttribute
         $this->setPosition($position);
     }
 
-    private function setType($type)
+    private function setType($type): void
     {
         if(!is_numeric($type))
         {
@@ -75,7 +75,7 @@ class Border extends ComplexAttribute
         }
     }
 
-    private function setStyle($style)
+    private function setStyle($style): void
     {
         if(!is_numeric($style) && !is_array($style))
         {
@@ -92,12 +92,12 @@ class Border extends ComplexAttribute
         $this->style = $style;
     }
 
-    private function setSize($size)
+    private function setSize($size): void
     {
         $this->size = $size;
     }
 
-    private function setPosition($position)
+    private function setPosition($position): void
     {
         $this->position = $position;
     }
@@ -114,7 +114,7 @@ class Border extends ComplexAttribute
         }
     }
     
-    private function drawRectangleBorder(GraphicsContext $graphicsContext, Node $node, Document $document)
+    private function drawRectangleBorder(GraphicsContext $graphicsContext, Node $node, Document $document): void
     {
         $graphicsContext->setLineDashingPattern($this->convertStyle($this->style, $document));
         $size = $document->convertUnit($this->size);
@@ -168,7 +168,10 @@ class Border extends ComplexAttribute
         return $style;
     }
 
-    private function getPointsWithPositionCorrection(UnitConverter $converter, Boundary $boundary)
+    /**
+     * @return array{(float | int), (float | int)}[]
+     */
+    private function getPointsWithPositionCorrection(UnitConverter $converter, Boundary $boundary): array
     {
         $points = array();
 
@@ -188,7 +191,7 @@ class Border extends ComplexAttribute
         return $points;
     }
 
-    private function getPointsForFixedLine($points, $firstPointIndex, $halfSize)
+    private function getPointsForFixedLine($points, int $firstPointIndex, int|float $halfSize): array
     {
         $x1 = $points[$firstPointIndex][0];
         $y1 = $points[$firstPointIndex][1];
@@ -226,7 +229,7 @@ class Border extends ComplexAttribute
         return array($x1, $y1, $x2, $y2);
     }
     
-    private function drawCircleBorder(GraphicsContext $gc, Node $node, Document $document)
+    private function drawCircleBorder(GraphicsContext $gc, Node $node, Document $document): void
     {
         $size = $document->convertUnit($this->size);
         $gc->setLineWidth($size);
@@ -242,7 +245,7 @@ class Border extends ComplexAttribute
         $this->drawCircle($gc, $node->getAttribute('radius'), $point->getX(), $point->getY(), GraphicsContext::SHAPE_DRAW_STROKE);
     }
 
-    public function getPriority()
+    public function getPriority(): int
     {
         return Document::DRAWING_PRIORITY_BACKGROUND3;
     }
@@ -257,7 +260,7 @@ class Border extends ComplexAttribute
         return $this->style;
     }
     
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->getType() === self::TYPE_NONE;
     }

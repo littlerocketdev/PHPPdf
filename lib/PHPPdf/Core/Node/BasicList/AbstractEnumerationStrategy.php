@@ -27,17 +27,17 @@ abstract class AbstractEnumerationStrategy implements EnumerationStrategy
         return $this->index;
     }
 
-	public function setIndex($index, $visualIndex = null)
+	public function setIndex($index, $visualIndex = null): void
     {
         $this->index = $index;
     }
     
-    public function setVisualIndex($visualIndex)
+    public function setVisualIndex($visualIndex): void
     {
         $this->visualIndex = $visualIndex;
     }
     
-    public function drawEnumeration(Document $document, BasicList $list, GraphicsContext $gc)
+    public function drawEnumeration(Document $document, BasicList $list, GraphicsContext $gc): void
     {
         $child = $list->getChild($this->index);
         
@@ -57,7 +57,7 @@ abstract class AbstractEnumerationStrategy implements EnumerationStrategy
         $this->visualIndex++;
     }
     
-    public function incrementIndex()
+    public function incrementIndex(): void
     {
         $this->index++;
     }

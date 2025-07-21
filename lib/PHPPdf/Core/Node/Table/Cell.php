@@ -19,8 +19,8 @@ use PHPPdf\Core\Node\Container,
  */
 class Cell extends Container
 {
-    private $listeners = array();
-    private $numberOfColumn;
+    private array $listeners = array();
+    private ?int $numberOfColumn = null;
 
     protected static function setDefaultAttributes()
     {
@@ -41,12 +41,12 @@ class Cell extends Container
         return $this->getAttributeDirectly('colspan');
     }
     
-    public function setColspan($colspan)
+    public function setColspan($colspan): void
     {
         $this->setAttributeDirectly('colspan', $colspan);
     }
 
-    public function getFloat()
+    public function getFloat(): string
     {
         return self::FLOAT_LEFT;
     }
@@ -71,12 +71,12 @@ class Cell extends Container
         return $this->getAncestorByType('PHPPdf\Core\Node\Table');
     }
 
-    public function addListener(Listener $listener)
+    public function addListener(Listener $listener): void
     {
         $this->listeners[] = $listener;
     }
 
-    public function setParent(Container $node)
+    public function setParent(Container $node): void
     {
         parent::setParent($node);
 
@@ -98,7 +98,7 @@ class Cell extends Container
         }
     }
 
-    public function setNumberOfColumn($column)
+    public function setNumberOfColumn($column): void
     {
         $this->numberOfColumn = (int) $column;
     }

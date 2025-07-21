@@ -22,10 +22,10 @@ use PHPPdf\Core\Engine\GraphicsContext as BaseGraphicsContext;
  */
 class Engine extends AbstractEngine
 {
-    private $imagine;
-    private $graphicsContexts = array();
-    private $outputFormat;
-    private $renderOptions;
+    private \Imagine\Image\ImagineInterface $imagine;
+    private array $graphicsContexts = array();
+    private string $outputFormat;
+    private array $renderOptions;
     
     public function __construct(ImagineInterface $imagine, $outputFormat, UnitConverter $unitConverter = null, array $renderOptions = array())
     {
@@ -35,22 +35,22 @@ class Engine extends AbstractEngine
         $this->renderOptions = $renderOptions;
     }
     
-    public function createGraphicsContext($graphicsContextSize, $encoding)
+    public function createGraphicsContext($graphicsContextSize, $encoding): \PHPPdf\Core\Engine\Imagine\GraphicsContext
     {
         return new GraphicsContext($this->imagine, $graphicsContextSize);
     }
 
-    public function createImage($imageData)
+    public function createImage($imageData): \PHPPdf\Core\Engine\Imagine\Image
     {
         return new Image($imageData, $this->imagine);
     }
     
-    public function createFont($fontData)
+    public function createFont($fontData): \PHPPdf\Core\Engine\Imagine\Font
     {
         return new Font($fontData, $this->imagine);
     }
     
-    public function attachGraphicsContext(BaseGraphicsContext $gc)
+    public function attachGraphicsContext(BaseGraphicsContext $gc): void
     {
         $this->graphicsContexts[] = $gc;
     }
@@ -60,7 +60,10 @@ class Engine extends AbstractEngine
         return $this->graphicsContexts;
     }
     
-    public function render()
+    /**
+     * @return list
+     */
+    public function render(): array
     {
         $contents = array();
 
@@ -73,7 +76,7 @@ class Engine extends AbstractEngine
         return $contents;
     }
     
-    public function loadEngine($file, $encoding)
+    public function loadEngine($file, $encoding): self
     {
         try
         {
@@ -93,12 +96,12 @@ class Engine extends AbstractEngine
         }
     }
 
-    public function setMetadataValue($name, $value)
+    public function setMetadataValue($name, $value): void
     {
         //not supported
     }
     
-    public function reset()
+    public function reset(): void
     {
         $this->graphicsContexts = array();
     }

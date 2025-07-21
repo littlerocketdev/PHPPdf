@@ -33,7 +33,7 @@ use Zend\Barcode\Object\ObjectInterface as Barcode;
  */
 class GraphicsContext extends AbstractGraphicsContext
 {
-    private static $originalState = array(
+    private static array $originalState = array(
         'fillColor' => null,
         'lineColor' => null,
         'lineWidth' => null,
@@ -45,16 +45,13 @@ class GraphicsContext extends AbstractGraphicsContext
         'clips' => array(),
     );
     
-    private $stateStack = array();
+    private array $stateStack = array();
     
     private $state = array();
     
     private $image;
     
-    /**
-     * @var ImagineInterface
-     */
-    private $imagine;
+    private \Imagine\Image\ImagineInterface $imagine;
     
     public function __construct(ImagineInterface $imagine, $imageOrSize)
     {
@@ -148,7 +145,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->state = $state;
     }
     
-    private function rotatePoint($angle, Point $p, Point $o)
+    private function rotatePoint($angle, Point $p, Point $o): \PHPPdf\Bridge\Imagine\Image\Point
     {
         $pXp = $p->getX() - $o->getX();
         $pYp = $p->getY() - $o->getY();
@@ -194,7 +191,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->pasteImage($image, $imagineImage, $point);
     }
 
-    private function pasteImage(ImageInterface $image, ImageInterface $imageToPaste, PointInterface $pastePoint)
+    private function pasteImage(ImageInterface $image, ImageInterface $imageToPaste, PointInterface $pastePoint): void
     {
         if(!$this->boxContains($image->getSize(), $imageToPaste->getSize(), $pastePoint))
         {
@@ -219,7 +216,7 @@ class GraphicsContext extends AbstractGraphicsContext
         }
     }
 
-    private function boxContains(BoxInterface $box, BoxInterface $containedBox, PointInterface $point)
+    private function boxContains(BoxInterface $box, BoxInterface $containedBox, PointInterface $point): bool
     {
         return
             $point->getX() >= 0 && $point->getY() >= 0 && $point->getX() < $box->getWidth() && $point->getY() < $box->getHeight() &&
@@ -227,7 +224,7 @@ class GraphicsContext extends AbstractGraphicsContext
             $box->getHeight() >= $containedBox->getHeight() + $point->getY();
     }
 
-    private function ensureNonNegativePoint(PointInterface $point)
+    private function ensureNonNegativePoint(PointInterface $point): \PHPPdf\Bridge\Imagine\Image\Point|\Imagine\Image\PointInterface
     {
         if($point->getX() < 0 || $point->getY() < 0)
         {
@@ -237,12 +234,12 @@ class GraphicsContext extends AbstractGraphicsContext
         return $point;
     }
     
-    private function translatePoint(PointInterface $point, $x, $y)
+    private function translatePoint(PointInterface $point, $x, $y): \PHPPdf\Bridge\Imagine\Image\Point
     {
         return new Point($x - $point->getX(), $y - $point->getY());
     }
     
-    private function convertYCoord($y)
+    private function convertYCoord($y): int|float
     {
         return $this->getHeight() - $y;
     }
@@ -263,7 +260,7 @@ class GraphicsContext extends AbstractGraphicsContext
         }
     }
     
-    private function doDrawDottedLine($x1, $y1, $x2, $y2)
+    private function doDrawDottedLine($x1, $y1, $x2, $y2): void
     {
         list($image, $point) = $this->getCurrentClip();
         
@@ -323,13 +320,13 @@ class GraphicsContext extends AbstractGraphicsContext
         }
     }
     
-    private function linear($x, $x1, $y1, $factor)
+    private function linear($x, $x1, $y1, int|float $factor): int|float
     {
         // y = (y2 - y1)(x - x1)/(x2 - x1) + y1
         return $factor*($x - $x1) + $y1;;
     }
     
-    private function createColor($color)
+    private function createColor($color): \Imagine\Image\Color
     {
         $alpha = (int) (100 - $this->state['alpha'] * 100);
         
@@ -381,12 +378,12 @@ class GraphicsContext extends AbstractGraphicsContext
         }
     }
     
-    private function isFillShape($type)
+    private function isFillShape($type): bool
     {
         return in_array($type, array(self::SHAPE_DRAW_FILL, self::SHAPE_DRAW_FILL_AND_STROKE));
     }
     
-    private function isStrokeShape($type)
+    private function isStrokeShape($type): bool
     {
         return in_array($type, array(self::SHAPE_DRAW_FILL_AND_STROKE, self::SHAPE_DRAW_STROKE));
     }
@@ -414,7 +411,7 @@ class GraphicsContext extends AbstractGraphicsContext
         }
     }
     
-    private function richDrawText($text, ImageInterface $image, $wordSpacing, ImagineFont $font, Point $point)
+    private function richDrawText($text, ImageInterface $image, $wordSpacing, ImagineFont $font, Point $point): void
     {
         $words = preg_split('/\s+/', $text);
         
@@ -569,7 +566,7 @@ class GraphicsContext extends AbstractGraphicsContext
         return $this->image->getSize()->getHeight();
     }
     
-    public function setFont(BaseFont $font, $size)
+    public function setFont(BaseFont $font, $size): void
     {
         $this->addToQueue('doSetFont', array($font, $size, $font->getCurrentStyle()));
     }
@@ -581,7 +578,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->state['fontStyle'] = $style;
     }
     
-    public function addBookmark($identifier, $name, $top, $ancestorsIdentifier = null)
+    public function addBookmark($identifier, $name, $top, $ancestorsIdentifier = null): void
     {
         //not supported
     }
@@ -606,7 +603,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $currentImage->paste($image, $this->translatePoint($point, $x, $this->convertYCoord($y)));
     }
 
-    public function copy()
+    public function copy(): static
     {
         $this->commit();
 

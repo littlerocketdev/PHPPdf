@@ -23,7 +23,7 @@ class UnregisteredNodeException extends RuntimeException
         $this->name = $name;
     }
 
-    public static function nodeNotRegisteredException($name)
+    public static function nodeNotRegisteredException($name): never
     {
         throw new self(sprintf('Node "%s" is not registered.', $name), $name);
     }

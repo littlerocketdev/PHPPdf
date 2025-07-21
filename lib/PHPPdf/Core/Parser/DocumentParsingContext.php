@@ -6,8 +6,8 @@ namespace PHPPdf\Core\Parser;
 
 class DocumentParsingContext
 {
-    private $inPlaceholder = false;
-    private $inBehaviour = false;
+    private bool $inPlaceholder = false;
+    private bool $inBehaviour = false;
 
     public function isInPlaceholder()
     {
@@ -19,22 +19,22 @@ class DocumentParsingContext
         return $this->inBehaviour;
     }
 
-    public function enterPlaceholder()
+    public function enterPlaceholder(): void
     {
         $this->inPlaceholder = true;
     }
 
-    public function exitPlaceholder()
+    public function exitPlaceholder(): void
     {
         $this->inPlaceholder = false;
     }
 
-    public function enterBehaviour()
+    public function enterBehaviour(): void
     {
         $this->inBehaviour = true;
     }
 
-    public function exitBehaviour()
+    public function exitBehaviour(): void
     {
         $this->inBehaviour = false;
     }

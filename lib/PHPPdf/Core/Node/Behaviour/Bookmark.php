@@ -17,9 +17,9 @@ use PHPPdf\Core\Node\Node;
  */
 class Bookmark extends Behaviour
 {
-    private static $bookmarks = array();
+    private static array $bookmarks = array();
     
-    private $name;
+    private string $name;
     private $options = array(
         'id' => null,
         'parentId' => null,

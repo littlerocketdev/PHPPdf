@@ -19,7 +19,7 @@ use ZendPdf\Font as ZendFont;
  */
 class Font extends AbstractFont
 {
-    private $fonts = array();
+    private array $fonts = array();
     
     /**
      * @internal Public method within PHPPdf\Core\Engine\ZF namespace
@@ -57,12 +57,12 @@ class Font extends AbstractFont
         }
     }
     
-    private function isNamedFont($fontData)
+    private function isNamedFont($fontData): bool
     {
         return strpos($fontData, '/') === false;
     }
     
-    private static function retrieveFontName($name)
+    private static function retrieveFontName($name): mixed
     {
         $const = sprintf('ZendPdf\Font::FONT_%s', str_replace('-', '_', strtoupper($name)));
 
@@ -74,7 +74,7 @@ class Font extends AbstractFont
         return constant($const);
     }
 
-    public function getWidthOfText($text, $fontSize)
+    public function getWidthOfText($text, $fontSize): int|float
     {
         $chars = $this->convertTextToChars($text);
         
@@ -85,7 +85,10 @@ class Font extends AbstractFont
         return $textWidth;
     }
     
-    private function convertTextToChars($text)
+    /**
+     * @return list<mixed>
+     */
+    private function convertTextToChars($text): array
     {
         $length = strlen($text);
         $chars = array();
@@ -105,7 +108,7 @@ class Font extends AbstractFont
     /**
      * code from http://php.net/manual/en/function.ord.php#78032
      */
-    private function ordUtf8($text, $index = 0, $bytes = null)
+    private function ordUtf8(array $text, int|float $index = 0, $bytes = null): array
     {
         $len = strlen($text);
         $bytes = 0;

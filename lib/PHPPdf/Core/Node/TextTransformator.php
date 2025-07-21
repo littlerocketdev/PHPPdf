@@ -18,12 +18,12 @@ class TextTransformator
         $this->setReplacements($replacements);
     }
     
-    public function setReplacements(array $replacements)
+    public function setReplacements(array $replacements): void
     {
         $this->replacements = $replacements;
     }
     
-    public function transform($text)
+    public function transform($text): string
     {
         return strtr($text, $this->replacements);
     }

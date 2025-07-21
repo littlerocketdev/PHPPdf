@@ -18,8 +18,8 @@ use PHPPdf\Cache\Cache;
 class CachingStylesheetConstraint extends StylesheetConstraint
 {
     private $resultMap = array();
-    private $resultMapModified = false;
-    private $cacheId = '';
+    private bool $resultMapModified = false;
+    private string $cacheId = '';
 
     public function find(array $query)
     {
@@ -39,7 +39,7 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         return $bag;
     }
 
-    private function transformQueryToString(array $query)
+    private function transformQueryToString(array $query): string
     {
         $queryParts = array();
         foreach($query as $queryElement)
@@ -53,7 +53,7 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         return implode(' ', $queryParts);
     }
 
-    private function setResultMapModified($flag)
+    private function setResultMapModified(bool $flag): void
     {
         $this->resultMapModified = (bool) $flag;
     }
@@ -81,7 +81,7 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         $this->setCacheId($data['cacheId']);
     }
 
-    public function setCacheId($id)
+    public function setCacheId($id): void
     {
         $this->cacheId = (string) $id;
     }

@@ -15,7 +15,7 @@ namespace PHPPdf\DataSource;
  */
 class StringDataSource extends DataSource
 {
-    private $content;
+    private string $content;
 
     public function __construct($content)
     {

@@ -22,13 +22,13 @@ use PHPPdf\Core\Point;
  */
 class ParagraphFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $this->designateLinesOfWords($node);        
         $this->setTextBoundaries($node->getChildren());           
     }
     
-	private function designateLinesOfWords(Node $node)
+	private function designateLinesOfWords(Node $node): void
 	{
     	$currentPoint = $node->getFirstPoint();
     	
@@ -110,7 +110,7 @@ class ParagraphFormatter extends BaseFormatter
     	}
     }
     
-    private function getMaxXCoord(Node $node)
+    private function getMaxXCoord(Node $node): int|float
     {
         for($parent=$node->getParent(); $parent && !$parent->getWidth() && !$parent->getMaxWidth(); $parent=$parent->getParent())
         {
@@ -124,7 +124,7 @@ class ParagraphFormatter extends BaseFormatter
         return $node->getFirstPoint()->getX() + ($node->getWidth() ?: $node->getMaxWidth()) - $node->getPaddingRight();
     }
     
-    private function setTextBoundaries(array $textNodes)
+    private function setTextBoundaries(array $textNodes): void
     {
         foreach($textNodes as $textNode)
         {
@@ -132,7 +132,7 @@ class ParagraphFormatter extends BaseFormatter
         }
     }
     
-    private function setTextBoundary(Text $text)
+    private function setTextBoundary(Text $text): void
     {
         $lineParts = $text->getLineParts();
         

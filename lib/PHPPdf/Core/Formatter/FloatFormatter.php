@@ -19,7 +19,7 @@ use PHPPdf\Core\Node\Node,
  */
 class FloatFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $children = $node->getChildren();
         $attributesSnapshot = $node->getAttributesSnapshot();
@@ -120,7 +120,7 @@ class FloatFormatter extends BaseFormatter
         }
     }
 
-    private function hasFloat(Node $node)
+    private function hasFloat(Node $node): bool
     {
         return $node->getFloat() !== Node::FLOAT_NONE;
     }
@@ -149,7 +149,7 @@ class FloatFormatter extends BaseFormatter
         return $floatedSibling;
     }
 
-    private function setNodesWithFloatPosition(Node $node, &$preferredXCoord, &$preferredYCoord, Node $previousSiblingWithTheSameFloat = null)
+    private function setNodesWithFloatPosition(Node $node, &$preferredXCoord, &$preferredYCoord, Node $previousSiblingWithTheSameFloat = null): void
     {
         $sibling = $previousSiblingWithTheSameFloat;
         $parent = $node->getParent();
@@ -222,7 +222,7 @@ class FloatFormatter extends BaseFormatter
     /**
      * @return Boundary
      */
-    private function createBoundary(Node $node, $preferredXCoord, $preferredYCoord)
+    private function createBoundary(Node $node, $preferredXCoord, $preferredYCoord): \PHPPdf\Core\Boundary
     {
         $dummyBoundary = new Boundary();
         $dummyBoundary->setNext($preferredXCoord, $preferredYCoord)
@@ -233,7 +233,7 @@ class FloatFormatter extends BaseFormatter
         return $dummyBoundary;
     }
 
-    private function correctXCoordWithParent(Node $node)
+    private function correctXCoordWithParent(Node $node): float|int|array
     {
         $parent = $node->getParent();
         if($node->getFloat() === Node::FLOAT_LEFT)

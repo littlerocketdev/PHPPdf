@@ -16,21 +16,21 @@ use PHPPdf\Exception\InvalidArgumentException;
 class FontRegistry implements \Countable
 {
     private $fonts = array();
-    private $document = null;
+    private \PHPPdf\Core\Document $document;
     
     public function __construct(Document $document)
     {
         $this->document = $document;
     }
 
-    public function register($name, array $font)
+    public function register($name, array $font): void
     {
         $font = $this->document->createFont($font);
 
         $this->add($name, $font);
     }
 
-    private function add($name, $font)
+    private function add($name, $font): void
     {
         $name = (string) $name;
         $this->fonts[$name] = $font;
@@ -46,7 +46,7 @@ class FontRegistry implements \Countable
         throw new InvalidArgumentException(sprintf('Font "%s" is not registered.', $name));
     }
 
-    public function has($name)
+    public function has($name): bool
     {
         return isset($this->fonts[$name]);
     }

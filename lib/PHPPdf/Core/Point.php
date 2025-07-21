@@ -20,7 +20,7 @@ use PHPPdf\Exception\OutOfBoundsException;
  */
 final class Point implements \ArrayAccess
 {
-    private static $zero;
+    private static ?\PHPPdf\Core\Point $zero = null;
     
     private $x;
     private $y;
@@ -51,7 +51,7 @@ final class Point implements \ArrayAccess
         return new self($x, $y);
     }
     
-    public function isZero()
+    public function isZero(): bool
     {
         return $this === self::$zero;
     }
@@ -79,7 +79,7 @@ final class Point implements \ArrayAccess
         return $this->compare($this->y, $point->y, $precision);
     }
     
-    private function compare($firstNumber, $secondNumber, $precision)
+    private function compare($firstNumber, $secondNumber, $precision): int
     {
         if($firstNumber === $secondNumber)
         {
@@ -101,7 +101,7 @@ final class Point implements \ArrayAccess
         return -1;
     }
     
-    private function convertToInteger($double, $precision)
+    private function convertToInteger($double, $precision): int
     {
         return (int) ($double * $precision);
     }
@@ -124,7 +124,7 @@ final class Point implements \ArrayAccess
      *
      * @return array First element is $x coord, second $y
      */
-    public function toArray()
+    public function toArray(): array
     {
         return array($this->x, $this->y);
     }
@@ -162,12 +162,12 @@ final class Point implements \ArrayAccess
         }
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new BadMethodCallException(sprintf('%s class is inmutable.', __CLASS__));
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new BadMethodCallException(sprintf('%s class is inmutable.', __CLASS__));
     }

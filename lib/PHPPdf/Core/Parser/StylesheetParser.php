@@ -28,9 +28,9 @@ class StylesheetParser extends XmlParser
     const ATTRIBUTE_CLASS = 'class';
     const STYLE_ATTRIBUTE = 'style';
     
-    private $throwsExceptionOnConstraintTag = false;
-    private $root;
-    private $complexAttributeFactory;
+    private bool $throwsExceptionOnConstraintTag = false;
+    private ?\PHPPdf\Core\Parser\StylesheetConstraint $root = null;
+    private ?\PHPPdf\Core\ComplexAttribute\ComplexAttributeFactory $complexAttributeFactory = null;
 
     public function __construct(StylesheetConstraint $root = null, $throwExceptionOnConstraintTag = false)
     {
@@ -38,17 +38,17 @@ class StylesheetParser extends XmlParser
         $this->setThrowsExceptionOnConstraintTag($throwExceptionOnConstraintTag);
     }
 
-    public function setRoot(StylesheetConstraint $root = null)
+    public function setRoot(StylesheetConstraint $root = null): void
     {
         $this->root = $root;
     }
     
-    public function setThrowsExceptionOnConstraintTag($flag)
+    public function setThrowsExceptionOnConstraintTag($flag): void
     {
         $this->throwsExceptionOnConstraintTag = (boolean) $flag;
     }
 
-    public function setComplexAttributeFactory(ComplexAttributeFactory $complexAttributeFactory)
+    public function setComplexAttributeFactory(ComplexAttributeFactory $complexAttributeFactory): void
     {
         $this->complexAttributeFactory = $complexAttributeFactory;
     }
@@ -89,7 +89,7 @@ class StylesheetParser extends XmlParser
         }
     }
 
-    private function parseAttribute(\XMLReader $reader)
+    private function parseAttribute(\XMLReader $reader): void
     {
         $lastConstraint = $this->getLastElementFromStack();
 
@@ -110,7 +110,7 @@ class StylesheetParser extends XmlParser
         $lastConstraint->add($name, $value);
     }
 
-    private function parseComplexAttribute(\XMLReader $reader)
+    private function parseComplexAttribute(\XMLReader $reader): void
     {
         $lastConstraint = $this->getLastElementFromStack();
 
@@ -137,7 +137,7 @@ class StylesheetParser extends XmlParser
         $lastConstraint->add($id, $attributes);
     }
 
-    private function parseConstraint(\XMLReader $reader, $tag)
+    private function parseConstraint(\XMLReader $reader, $tag): void
     {
         if($this->throwsExceptionOnConstraintTag)
         {
@@ -177,7 +177,7 @@ class StylesheetParser extends XmlParser
         }
     }
     
-    public function addConstraintsFromAttributes(BagContainer $constraint, \XMLReader $reader, array $ignoredAttributes = array(self::ATTRIBUTE_CLASS))
+    public function addConstraintsFromAttributes(BagContainer $constraint, \XMLReader $reader, array $ignoredAttributes = array(self::ATTRIBUTE_CLASS)): void
     {
         while($reader->moveToNextAttribute())
         {

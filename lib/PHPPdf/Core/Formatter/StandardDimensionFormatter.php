@@ -19,7 +19,7 @@ use PHPPdf\Core\Formatter\BaseFormatter,
  */
 class StandardDimensionFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $parent = $node->getParent();
         $maxWidth = $node->getRecurseAttribute('max-width') ?: \PHP_INT_MAX;

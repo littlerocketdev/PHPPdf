@@ -20,7 +20,7 @@ use PHPPdf\Core\Formatter\BaseFormatter,
  */
 class ConvertAttributesFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $this->convertPercentageDimensions($node);
         $this->convertAutoMargins($node);
@@ -66,7 +66,7 @@ class ConvertAttributesFormatter extends BaseFormatter
         }
     }
 
-    private function hasAutoMargins(Node $node)
+    private function hasAutoMargins(Node $node): bool
     {
         $marginLeft = $node->getMarginLeft();
         $marginRight = $node->getMarginRight();

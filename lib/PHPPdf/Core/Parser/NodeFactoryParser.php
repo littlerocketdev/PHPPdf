@@ -31,24 +31,24 @@ class NodeFactoryParser extends XmlParser
     const INVOKE_TAG = 'invoke';
     const ALIAS_TAG = 'alias';
 
-    private $stylesheetParser;
-    private $isFormattersParsing = false;
+    private \PHPPdf\Core\Parser\StylesheetParser $stylesheetParser;
+    private bool $isFormattersParsing = false;
     
-    private $invokeArgsDefinitions = array();
+    private array $invokeArgsDefinitions = array();
     private $currentArg = null;
     
-    private $lastTag = null;
-    private $currentAliases = array();
-    private $invokeMethods = array();
+    private ?string $lastTag = null;
+    private array $currentAliases = array();
+    private array $invokeMethods = array();
     
-    private $unitConverter = null;
+    private ?\PHPPdf\Core\UnitConverter $unitConverter = null;
 
     public function __construct()
     {
         $this->stylesheetParser = new StylesheetParser();
     }
     
-    public function setUnitConverter(UnitConverter $converter)
+    public function setUnitConverter(UnitConverter $converter): void
     {
         $this->unitConverter = $converter;
     }
@@ -63,12 +63,12 @@ class NodeFactoryParser extends XmlParser
         return $this->stylesheetParser;
     }
 
-    public function setStylesheetParser(StylesheetParser $stylesheetParser)
+    public function setStylesheetParser(StylesheetParser $stylesheetParser): void
     {
         $this->stylesheetParser = $stylesheetParser;
     }
 
-    protected function createRoot()
+    protected function createRoot(): \PHPPdf\Core\Node\NodeFactory
     {
         return new NodeFactory();
     }
@@ -105,7 +105,7 @@ class NodeFactoryParser extends XmlParser
         }
     }
 
-    private function parseNode(\XMLReader $reader)
+    private function parseNode(\XMLReader $reader): void
     {
         $this->currentAliases = array();
         $root = $this->getLastElementFromStack();
@@ -130,7 +130,7 @@ class NodeFactoryParser extends XmlParser
         $this->lastTag = $name;
     }
 
-    private function parseStylesheet(\XMLReader $reader)
+    private function parseStylesheet(\XMLReader $reader): void
     {
         $this->seekReaderToNextTag($reader);
         $bagContainer = $this->getStylesheetParser()->parse($reader);
@@ -140,7 +140,7 @@ class NodeFactoryParser extends XmlParser
         $bagContainer->apply($node);
     }
 
-    private function parseFormatter($formatterType, \XMLReader $reader)
+    private function parseFormatter($formatterType, \XMLReader $reader): void
     {
         $node = $this->getLastElementFromStack();
 
@@ -149,7 +149,7 @@ class NodeFactoryParser extends XmlParser
         $node->addFormatterName($formatterType, $formatterClassName);
     }
     
-    private function parseInvoke(\XMLReader $reader)
+    private function parseInvoke(\XMLReader $reader): void
     {
         $method = $reader->getAttribute('method');
         $argId = $reader->getAttribute('argId');
@@ -157,7 +157,7 @@ class NodeFactoryParser extends XmlParser
         $this->invokeMethods[] = array($method, $argId);
     }
     
-    private function parseInvokeArg(\XMLReader $reader)
+    private function parseInvokeArg(\XMLReader $reader): void
     {
         $id = $reader->getAttribute('id');
         $value = $reader->getAttribute('value');

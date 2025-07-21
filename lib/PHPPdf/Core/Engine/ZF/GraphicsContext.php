@@ -37,7 +37,7 @@ class GraphicsContext extends AbstractGraphicsContext
         'alpha' => 1,
     );
     
-    private static $originalState = array(
+    private static array $originalState = array(
         'fillColor' => null,
         'lineColor' => null,
         'lineWidth' => null,
@@ -47,10 +47,7 @@ class GraphicsContext extends AbstractGraphicsContext
 
     private $memento = null;
     
-    /**
-     * @var Engine
-     */
-    private $engine = null;
+    private \PHPPdf\Core\Engine\ZF\Engine $engine;
 
     /**
      * @var ZendPdf\Page
@@ -59,7 +56,7 @@ class GraphicsContext extends AbstractGraphicsContext
     
     private $width;
     private $height;
-    private $encoding;
+    private string $encoding;
     
     public function __construct(Engine $engine, $pageOrPageSize, $encoding)
     {
@@ -115,7 +112,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->getPage()->drawLine($x1, $y1, $x2, $y2);
     }
 
-    public function setFont(BaseFont $font, $size)
+    public function setFont(BaseFont $font, $size): void
     {
         $this->addToQueue('doSetFont', array($font->getCurrentWrappedFont(), $size));
     }
@@ -184,7 +181,7 @@ class GraphicsContext extends AbstractGraphicsContext
         }
     }
     
-    private function richDrawText($text, $x, $y, $encoding, $wordSpacing, $fillType)
+    private function richDrawText($text, $x, $y, $encoding, $wordSpacing, $fillType): void
     {
         if($this->getPage()->getFont() === null) 
         {
@@ -209,7 +206,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->getPage()->rawWrite($data, 'Text');
     }
     
-    private function getDataForTextDrawing($text, $x, $y, $encoding, $wordSpacing, $fillType)
+    private function getDataForTextDrawing($text, $x, $y, $encoding, $wordSpacing, int $fillType): string
     {
         $font = $this->getPage()->getFont();
         
@@ -250,12 +247,12 @@ class GraphicsContext extends AbstractGraphicsContext
         return $data;
     }
     
-    private function createTextObject(ZendResourceFont $font, $text, $encoding)
+    private function createTextObject(ZendResourceFont $font, $text, $encoding): \ZendPdf\InternalType\StringObject
     {
         return new StringObject($font->encodeString($text, $encoding));
     }
     
-    private function isFontDefiningSpaceInSingleByte(ZendResourceFont $font)
+    private function isFontDefiningSpaceInSingleByte(ZendResourceFont $font): bool
     {
         return $font->getFontType() === ZendFont::TYPE_STANDARD;
     }
@@ -275,7 +272,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->getPage()->drawRoundedRectangle($x1, $y1, $x2, $y2, $radius, $this->translateFillType($fillType));
     }
     
-    private function translateFillType($fillType)
+    private function translateFillType($fillType): int
     {
         switch($fillType)
         {
@@ -363,7 +360,7 @@ class GraphicsContext extends AbstractGraphicsContext
         return $annotation;
     }
     
-    public function addBookmark($identifier, $name, $top, $parentIdentifier = null)
+    public function addBookmark($identifier, $name, $top, $parentIdentifier = null): void
     {
         try
         {   
@@ -454,7 +451,7 @@ class GraphicsContext extends AbstractGraphicsContext
         return null;
     }
     
-    public function copy()
+    public function copy(): static
     {
         $gc = clone $this;
         if($this->page)
