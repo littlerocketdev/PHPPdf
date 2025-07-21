@@ -12,7 +12,7 @@ use PHPPdf\Exception\InvalidArgumentException;
 
 use PHPPdf\Exception\InvalidResourceException;
 use PHPPdf\Core\Engine\AbstractFont;
-use ZendPdf\Font as ZendFont;
+use LaminasPdf\Font as ZendFont;
 
 /**
  * @author Piotr Śliwa <peter.pl7@gmail.com>
@@ -51,7 +51,7 @@ class Font extends AbstractFont
             
             return $this->fonts[$style];
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(\LaminasPdf\Exception\ExceptionInterface $e)
         {
             throw InvalidResourceException::invalidFontException($this->fontResources[$style], $e);
         }

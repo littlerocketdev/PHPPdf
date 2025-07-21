@@ -8,6 +8,7 @@
 
 namespace PHPPdf\Core\Engine\ZF;
 
+use LaminasPdf\Exception\ExceptionInterface;
 use PHPPdf\Exception\RuntimeException;
 use PHPPdf\Exception\InvalidArgumentException;
 use PHPPdf\Bridge\Zend\Pdf\Page;
@@ -15,14 +16,19 @@ use PHPPdf\Core\Engine\AbstractGraphicsContext;
 use PHPPdf\Core\Engine\GraphicsContext as BaseGraphicsContext;
 use PHPPdf\Core\Engine\Font as BaseFont;
 use PHPPdf\Core\Engine\Image as BaseImage;
-use ZendPdf\Page as ZendPage;
-use ZendPdf\InternalType\NumericObject;
-use ZendPdf\InternalType\StringObject;
-use ZendPdf\InternalType\ArrayObject;
-use ZendPdf\Font as ZendFont;
-use ZendPdf\Resource\Font\AbstractFont as ZendResourceFont;
-use ZendPdf\Color\Html as ZendColor;
+use LaminasPdf\Page as ZendPage;
+use LaminasPdf\InternalType\NumericObject;
+use LaminasPdf\InternalType\StringObject;
+use LaminasPdf\InternalType\ArrayObject;
+use LaminasPdf\Font as ZendFont;
+use LaminasPdf\Resource\Font\AbstractFont as ZendResourceFont;
+use LaminasPdf\Color\Html as ZendColor;
 use Zend\Barcode\Object\ObjectInterface as Barcode;
+use LaminasPdf\Action\GoToAction;
+use LaminasPdf\Annotation\Link;
+use LaminasPdf\Annotation\Text;
+use LaminasPdf\Destination\FitHorizontally;
+use LaminasPdf\Outline\AbstractOutline;
 
 /**
  * @author Piotr Śliwa <peter.pl7@gmail.com>
@@ -175,7 +181,7 @@ class GraphicsContext extends AbstractGraphicsContext
                 $this->richDrawText($text, $x, $y, $encoding, $wordSpacing, $fillType);
             }
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(ExceptionInterface $e)
         {
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
@@ -185,7 +191,7 @@ class GraphicsContext extends AbstractGraphicsContext
     {
         if($this->getPage()->getFont() === null) 
         {
-            throw new \ZendPdf\Exception\LogicException('Font has not been set');
+            throw new \LaminasPdf\Exception\LogicException('Font has not been set');
         }
   
         if($fillType == self::SHAPE_DRAW_FILL)
@@ -247,7 +253,7 @@ class GraphicsContext extends AbstractGraphicsContext
         return $data;
     }
     
-    private function createTextObject(ZendResourceFont $font, $text, $encoding): \ZendPdf\InternalType\StringObject
+    private function createTextObject(ZendResourceFont $font, $text, $encoding): \LaminasPdf\InternalType\StringObject
     {
         return new StringObject($font->encodeString($text, $encoding));
     }
@@ -316,13 +322,13 @@ class GraphicsContext extends AbstractGraphicsContext
     {
         try
         {
-            $uriAction = \ZendPdf\Action\Uri::create($uri);
+            $uriAction = \LaminasPdf\Action\Uri::create($uri);
             
             $annotation = $this->createAnnotationLink($x1, $y1, $x2, $y2, $uriAction);
             
             $this->getPage()->attachAnnotation($annotation);
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(ExceptionInterface $e)
         {
             throw new RuntimeException(sprintf('Error wile adding uri action with uri="%s"', $uri), 0, $e);
         }
@@ -332,13 +338,13 @@ class GraphicsContext extends AbstractGraphicsContext
     {
         try
         {
-            $destination = \ZendPdf\Destination\FitHorizontally::create($gc->getPage(), $top);   
+            $destination = \LaminasPdf\Destination\FitHorizontally::create($gc->getPage(), $top);   
             
             $annotation = $this->createAnnotationLink($x1, $y1, $x2, $y2, $destination);
             
             $this->getPage()->attachAnnotation($annotation);
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(ExceptionInterface $e)
         {
             throw new RuntimeException('Error while adding goTo action', 0, $e);
         }        
@@ -346,7 +352,7 @@ class GraphicsContext extends AbstractGraphicsContext
     
     private function createAnnotationLink($x1, $y1, $x2, $y2, $target)
     {
-        $annotation = \ZendPdf\Annotation\Link::create($x1, $y1, $x2, $y2, $target);
+        $annotation = Link::create($x1, $y1, $x2, $y2, $target);
         $annotationDictionary = $annotation->getResource();
         
         $border = new ArrayObject();
@@ -364,25 +370,25 @@ class GraphicsContext extends AbstractGraphicsContext
     {
         try
         {   
-            $destination = \ZendPdf\Destination\FitHorizontally::create($this->getPage(), $top);
-            $action = \ZendPdf\Action\GoToAction::create($destination);
+            $destination = FitHorizontally::create($this->getPage(), $top);
+            $action = GoToAction::create($destination);
             
             //convert from input encoding to UTF-16
             $name = iconv($this->encoding, 'UTF-16', $name);
             
-            $outline = \ZendPdf\Outline\AbstractOutline::create($name, $action);
+            $outline = AbstractOutline::create($name, $action);
             
             $this->engine->registerOutline($identifier, $outline);     
             
             $this->addToQueue('doAddBookmark', array($identifier, $outline, $parentIdentifier));
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(\LaminasPdf\Exception\ExceptionInterface $e)
         {
             throw new RuntimeException('Error while bookmark adding', 0, $e);
         }
     }
 
-    protected function doAddBookmark($identifier, \ZendPdf\Outline\AbstractOutline $outline, $parentIdentifier = null)
+    protected function doAddBookmark($identifier, AbstractOutline $outline, $parentIdentifier = null)
     {
         try
         {            
@@ -396,7 +402,7 @@ class GraphicsContext extends AbstractGraphicsContext
                 $this->engine->getZendPdf()->outlines[] = $outline;
             }
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(\LaminasPdf\Exception\ExceptionInterface $e)
         {
             throw new RuntimeException('Error while bookmark adding', 0, $e);
         }
@@ -404,7 +410,7 @@ class GraphicsContext extends AbstractGraphicsContext
     
     protected function doAttachStickyNote($x1, $y1, $x2, $y2, $text)
     {
-        $annotation = \ZendPdf\Annotation\Text::create($x1, $y1, $x2, $y2, $text);
+        $annotation = Text::create($x1, $y1, $x2, $y2, $text);
         $this->getPage()->attachAnnotation($annotation);
     }
     

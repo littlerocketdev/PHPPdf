@@ -71,7 +71,7 @@ class Image implements BaseImage
                 throw InvalidResourceException::unsupportetImageTypeException($path);
             }
         }
-        catch(\ZendPdf\Exception $e)
+        catch(\LaminasPdf\Exception $e)
         {
             throw InvalidResourceException::invalidImageException($path, $e);
         }

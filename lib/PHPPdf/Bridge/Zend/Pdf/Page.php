@@ -8,8 +8,8 @@
 
 namespace PHPPdf\Bridge\Zend\Pdf;
 
-use ZendPdf\Page as ZendPage;
-use ZendPdf\InternalType;
+use LaminasPdf\Page as ZendPage;
+use LaminasPdf\InternalType;
 
 /**
  * Modified ZendPdf\Page class

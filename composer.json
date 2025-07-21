@@ -13,14 +13,14 @@
     ],
     "require": {
         "php": "^8.3",
-        "zendframework/zendpdf":  "~2.0.0",
+        "littlerocket/laminas-pdf":  "~3.0.0",
         "zendframework/zend-cache":  "^2.0"
     },
     "require-dev": {
         "zendframework/zend-barcode": "^2.0",
         "zendframework/zend-validator": "^2.0",
-        "imagine/imagine": ">=0.2.0,<0.6.0",
-        "phpunit/phpunit": ">=4,<5.4.0",
+        "imagine/imagine": "^1.5",
+        "phpunit/phpunit": "^12.2",
         "rector/rector": "^2.1"
     },
     "suggest": {

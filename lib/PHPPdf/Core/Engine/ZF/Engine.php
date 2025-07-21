@@ -16,8 +16,8 @@ use PHPPdf\Util;
 use PHPPdf\Exception\InvalidResourceException;
 use PHPPdf\Core\Engine\GraphicsContext as BaseGraphicsContext;
 use PHPPdf\Core\Engine\Engine as BaseEngine;
-use ZendPdf\PdfDocument;
-use ZendPdf\Outline\AbstractOutline;
+use LaminasPdf\PdfDocument;
+use LaminasPdf\Outline\AbstractOutline;
 
 /**
  * @author Piotr Śliwa <peter.pl7@gmail.com>
@@ -26,7 +26,7 @@ class Engine extends AbstractEngine
 {
     private static array $loadedEngines = array();
     
-    private ?\ZendPdf\PdfDocument $zendPdf;
+    private ?\LaminasPdf\PdfDocument $zendPdf;
     private array $colors = array();
     private array $images = array();
     private array $graphicsContexts = array();
@@ -150,7 +150,7 @@ class Engine extends AbstractEngine
             
             return $engine;
         }
-        catch(\ZendPdf\Exception $e)
+        catch(\LaminasPdf\Exception $e)
         {
             throw InvalidResourceException::invalidPdfFileException($file, $e);
         }

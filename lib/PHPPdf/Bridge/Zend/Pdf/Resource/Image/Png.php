@@ -10,11 +10,12 @@ namespace PHPPdf\Bridge\Zend\Pdf\Resource\Image;
 
 use PHPPdf\InputStream\FopenInputStream;
 use PHPPdf\InputStream\StringInputStream;
-use ZendPdf\Resource\Image\Png as BasePng;
-use ZendPdf\Exception;
-use ZendPdf;
-use ZendPdf\ObjectFactory;
-use ZendPdf\InternalType;
+use LaminasPdf\Resource\Image\Png as BasePng;
+use LaminasPdf\Exception;
+use LaminasPdf;
+use LaminasPdf\ObjectFactory;
+use LaminasPdf\InternalType;
+use LaminasPdf\Resource\Image\AbstractImage;
 
 /**
  * Content loading type has been changed, remote files are supported.
@@ -36,7 +37,7 @@ class Png extends BasePng
             throw new Exception\IOException("Can not open '$imageFileName' file for reading.");
         }
 
-        \ZendPdf\Resource\Image\AbstractImage::__construct();
+        AbstractImage::__construct();
         
         //Check if the file is a PNG
         $this->seek(1);
