@@ -13,19 +13,17 @@
     ],
     "require": {
         "php": "^8.3",
-        "littlerocket/laminas-pdf":  "~3.0.0",
-        "zendframework/zend-cache":  "^2.0"
+        "littlerocket/laminas-pdf":  "^3.0",
+        "laminas/laminas-cache": "^2.5"
     },
     "require-dev": {
-        "zendframework/zend-barcode": "^2.0",
-        "zendframework/zend-validator": "^2.0",
         "imagine/imagine": "^1.5",
         "phpunit/phpunit": "^12.2",
-        "rector/rector": "^2.1"
+        "rector/rector": "^2.1",
+        "laminas/laminas-barcode": "^2.5"
     },
     "suggest": {
-    	"zendframework/zend-barcode":  "If you want to use barcodes",
-    	"zendframework/zend-validator": "If you want to use barcodes (required by zend-barcode)",
+    	"laminas/laminas-barcode":  "If you want to use barcodes",
     	"imagine/imagine": "If you want to use image generating (required version: >=v0.2.6)"
     },
     "autoload": {

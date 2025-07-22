@@ -23,7 +23,7 @@ use LaminasPdf\InternalType\ArrayObject;
 use LaminasPdf\Font as ZendFont;
 use LaminasPdf\Resource\Font\AbstractFont as ZendResourceFont;
 use LaminasPdf\Color\Html as ZendColor;
-use Zend\Barcode\Object\ObjectInterface as Barcode;
+use Laminas\Barcode\Object\ObjectInterface as Barcode;
 use LaminasPdf\Action\GoToAction;
 use LaminasPdf\Annotation\Link;
 use LaminasPdf\Annotation\Text;
@@ -427,7 +427,7 @@ class GraphicsContext extends AbstractGraphicsContext
     
     protected function doDrawBarcode($x, $y, Barcode $barcode)
     {
-        $renderer = new \Zend\Barcode\Renderer\Pdf();
+        $renderer = new \Laminas\Barcode\Renderer\Pdf();
         
         $page = $this->getIndexOfPage();
         
