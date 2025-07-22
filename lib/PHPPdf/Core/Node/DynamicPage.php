@@ -192,17 +192,17 @@ class DynamicPage extends Page
 
     public function setHeader(Container $header): void
     {
-        return $this->getPrototypePage()->setHeader($header);
+        $this->getPrototypePage()->setHeader($header);
     }
 
     public function setFooter(Container $footer): void
     {
-        return $this->getPrototypePage()->setFooter($footer);
+        $this->getPrototypePage()->setFooter($footer);
     }
 
     public function setWatermark(Container $watermark): void
     {
-        return $this->getPrototypePage()->setWatermark($watermark);
+        $this->getPrototypePage()->setWatermark($watermark);
     }
 
     protected function beforeFormat(Document $document)
