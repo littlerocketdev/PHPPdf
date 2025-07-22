@@ -60,7 +60,7 @@ class BasicList extends Container
     /**
      * @internal
      */
-    public function isOmitEnumerationOfFirstElement()
+    public function isOmitEnumerationOfFirstElement(): bool
     {
         return $this->omitEnumerationOfFirstElement;
     }

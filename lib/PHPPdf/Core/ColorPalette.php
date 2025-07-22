@@ -34,7 +34,7 @@ class ColorPalette
         $this->colors = $colors + $this->colors;
     }
     
-    public function getAll()
+    public function getAll(): array
     {
         return $this->colors;
     }

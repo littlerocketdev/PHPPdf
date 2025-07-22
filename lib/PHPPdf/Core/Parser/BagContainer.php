@@ -38,7 +38,7 @@ class BagContainer implements \Serializable
     /**
      * @return AttributeBag
      */
-    protected function getAttributeBag()
+    protected function getAttributeBag(): \PHPPdf\Core\AttributeBag
     {
         return $this->attributeBag;
     }
@@ -63,7 +63,7 @@ class BagContainer implements \Serializable
         return $this->order;
     }
 
-    public function getWeight()
+    public function getWeight(): float
     {
         return $this->weight;
     }

@@ -47,7 +47,7 @@ class GraphicsContext extends AbstractGraphicsContext
     
     private array $stateStack = array();
     
-    private $state = array();
+    private array $state;
     
     private $image;
     

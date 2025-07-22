@@ -20,7 +20,7 @@ use PHPPdf\Bridge\Zend\Pdf\Resource\Image\Jpeg;
  */
 class Image implements BaseImage
 {
-    private $zendImage;
+    private \PHPPdf\Bridge\Zend\Pdf\Resource\Image\Jpeg|\PHPPdf\Bridge\Zend\Pdf\Resource\Image\Png|\PHPPdf\Bridge\Zend\Pdf\Resource\Image\Tiff|null $zendImage = null;
     private $path;
     private $width;
     private $height;

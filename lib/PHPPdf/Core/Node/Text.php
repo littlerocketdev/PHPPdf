@@ -163,17 +163,17 @@ class Text extends Node
         $this->wordsSizes = $sizes;
     }
     
-    public function getWords()
+    public function getWords(): array
     {
         return $this->words;
     }
     
-    public function getWordsSizes()
+    public function getWordsSizes(): array
     {
         return $this->wordsSizes;
     }
     
-    public function getPointsOfWordsLines()
+    public function getPointsOfWordsLines(): array
     {
         return $this->pointsOfWordsLines;
     }

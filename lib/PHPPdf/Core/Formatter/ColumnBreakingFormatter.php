@@ -160,7 +160,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         return $numberOfBreaks % $numberOfColumns;
     }
     
-    private function getDiagonalYCoordOfColumn(\PHPPdf\Core\Node\ColumnableContainer $columnableContainer, \PHPPdf\Core\Node\Container $container, $columnNumber, $rowNumber)
+    private function getDiagonalYCoordOfColumn(\PHPPdf\Core\Node\ColumnableContainer $columnableContainer, \PHPPdf\Core\Node\Container $container, int $columnNumber, float $rowNumber): int|float
     {
         $numberOfColumns = $columnableContainer->getAttribute('number-of-columns');
         
@@ -302,7 +302,7 @@ class ColumnBreakingFormatter extends BaseFormatter
         $this->lastVerticalTranslation = $columnableContainer->getHeight() - $originalHeight;
     }
     
-    public function getLastVerticalTranslation()
+    public function getLastVerticalTranslation(): int|float
     {
         return $this->lastVerticalTranslation;
     }

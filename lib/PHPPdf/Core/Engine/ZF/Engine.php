@@ -49,7 +49,7 @@ class Engine extends AbstractEngine
         $this->graphicsContexts[] = $gc;
     }
     
-    public function getAttachedGraphicsContexts()
+    public function getAttachedGraphicsContexts(): array
     {
         return $this->graphicsContexts;
     }
@@ -92,7 +92,7 @@ class Engine extends AbstractEngine
     /**
      * @return PdfDocument
      */
-    public function getZendPdf()
+    public function getZendPdf(): \LaminasPdf\PdfDocument
     {
         if(!$this->zendPdf)
         {

@@ -58,12 +58,12 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         $this->resultMapModified = (bool) $flag;
     }
 
-    public function isResultMapModified()
+    public function isResultMapModified(): bool
     {
         return $this->resultMapModified;
     }
 
-    protected function getDataToSerialize()
+    protected function getDataToSerialize(): array
     {
         $data = parent::getDataToSerialize();
 
@@ -73,7 +73,7 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         return $data;
     }
 
-    protected function restoreDataAfterUnserialize($data)
+    protected function restoreDataAfterUnserialize(array $data)
     {
         parent::restoreDataAfterUnserialize($data);
 
@@ -86,12 +86,12 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         $this->cacheId = (string) $id;
     }
 
-    public function getCacheId()
+    public function getCacheId(): string
     {
         return $this->cacheId;
     }
     
-    public static function merge(array $containers)
+    public static function merge(array $containers): static
     {
         $resultContainer = parent::merge($containers);
         

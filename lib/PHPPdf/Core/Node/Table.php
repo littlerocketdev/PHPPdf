@@ -44,7 +44,7 @@ class Table extends Container implements Listener
         $this->setAttributeDirectly('row-height', $this->convertUnit($value));
     }
 
-    public function add(Node $node)
+    public function add(Node $node): static
     {
         if(!$node instanceof Row)
         {

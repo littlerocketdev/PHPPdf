@@ -9,12 +9,12 @@ class DocumentParsingContext
     private bool $inPlaceholder = false;
     private bool $inBehaviour = false;
 
-    public function isInPlaceholder()
+    public function isInPlaceholder(): bool
     {
         return $this->inPlaceholder;
     }
 
-    public function isInBehaviour()
+    public function isInBehaviour(): bool
     {
         return $this->inBehaviour;
     }

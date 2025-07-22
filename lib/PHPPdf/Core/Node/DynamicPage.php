@@ -92,7 +92,7 @@ class DynamicPage extends Page
         return $this->currentPage;
     }
     
-    public function getNumberOfPages()
+    public function getNumberOfPages(): int
     {
         return $this->numberOfPages;
     }
@@ -116,7 +116,7 @@ class DynamicPage extends Page
         $this->numberOfPages = 0;
     }
 
-    public function getPages()
+    public function getPages(): array
     {
         return $this->pages;
     }
@@ -126,7 +126,10 @@ class DynamicPage extends Page
         $this->pages = $this->currentPage ? array($this->currentPage) : array();
     }
     
-    public function getAllPagesExceptsCurrent()
+    /**
+     * @return mixed[]
+     */
+    public function getAllPagesExceptsCurrent(): array
     {
         $pages = $this->pages;
         array_pop($pages);
@@ -167,12 +170,12 @@ class DynamicPage extends Page
         return $this->getPrototypePage()->getAttributeDirectly($name);
     }
 
-    public function getWidth()
+    public function getWidth(): float|int
     {
         return $this->getPrototypePage()->getWidth();
     }
 
-    public function getHeight()
+    public function getHeight(): float|int
     {
         return $this->getPrototypePage()->getHeight();
     }
@@ -187,17 +190,17 @@ class DynamicPage extends Page
         return $this->getPrototypePage()->getFooter();
     }
 
-    public function setHeader(Container $header)
+    public function setHeader(Container $header): void
     {
         return $this->getPrototypePage()->setHeader($header);
     }
 
-    public function setFooter(Container $footer)
+    public function setFooter(Container $footer): void
     {
         return $this->getPrototypePage()->setFooter($footer);
     }
 
-    public function setWatermark(Container $watermark)
+    public function setWatermark(Container $watermark): void
     {
         return $this->getPrototypePage()->setWatermark($watermark);
     }

@@ -42,7 +42,7 @@ class DrawingTask
         return $this->priority;
     }
 
-    public function getOrder()
+    public function getOrder(): ?int
     {
         return $this->order;
     }

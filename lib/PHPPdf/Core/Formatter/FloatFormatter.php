@@ -222,7 +222,7 @@ class FloatFormatter extends BaseFormatter
     /**
      * @return Boundary
      */
-    private function createBoundary(Node $node, $preferredXCoord, $preferredYCoord): \PHPPdf\Core\Boundary
+    private function createBoundary(Node $node, float|int|array $preferredXCoord, $preferredYCoord): \PHPPdf\Core\Boundary
     {
         $dummyBoundary = new Boundary();
         $dummyBoundary->setNext($preferredXCoord, $preferredYCoord)

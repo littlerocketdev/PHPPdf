@@ -80,7 +80,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         $this->document = $document;
     }
     
-    public function getNodeManager()
+    public function getNodeManager(): \PHPPdf\Core\Node\Manager
     {
         return $this->nodeManager;
     }
@@ -126,7 +126,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return XmlDocumentParser
      */
-    private function getInnerParser()
+    private function getInnerParser(): \PHPPdf\Core\Parser\XmlDocumentParser
     {
         if($this->innerParser === null)
         {
@@ -184,7 +184,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return NodeFactory
      */
-    public function getNodeFactory()
+    public function getNodeFactory(): ?\PHPPdf\Core\Node\NodeFactory
     {
         return $this->factory;
     }
@@ -198,7 +198,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return ComplexAttributeFactory
      */
-    public function getComplexAttributeFactory()
+    public function getComplexAttributeFactory(): ?\PHPPdf\Core\ComplexAttribute\ComplexAttributeFactory
     {
         return $this->complexAttributeFactory;
     }
@@ -211,7 +211,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return StylesheetConstraint
      */
-    protected function getStylesheetConstraint()
+    protected function getStylesheetConstraint(): ?\PHPPdf\Core\Parser\StylesheetConstraint
     {
         return $this->stylesheetConstraint;
     }
@@ -224,7 +224,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return StylesheetParser
      */
-    public function getStylesheetParser()
+    public function getStylesheetParser(): ?\PHPPdf\Core\Parser\StylesheetParser
     {
         return $this->stylesheetParser;
     }

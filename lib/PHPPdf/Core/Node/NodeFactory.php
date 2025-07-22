@@ -87,7 +87,7 @@ class NodeFactory implements \Serializable
         return $this->invokeArgs;
     }
     
-    public function invocationsMethodsOnCreate()
+    public function invocationsMethodsOnCreate(): array
     {
         return $this->invocationsMethodsOnCreate;
     }

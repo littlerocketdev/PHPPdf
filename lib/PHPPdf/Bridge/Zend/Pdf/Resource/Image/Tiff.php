@@ -24,7 +24,7 @@ use LaminasPdf\Resource\Image;
  */
 class Tiff extends BaseTiff
 {
-    private $stream;
+    private \PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream|bool|null $stream = null;
     
     public function __construct($imageFileName)
     {

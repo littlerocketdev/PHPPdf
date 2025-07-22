@@ -73,12 +73,12 @@ class Facade extends AbstractStringFilterContainer
     /**
      * @return DocumentParser
      */
-    public function getDocumentParser()
+    public function getDocumentParser(): \PHPPdf\Core\Parser\DocumentParser
     {
         return $this->documentParser;
     }
 
-    public function getStylesheetParser()
+    public function getStylesheetParser(): \PHPPdf\Core\Parser\StylesheetParser
     {
         return $this->stylesheetParser;
     }
@@ -98,7 +98,7 @@ class Facade extends AbstractStringFilterContainer
 		$this->colorPaletteParser = $colorPaletteParser;
 	}
 	
-	protected function getColorPaletteParser()
+	protected function getColorPaletteParser(): \PHPPdf\Parser\Parser
 	{
 	    if(!$this->colorPaletteParser)
 	    {
@@ -113,7 +113,7 @@ class Facade extends AbstractStringFilterContainer
      * 
      * @return PHPPdf\Core\Document
      */
-    public function getDocument()
+    public function getDocument(): \PHPPdf\Core\Document
     {
         return $this->document;
     }

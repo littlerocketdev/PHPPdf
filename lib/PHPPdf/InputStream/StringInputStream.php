@@ -76,7 +76,7 @@ class StringInputStream implements InputStream
         return $this->currentIndex;
     }
     
-    public function size()
+    public function size(): ?int
     {
         return $this->contentLength;
     }

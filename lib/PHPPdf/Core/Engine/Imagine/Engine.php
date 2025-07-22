@@ -55,7 +55,7 @@ class Engine extends AbstractEngine
         $this->graphicsContexts[] = $gc;
     }
     
-    public function getAttachedGraphicsContexts()
+    public function getAttachedGraphicsContexts(): array
     {
         return $this->graphicsContexts;
     }

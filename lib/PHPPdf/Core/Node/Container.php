@@ -36,7 +36,7 @@ class Container extends Node
         return $this;
     }
 
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }

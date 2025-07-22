@@ -58,7 +58,7 @@ class NodeFactoryParser extends XmlParser
         $this->lastTag = null;
     }
 
-    public function getStylesheetParser()
+    public function getStylesheetParser(): \PHPPdf\Core\Parser\StylesheetParser
     {
         return $this->stylesheetParser;
     }

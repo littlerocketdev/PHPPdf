@@ -191,7 +191,7 @@ class Border extends ComplexAttribute
         return $points;
     }
 
-    private function getPointsForFixedLine($points, int $firstPointIndex, int|float $halfSize): array
+    private function getPointsForFixedLine(array $points, int $firstPointIndex, int|float $halfSize): array
     {
         $x1 = $points[$firstPointIndex][0];
         $y1 = $points[$firstPointIndex][1];

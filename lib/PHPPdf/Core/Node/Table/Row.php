@@ -36,7 +36,7 @@ class Row extends Container implements Listener
         $this->setAttribute('breakable', false);
     }
 
-    public function add(Node $node)
+    public function add(Node $node): static
     {
         if(!$node instanceof Cell)
         {

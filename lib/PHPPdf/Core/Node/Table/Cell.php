@@ -103,7 +103,7 @@ class Cell extends Container
         $this->numberOfColumn = (int) $column;
     }
 
-    public function getNumberOfColumn()
+    public function getNumberOfColumn(): ?int
     {
         return $this->numberOfColumn;
     }

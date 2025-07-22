@@ -30,12 +30,12 @@ class Rectangle
         $this->box = $box;
     }
 
-    public function getStartingPoint()
+    public function getStartingPoint(): \Imagine\Image\PointInterface
     {
         return $this->point;
     }
 
-    public function getSize()
+    public function getSize(): \Imagine\Image\BoxInterface
     {
         return $this->box;
     }

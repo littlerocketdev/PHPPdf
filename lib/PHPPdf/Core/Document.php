@@ -129,7 +129,7 @@ class Document extends AbstractStringFilterContainer implements Engine
     /**
      * @return PHPPdf\Font\Registry
      */
-    public function getFontRegistry()
+    public function getFontRegistry(): \PHPPdf\Core\FontRegistry
     {
         if($this->fontRegistry === null)
         {
@@ -203,7 +203,7 @@ class Document extends AbstractStringFilterContainer implements Engine
         $this->drawingTasksQueue->insert($callable, $priority);
     }
 
-    public function isProcessed()
+    public function isProcessed(): bool
     {
         return $this->processed;
     }

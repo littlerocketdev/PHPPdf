@@ -108,7 +108,7 @@ class Paragraph extends Container
         $this->lines[] = $line;
     }
     
-    public function getLines()
+    public function getLines(): array
     {
         return $this->lines;
     }
@@ -235,7 +235,7 @@ class Paragraph extends Container
         return $copy;
     }
     
-    public function getMinWidth()
+    public function getMinWidth(): float|int|array
     {
         $minWidth = 0;
         
@@ -259,7 +259,7 @@ class Paragraph extends Container
         parent::flush();
     }
     
-    public function resize($x, $y)
+    public function resize($x, $y): void
     {
     }
 }

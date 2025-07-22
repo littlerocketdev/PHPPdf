@@ -64,7 +64,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
         $this->tag = (string) $tag;
     }
 
-    public function getTag()
+    public function getTag(): string
     {
         return $this->tag;
     }
@@ -94,7 +94,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
     /**
      * @return array All constraints
      */
-    public function getConstraints()
+    public function getConstraints(): array
     {
         return $this->constraints;
     }
@@ -203,7 +203,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
         return $matchingIndex;
     }
 
-    protected function getDataToSerialize()
+    protected function getDataToSerialize(): array
     {
         $data = parent::getDataToSerialize();
 
@@ -231,7 +231,7 @@ class StylesheetConstraint extends BagContainer implements \Countable
         }
     }
     
-    public static function merge(array $containers)
+    public static function merge(array $containers): static
     {
         $internalConstraints = array();
         foreach($containers as $constraint)

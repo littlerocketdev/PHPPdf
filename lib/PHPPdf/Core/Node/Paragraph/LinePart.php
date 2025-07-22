@@ -50,7 +50,7 @@ class LinePart implements Drawable
         $this->numberOfWords = null;
     }
     
-    public function getNumberOfWords()
+    public function getNumberOfWords(): int
     {
         if($this->numberOfWords === null)
         {
@@ -175,7 +175,7 @@ class LinePart implements Drawable
         return $this->text->getLineHeightRecursively();
     }
     
-    public function getText()
+    public function getText(): \PHPPdf\Core\Node\Text|array
     {
         return $this->text;
     }

@@ -65,12 +65,12 @@ class Line
         return $this->xTranslation;
     }
     
-    public function getParts()
+    public function getParts(): array
     {
         return $this->parts;
     }
     
-    public function setParagraph($paragraph): void
+    public function setParagraph(\PHPPdf\Core\Node\Paragraph $paragraph): void
     {
         $this->paragraph = $paragraph;
     }

@@ -22,7 +22,7 @@ class StringDataSource extends DataSource
         $this->content = (string) $content;
     }
 
-    public function read()
+    public function read(): string
     {
         return $this->content;
     }

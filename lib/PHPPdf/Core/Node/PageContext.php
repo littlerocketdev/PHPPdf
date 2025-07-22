@@ -27,7 +27,7 @@ class PageContext
     /**
      * @return integer Number of current page
      */
-    public function getPageNumber()
+    public function getPageNumber(): int
     {
         return $this->pageNumber;
     }

@@ -362,12 +362,12 @@ class Page extends Container
         return (parent::getWidth() - $horizontalMargins);
     }
 
-    public function getMaxHeight()
+    public function getMaxHeight(): float|int
     {
         return $this->getHeight();
     }
 
-    public function getMaxWidth()
+    public function getMaxWidth(): float|int
     {
         return $this->getWidth();
     }

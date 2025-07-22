@@ -82,7 +82,7 @@ class VerticalAlignFormatter extends BaseFormatter
         return $difference;
     }
     
-    private function verticalTranslateOfNodes(array $nodes, $verticalTranslation): void
+    private function verticalTranslateOfNodes(array $nodes, float|int $verticalTranslation): void
     {
         foreach($nodes as $node)
         {

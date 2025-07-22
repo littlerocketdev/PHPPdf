@@ -138,7 +138,7 @@ abstract class PageText extends Text implements Runtime
         return $copy;
     }
     
-    public function mergeComplexAttributes($name, array $parameters = array())
+    public function mergeComplexAttributes($name, array $parameters = array()): void
     {
     }
 

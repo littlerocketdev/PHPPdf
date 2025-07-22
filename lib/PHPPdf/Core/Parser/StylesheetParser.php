@@ -56,7 +56,7 @@ class StylesheetParser extends XmlParser
     /**
      * @return StylesheetConstraint
      */
-    protected function createRoot()
+    protected function createRoot(): \PHPPdf\Core\Parser\StylesheetConstraint
     {
         return ($this->root ? $this->root : new StylesheetConstraint());
     }

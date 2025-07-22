@@ -86,7 +86,7 @@ class Font extends AbstractFont
     /**
      * @return list<mixed>
      */
-    private function convertTextToChars($text): array
+    private function convertTextToChars(array $text): array
     {
         $length = strlen($text);
         $chars = array();

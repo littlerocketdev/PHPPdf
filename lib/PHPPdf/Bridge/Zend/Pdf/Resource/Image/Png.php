@@ -24,7 +24,7 @@ use LaminasPdf\Resource\Image\AbstractImage;
  */
 class Png extends BasePng
 {
-    private $stream;
+    private \PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream|bool|null $stream = null;
     
     const PREDICATOR = 10;
     

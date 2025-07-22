@@ -36,7 +36,7 @@ final class Point implements \ArrayAccess
      * 
      * @return Point
      */
-    public static function getInstance($x, $y)
+    public static function getInstance($x, $y): self
     {
         if($x === 0 && $y === 0)
         {
@@ -74,7 +74,7 @@ final class Point implements \ArrayAccess
      * 
      * @return integer Positive number if y coord of owner is greater, 0 if values are equal or negative integer if owner is less
      */
-    public function compareYCoord(Point $point, $precision = 1000)
+    public function compareYCoord(Point $point, $precision = 1000): int
     {
         return $this->compare($this->y, $point->y, $precision);
     }
@@ -114,7 +114,7 @@ final class Point implements \ArrayAccess
      * 
      * @return integer Positive number if x coord of owner is greater, 0 if values are equal or negative integer if owner is less
      */
-    public function compareXCoord(Point $point, $precision = 1000)
+    public function compareXCoord(Point $point, $precision = 1000): int
     {
         return $this->compare($this->x, $point->x, $precision);
     }

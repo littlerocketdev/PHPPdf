@@ -24,8 +24,8 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
     private int $numberOfPoints = 0;
     private bool $closed = false;
     private int $current = 0;
-    private $diagonalPointXIndex = null;
-    private $diagonalPointYIndex = null;
+    private ?int $diagonalPointXIndex = null;
+    private ?int $diagonalPointYIndex = null;
 
     /**
      * Add next point to boundary
@@ -309,7 +309,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
         $this->diagonalPointYIndex = null;
     }
 
-    public function isClosed()
+    public function isClosed(): bool
     {
         return $this->closed;
     }

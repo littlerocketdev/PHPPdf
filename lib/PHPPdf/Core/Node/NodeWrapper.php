@@ -22,7 +22,7 @@ final class NodeWrapper implements NodeAware
         $this->node = $node;
     }
     
-    public function getNode()
+    public function getNode(): ?\PHPPdf\Core\Node\Node
     {
         return $this->node;
     }
