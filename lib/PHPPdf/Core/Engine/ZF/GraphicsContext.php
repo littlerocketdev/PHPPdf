@@ -55,9 +55,6 @@ class GraphicsContext extends AbstractGraphicsContext
     
     private \PHPPdf\Core\Engine\ZF\Engine $engine;
 
-    /**
-     * @var ZendPdf\Page
-     */
     private $page;
     
     private $width;
@@ -147,7 +144,7 @@ class GraphicsContext extends AbstractGraphicsContext
         
         if(!$colorData instanceof ZendColor)
         {
-            throw new InvalidArgumentException('Wrong color value, expected string or object of ZendPdf\Color\Html class.');
+            throw new InvalidArgumentException('Wrong color value, expected string or object of type ' . ZendColor::class);
         }
         
         return $colorData;

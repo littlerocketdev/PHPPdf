@@ -109,8 +109,6 @@ class Image implements BaseImage
     
     /**
      * @internal Public method within PHPPdf\Core\Engine\ZF namespace
-     * 
-     * @return ZendPdf\Resource\Image
      */
     public function getWrappedImage()
     {

@@ -23,8 +23,6 @@ class Font extends AbstractFont
     
     /**
      * @internal Public method within PHPPdf\Core\Engine\ZF namespace
-     * 
-     * @return ZendPdf\Resource\Font
      */
     public function getCurrentWrappedFont()
     {
@@ -64,7 +62,7 @@ class Font extends AbstractFont
     
     private static function retrieveFontName($name): mixed
     {
-        $const = sprintf('ZendPdf\Font::FONT_%s', str_replace('-', '_', strtoupper($name)));
+        $const = sprintf('LaminasPdf\Font::FONT_%s', str_replace('-', '_', strtoupper($name)));
 
         if(!defined($const))
         {
