@@ -34,12 +34,12 @@ class LoaderImpl implements Loader
     
     private $complexAttributeFactory;
     private $nodeFactory;
-    private $fontRegistries = array();
+    private array $fontRegistries = array();
     private $colorPalette;
     
-    private $unitConverter;
+    private ?\PHPPdf\Core\UnitConverter $unitConverter = null;
     
-    private $cache;
+    private \PHPPdf\Cache\Cache $cache;
     
     public function __construct($nodeFile = null, $complexAttributeFile = null, $fontFiles = null, $colorFile = null)
     {
@@ -74,17 +74,17 @@ class LoaderImpl implements Loader
         $this->setCache(NullCache::getInstance());
     }
     
-    public function setNodeFile($nodeFile)
+    public function setNodeFile($nodeFile): void
 	{
 		$this->nodeFile = $nodeFile;
 	}
 
-	public function setComplexAttributeFile($complexAttributeFile)
+	public function setComplexAttributeFile($complexAttributeFile): void
 	{
 		$this->complexAttributeFile = $complexAttributeFile;
 	}
 
-	public function setFontFile($fontFile)
+	public function setFontFile($fontFile): void
 	{
     	if(is_string($fontFile))
         {
@@ -97,17 +97,17 @@ class LoaderImpl implements Loader
 		$this->fontFiles = $fontFile;
 	}
 
-	public function setColorFile($colorFile)
+	public function setColorFile($colorFile): void
 	{
 		$this->colorFile = $colorFile;
 	}
 
-	public function setUnitConverter(UnitConverter $unitConverter)
+	public function setUnitConverter(UnitConverter $unitConverter): void
     {
         $this->unitConverter = $unitConverter;
     }
 
-    public function setCache(Cache $cache)
+    public function setCache(Cache $cache): void
     {
         $this->cache = $cache;
     }
@@ -192,7 +192,7 @@ class LoaderImpl implements Loader
         return $result;
     }
 
-    private function getCacheId($file)
+    private function getCacheId($file): string
     {
         return str_replace('-', '_', (string) crc32($file));
     }

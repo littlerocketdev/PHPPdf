@@ -18,12 +18,12 @@ use PHPPdf\Core\Exception\UnregisteredNodeException;
  */
 class NodeFactory implements \Serializable
 {
-    private $prototypes = array();
-    private $invocationsMethodsOnCreate = array();
+    private array $prototypes = array();
+    private array $invocationsMethodsOnCreate = array();
     private $invokeArgs = array();
     private $aliases = array();
 
-    public function addPrototype($name, Node $node, array $invocationsMethodsOnCreate = array(), array $aliases = array())
+    public function addPrototype($name, Node $node, array $invocationsMethodsOnCreate = array(), array $aliases = array()): void
     {
         $name = (string) $name;
 
@@ -36,7 +36,7 @@ class NodeFactory implements \Serializable
         }
     }
     
-    public function addAliases($name, array $aliases)
+    public function addAliases($name, array $aliases): void
     {
         if(!isset($this->prototypes[$name]))
         {
@@ -49,7 +49,7 @@ class NodeFactory implements \Serializable
         }
     }
     
-    public function addPrototypes(array $prototypes)
+    public function addPrototypes(array $prototypes): void
     {
         foreach($prototypes as $name => $node)
         {
@@ -66,7 +66,7 @@ class NodeFactory implements \Serializable
      * @param string $invocationMethodName Name of setter method
      * @param string $invocationMethodArgId Argument id, {@see addInvokeArg()}
      */
-    public function addInvocationsMethodsOnCreate($name, $invocationMethodName, $invocationMethodArgId)
+    public function addInvocationsMethodsOnCreate($name, $invocationMethodName, $invocationMethodArgId): void
     {
         $this->invocationsMethodsOnCreate[$name][$invocationMethodName] = $invocationMethodArgId;
     }
@@ -77,7 +77,7 @@ class NodeFactory implements \Serializable
      * @param string $tag Tag of argument
      * @param mixed $value Value of argument
      */
-    public function addInvokeArg($tag, $value)
+    public function addInvokeArg($tag, $value): void
     {
         $this->invokeArgs[$tag] = $value;
     }
@@ -87,7 +87,7 @@ class NodeFactory implements \Serializable
         return $this->invokeArgs;
     }
     
-    public function invocationsMethodsOnCreate()
+    public function invocationsMethodsOnCreate(): array
     {
         return $this->invocationsMethodsOnCreate;
     }
@@ -152,7 +152,7 @@ class NodeFactory implements \Serializable
         return $this->resolveName($this->aliases[$name]);
     }
 
-    public function hasPrototype($name)
+    public function hasPrototype($name): bool
     {
         $name = (string) $name;
 
@@ -169,7 +169,7 @@ class NodeFactory implements \Serializable
         ));
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $data = unserialize($serialized);
         

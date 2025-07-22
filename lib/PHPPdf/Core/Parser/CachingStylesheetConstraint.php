@@ -18,8 +18,8 @@ use PHPPdf\Cache\Cache;
 class CachingStylesheetConstraint extends StylesheetConstraint
 {
     private $resultMap = array();
-    private $resultMapModified = false;
-    private $cacheId = '';
+    private bool $resultMapModified = false;
+    private string $cacheId = '';
 
     public function find(array $query)
     {
@@ -39,7 +39,7 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         return $bag;
     }
 
-    private function transformQueryToString(array $query)
+    private function transformQueryToString(array $query): string
     {
         $queryParts = array();
         foreach($query as $queryElement)
@@ -53,17 +53,17 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         return implode(' ', $queryParts);
     }
 
-    private function setResultMapModified($flag)
+    private function setResultMapModified(bool $flag): void
     {
         $this->resultMapModified = (bool) $flag;
     }
 
-    public function isResultMapModified()
+    public function isResultMapModified(): bool
     {
         return $this->resultMapModified;
     }
 
-    protected function getDataToSerialize()
+    protected function getDataToSerialize(): array
     {
         $data = parent::getDataToSerialize();
 
@@ -73,7 +73,7 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         return $data;
     }
 
-    protected function restoreDataAfterUnserialize($data)
+    protected function restoreDataAfterUnserialize(array $data)
     {
         parent::restoreDataAfterUnserialize($data);
 
@@ -81,17 +81,17 @@ class CachingStylesheetConstraint extends StylesheetConstraint
         $this->setCacheId($data['cacheId']);
     }
 
-    public function setCacheId($id)
+    public function setCacheId($id): void
     {
         $this->cacheId = (string) $id;
     }
 
-    public function getCacheId()
+    public function getCacheId(): string
     {
         return $this->cacheId;
     }
     
-    public static function merge(array $containers)
+    public static function merge(array $containers): static
     {
         $resultContainer = parent::merge($containers);
         

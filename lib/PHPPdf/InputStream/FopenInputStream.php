@@ -29,7 +29,7 @@ class FopenInputStream implements InputStream
         }
     }
 
-    public function seek($index, $mode = self::SEEK_CUR)
+    public function seek($index, $mode = self::SEEK_CUR): int
     {
         $realMode = null;
         
@@ -49,22 +49,22 @@ class FopenInputStream implements InputStream
         return fseek($this->fp, $index, $realMode);
     }
     
-    public function read($length)
+    public function read($length): string|false
     {
         return fread($this->fp, $length);
     }
     
-    public function close()
+    public function close(): void
     {
         fclose($this->fp);
     }
     
-    public function tell()
+    public function tell(): int|false
     {
         return ftell($this->fp);
     }
     
-    public function size()
+    public function size(): int
     {
         $fileStats = fstat($this->fp);
         return $fileStats['size'];

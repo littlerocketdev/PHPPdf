@@ -18,7 +18,7 @@ use PHPPdf\Core\Node\Node,
  */
 class TableFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $widthsOfColumns = $node->getWidthsOfColumns();
         $tableWidth = $node->getWidthWithoutPaddings();

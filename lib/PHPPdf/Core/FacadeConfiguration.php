@@ -15,7 +15,7 @@ namespace PHPPdf\Core;
  */
 class FacadeConfiguration
 {
-    private $configFiles = array();
+    private array $configFiles;
 
     public function __construct()
     {
@@ -31,7 +31,7 @@ class FacadeConfiguration
      * 
      * @return FacadeConfiguration
      */
-    public static function newInstance()
+    public static function newInstance(): self
     {
         return new self();
     }
@@ -42,7 +42,7 @@ class FacadeConfiguration
      * @param string $file
      * @return FacadeConfiguration
      */
-    public function setNodesConfigFile($file)
+    public function setNodesConfigFile($file): static
     {
         $this->configFiles['node'] = $file;
 
@@ -60,7 +60,7 @@ class FacadeConfiguration
      * @param string $file
      * @return FacadeConfiguration
      */
-    public function setComplexAttributesConfigFile($file)
+    public function setComplexAttributesConfigFile($file): static
     {
         $this->configFiles['complex-attribute'] = $file;
 
@@ -78,7 +78,7 @@ class FacadeConfiguration
      * @param string $file
      * @return FacadeConfiguration
      */
-    public function setFontsConfigFile($file)
+    public function setFontsConfigFile($file): static
     {
         $this->configFiles['font'] = $file;
 

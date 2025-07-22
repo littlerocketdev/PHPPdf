@@ -23,10 +23,10 @@ use PHPPdf\Core\ComplexAttribute\Exception\DefinitionNotFoundException;
 class ComplexAttributeFactory implements \Serializable
 {
     private $definitions = array();
-    private $constructors = array();
-    private $classes = array();
-    private $constructorParameters = array();
-    private $instances = array();
+    private array $constructors = array();
+    private array $classes = array();
+    private array $constructorParameters = array();
+    private array $instances = array();
     
     public function __construct(array $definitions = array())
     {
@@ -36,17 +36,20 @@ class ComplexAttributeFactory implements \Serializable
         }
     }
 
-    public function addDefinition($name, $className)
+    public function addDefinition($name, $className): void
     {
         $this->definitions[$name] = $className;
     }
 
-    public function hasDefinition($name)
+    public function hasDefinition($name): bool
     {
         return isset($this->definitions[$name]);
     }
 
-    public function getParameters($name)
+    /**
+     * @return list
+     */
+    public function getParameters($name): array
     {
         $parameters = $this->getConstructorParameters($name);
 
@@ -133,12 +136,12 @@ class ComplexAttributeFactory implements \Serializable
         return $this->instances[$key];
     }
     
-    private function getInstanceKey($name, array $parameters)
+    private function getInstanceKey(string $name, array $parameters): string
     {
         return md5($name.serialize($parameters));
     }
     
-    private function createInstance($name, array $parameters)
+    private function createInstance($name, array $parameters): object
     {
         $args = array();
         $constructor = $this->getConstructor($name);
@@ -201,7 +204,7 @@ class ComplexAttributeFactory implements \Serializable
         return $names;
     }
     
-    private function uncamelizeParameterName($name)
+    private function uncamelizeParameterName(string $name): string
     {
         $name = ucfirst($name);
         $matches = array();
@@ -216,7 +219,7 @@ class ComplexAttributeFactory implements \Serializable
         return implode('-', $parts);
     }
     
-    private function existsAtLeastOneKey(array $keys, array $array)
+    private function existsAtLeastOneKey(array $keys, array $array): bool
     {
         foreach($keys as $key)
         {
@@ -249,7 +252,7 @@ class ComplexAttributeFactory implements \Serializable
         return serialize($this->definitions);
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $definitions = \unserialize($serialized);
 

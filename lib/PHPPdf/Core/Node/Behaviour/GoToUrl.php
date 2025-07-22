@@ -16,7 +16,7 @@ use PHPPdf\Core\Node\Node,
  */
 class GoToUrl extends Behaviour
 {
-    private $uri;
+    private string $uri;
     
     public function __construct($uri)
     {

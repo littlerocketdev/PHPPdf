@@ -25,7 +25,7 @@ class AttributeBag implements \Countable, \Serializable
         }
     }
 
-    public function add($name, $value)
+    public function add($name, $value): static
     {
         $name = (string) $name;
 
@@ -54,7 +54,7 @@ class AttributeBag implements \Countable, \Serializable
         return $this->elements;
     }
 
-    public function has($name)
+    public function has($name): bool
     {
         return isset($this->elements[$name]);
     }
@@ -68,7 +68,7 @@ class AttributeBag implements \Countable, \Serializable
      * @param array $bags Array of Bag objects
      * @return Bag Single Bag object contains merged data
      */
-    public static function merge(array $bags)
+    public static function merge(array $bags): static
     {
         $mergedBag = new static();
 
@@ -88,7 +88,7 @@ class AttributeBag implements \Countable, \Serializable
         return serialize($this->elements);
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $this->elements = \unserialize($serialized);
     }

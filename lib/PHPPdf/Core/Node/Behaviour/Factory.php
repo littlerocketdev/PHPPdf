@@ -16,9 +16,9 @@ use PHPPdf\Core\Node\Manager;
  */
 class Factory
 {
-    private $nodeManager;
+    private ?\PHPPdf\Core\Node\Manager $nodeManager = null;
     
-    public function setNodeManager(Manager $manager)
+    public function setNodeManager(Manager $manager): void
     {
         $this->nodeManager = $manager;
     }
@@ -51,7 +51,7 @@ class Factory
         }
     }
 
-    public function getSupportedBehaviourNames()
+    public function getSupportedBehaviourNames(): array
     {
         return array('href', 'ref', 'bookmark', 'note');
     }

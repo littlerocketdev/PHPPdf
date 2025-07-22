@@ -33,14 +33,14 @@ use PHPPdf\Core\Parser\NodeFactoryParser;
  */
 class Facade extends AbstractStringFilterContainer
 {
-    private $documentParser;
-    private $stylesheetParser;
-    private $document;
-    private $cache;
-    private $loaded = false;
-    private $useCacheForStylesheetConstraint = false;
-    private $configurationLoader;
-    private $colorPaletteParser;
+    private \PHPPdf\Core\Parser\DocumentParser $documentParser;
+    private \PHPPdf\Core\Parser\StylesheetParser $stylesheetParser;
+    private \PHPPdf\Core\Document $document;
+    private \PHPPdf\Cache\Cache $cache;
+    private bool $loaded = false;
+    private bool $useCacheForStylesheetConstraint = false;
+    private \PHPPdf\Core\Configuration\Loader $configurationLoader;
+    private \PHPPdf\Parser\Parser|\PHPPdf\Core\Parser\ColorPaletteParser|null $colorPaletteParser = null;
     private $engineType = 'pdf';
 
     public function __construct(Loader $configurationLoader, Document $document, DocumentParser $documentParser, StylesheetParser $stylesheetParser)
@@ -60,12 +60,12 @@ class Facade extends AbstractStringFilterContainer
         $this->setDocument($document);
     }
     
-    public function setEngineType($engineType)
+    public function setEngineType($engineType): void
 	{
 		$this->engineType = $engineType;
 	}
 
-	public function setCache(Cache $cache)
+	public function setCache(Cache $cache): void
     {
         $this->cache = $cache;
     }
@@ -73,32 +73,32 @@ class Facade extends AbstractStringFilterContainer
     /**
      * @return DocumentParser
      */
-    public function getDocumentParser()
+    public function getDocumentParser(): \PHPPdf\Core\Parser\DocumentParser
     {
         return $this->documentParser;
     }
 
-    public function getStylesheetParser()
+    public function getStylesheetParser(): \PHPPdf\Core\Parser\StylesheetParser
     {
         return $this->stylesheetParser;
     }
 
-    public function setDocumentParser(DocumentParser $documentParser)
+    public function setDocumentParser(DocumentParser $documentParser): void
     {
         $this->documentParser = $documentParser;
     }
 
-    public function setStylesheetParser(StylesheetParser $stylesheetParser)
+    public function setStylesheetParser(StylesheetParser $stylesheetParser): void
     {
         $this->stylesheetParser = $stylesheetParser;
     }
     
-    public function setColorPaletteParser(Parser $colorPaletteParser)
+    public function setColorPaletteParser(Parser $colorPaletteParser): void
 	{
 		$this->colorPaletteParser = $colorPaletteParser;
 	}
 	
-	protected function getColorPaletteParser()
+	protected function getColorPaletteParser(): \PHPPdf\Parser\Parser
 	{
 	    if(!$this->colorPaletteParser)
 	    {
@@ -113,17 +113,17 @@ class Facade extends AbstractStringFilterContainer
      * 
      * @return PHPPdf\Core\Document
      */
-    public function getDocument()
+    public function getDocument(): \PHPPdf\Core\Document
     {
         return $this->document;
     }
 
-    private function setDocument(Document $document)
+    private function setDocument(Document $document): void
     {
         $this->document = $document;
     }
 
-    private function setFacadeConfiguration(FacadeConfiguration $facadeConfiguration)
+    private function setFacadeConfiguration(FacadeConfiguration $facadeConfiguration): void
     {
         $this->facadeConfiguration = $facadeConfiguration;
     }
@@ -131,7 +131,7 @@ class Facade extends AbstractStringFilterContainer
     /**
      * @param boolean $useCache Stylsheet constraints should be cached?
      */
-    public function setUseCacheForStylesheetConstraint($useCache)
+    public function setUseCacheForStylesheetConstraint($useCache): void
     {
         $this->useCacheForStylesheetConstraint = (bool) $useCache;
     }
@@ -292,7 +292,7 @@ class Facade extends AbstractStringFilterContainer
         return $stylesheetConstraint;
     }
 
-    private function updateStylesheetConstraintCacheIfNecessary(StylesheetConstraint $constraint = null)
+    private function updateStylesheetConstraintCacheIfNecessary(StylesheetConstraint $constraint = null): void
     {
         if($constraint && $this->useCacheForStylesheetConstraint && $constraint->isResultMapModified())
         {

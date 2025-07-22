@@ -21,8 +21,8 @@ use PHPPdf\Core\Node\Text,
  */
 abstract class PageText extends Text implements Runtime
 {
-    private $evaluated = false;
-    private $page = null;
+    private bool $evaluated = false;
+    private ?\PHPPdf\Core\Node\Page $page = null;
 
     public function  __construct(array $attributes = array(), UnitConverter $converter = null)
     {
@@ -39,7 +39,7 @@ abstract class PageText extends Text implements Runtime
         static::addAttribute('offset', 0);
     }
     
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -52,7 +52,7 @@ abstract class PageText extends Text implements Runtime
         $this->setAttribute('dummy-text', sprintf($this->getAttribute('format'), $dummy));
     }
 
-    public function setFormat($format)
+    public function setFormat($format): void
     {
         $format = (string) $format;
 
@@ -61,7 +61,7 @@ abstract class PageText extends Text implements Runtime
         $this->refreshDummyText();
     }
 
-    public function setDummyNumber($dummy)
+    public function setDummyNumber($dummy): void
     {
         $dummy = (string) $dummy;
         $this->setAttributeDirectly('dummy-number', $dummy);
@@ -69,7 +69,7 @@ abstract class PageText extends Text implements Runtime
         $this->refreshDummyText();
     }
 
-    public function setDummyText($text)
+    public function setDummyText($text): void
     {
         $text = (string) $text;
 
@@ -98,7 +98,7 @@ abstract class PageText extends Text implements Runtime
         }
     }
 
-    public function evaluate()
+    public function evaluate(): void
     {
         $text = $this->getTextAfterEvaluating();
 
@@ -138,7 +138,7 @@ abstract class PageText extends Text implements Runtime
         return $copy;
     }
     
-    public function mergeComplexAttributes($name, array $parameters = array())
+    public function mergeComplexAttributes($name, array $parameters = array()): void
     {
     }
 
@@ -152,7 +152,7 @@ abstract class PageText extends Text implements Runtime
         return parent::getPage();
     }
 
-    public function setPage(Page $page)
+    public function setPage(Page $page): void
     {
         $this->page = $page;
     }

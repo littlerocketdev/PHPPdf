@@ -24,7 +24,7 @@ class ComplexAttributeFactoryParser extends XmlParser
     const ROOT_TAG = 'complex-attributes';
     const COMPLEX_ATTRIBUTE_TAG = 'complex-attribute';
 
-    protected function createRoot()
+    protected function createRoot(): \PHPPdf\Core\ComplexAttribute\ComplexAttributeFactory
     {
         return new ComplexAttributeFactory();
     }

@@ -38,7 +38,7 @@ class BasicList extends Container
     const LIST_POSITION_OUTSIDE = 'outside';
     
     private $enumerationStrategy;
-    private $omitEnumerationOfFirstElement = false;
+    private bool $omitEnumerationOfFirstElement = false;
 
     protected static function setDefaultAttributes()
     {
@@ -60,7 +60,7 @@ class BasicList extends Container
     /**
      * @internal
      */
-    public function isOmitEnumerationOfFirstElement()
+    public function isOmitEnumerationOfFirstElement(): bool
     {
         return $this->omitEnumerationOfFirstElement;
     }
@@ -68,7 +68,7 @@ class BasicList extends Container
     /**
      * @internal
      */
-    public function setOmitEnumerationOfFirstElement($flag)
+    public function setOmitEnumerationOfFirstElement($flag): void
     {
         $this->omitEnumerationOfFirstElement = (boolean) $flag;
     }
@@ -80,7 +80,7 @@ class BasicList extends Container
      * 
      * @param string List type
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $const = sprintf('%s::TYPE_%s', __CLASS__, strtoupper($type));
         
@@ -99,7 +99,7 @@ class BasicList extends Container
         return $this->getAttributeDirectly('type');
     }
     
-    public function setImage($image)
+    public function setImage($image): void
     {        
         $this->setAttributeDirectly('image', $image);
     }
@@ -124,7 +124,7 @@ class BasicList extends Container
     {
         parent::doDraw($document, $tasks);
         
-        $tasks->insert(new DrawingTask(function(Node $node, Document $document) {
+        $tasks->insert(new DrawingTask(function(Node $node, Document $document): void {
             $gc = $node->getGraphicsContext();
 
             $enumerationStrategy = $node->getEnumerationStrategy();
@@ -160,17 +160,17 @@ class BasicList extends Container
         return $this->enumerationStrategy;
     }
     
-    public function assignEnumerationStrategyFromFactory()
+    public function assignEnumerationStrategyFromFactory(): void
     {
         $this->enumerationStrategy = $this->enumerationStrategyFactory->create($this->getAttribute('type'));
     }
     
-    public function setEnumerationStrategyFactory(EnumerationStrategyFactory $factory)
+    public function setEnumerationStrategyFactory(EnumerationStrategyFactory $factory): void
     {
         $this->enumerationStrategyFactory = $factory;
     }
     
-    public function setEnumerationStrategy(EnumerationStrategy $enumerationStrategy)
+    public function setEnumerationStrategy(EnumerationStrategy $enumerationStrategy): void
     {
         $this->enumerationStrategy = $enumerationStrategy;
     }

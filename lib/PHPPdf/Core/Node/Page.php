@@ -117,7 +117,7 @@ class Page extends Container
         static::addAttribute('document-template');
     }
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -130,7 +130,7 @@ class Page extends Container
         static::setAttributeSetters(array('page-size' => 'setPageSize'));
     }
 
-    private function initializeBoundary()
+    private function initializeBoundary(): void
     {
         $width = $this->getRealWidth();
         $height = $this->getRealHeight();
@@ -154,14 +154,14 @@ class Page extends Container
         }
     }
 
-    private function initializePlaceholders()
+    private function initializePlaceholders(): void
     {
         $this->setFooter(new Container(array('height' => 0)));
         $this->setHeader(new Container(array('height' => 0)));
         $this->setWatermark(new Container(array('height' => 0)));
     }
 
-    public function setPageSize($param1, $param2 = null)
+    public function setPageSize($param1, $param2 = null): static
     {
         if($param2 === null)
         {
@@ -216,7 +216,7 @@ class Page extends Container
         }
     }
 
-    public function setWidth($width)
+    public function setWidth($width): void
     {
         parent::setWidth($width);
 
@@ -225,7 +225,7 @@ class Page extends Container
         $this->setPageSize($width, $height);
     }
 
-    public function setHeight($height)
+    public function setHeight($height): void
     {
         parent::setHeight($height);
 
@@ -254,7 +254,7 @@ class Page extends Container
         parent::doDraw($document, $tasks);
     }
 
-    public function collectPostDrawingTasks(Document $document, DrawingTaskHeap $tasks)
+    public function collectPostDrawingTasks(Document $document, DrawingTaskHeap $tasks): void
     {
         foreach($this->runtimeNodes as $node)
         {
@@ -263,12 +263,12 @@ class Page extends Container
         }
     }
 
-    private function prepareGraphicsContext(Document $document)
+    private function prepareGraphicsContext(Document $document): void
     {
         $this->assignGraphicsContextIfIsNull($document);
     }
 
-    private function assignGraphicsContextIfIsNull(Document $document)
+    private function assignGraphicsContextIfIsNull(Document $document): void
     {
         if($this->graphicsContext === null)
         {
@@ -290,7 +290,7 @@ class Page extends Container
         return $this->graphicsContext;
     }
 
-    private function setGraphicsContextDefaultStyle(Document $document)
+    private function setGraphicsContextDefaultStyle(Document $document): void
     {
         $font = $this->getFont($document);
         if($font && $this->getAttribute('font-size'))
@@ -303,17 +303,17 @@ class Page extends Container
         $this->graphicsContext->setLineColor($blackColor);
     }
 
-    public function getPage()
+    public function getPage(): static
     {
         return $this;
     }
 
-    public function getParent()
+    public function getParent(): null
     {
         return null;
     }
 
-    public function breakAt($height)
+    public function breakAt($height): never
     {
         throw new LogicException('Page can\'t be broken.');
     }
@@ -345,7 +345,7 @@ class Page extends Container
     /**
      * @return int Height without vertical margins
      */
-    public function getHeight()
+    public function getHeight(): float|int
     {
         $verticalMargins = $this->getMarginTop() + $this->getMarginBottom();
 
@@ -355,29 +355,29 @@ class Page extends Container
     /**
      * @return int Width without horizontal margins
      */
-    public function getWidth()
+    public function getWidth(): float|int
     {
         $horizontalMargins = $this->getMarginLeft() + $this->getMarginRight();
 
         return (parent::getWidth() - $horizontalMargins);
     }
 
-    public function getMaxHeight()
+    public function getMaxHeight(): float|int
     {
         return $this->getHeight();
     }
 
-    public function getMaxWidth()
+    public function getMaxWidth(): float|int
     {
         return $this->getWidth();
     }
 
-    public function setMaxHeight($height)
+    public function setMaxHeight($height): never
     {
         throw new InvalidAttributeException('max-height');
     }
 
-    public function setMaxWidth($width)
+    public function setMaxWidth($width): never
     {
         throw new InvalidAttributeException('max-width');
     }
@@ -410,7 +410,7 @@ class Page extends Container
         return $boundary;
     }
 
-    protected function setMarginAttribute($name, $value)
+    protected function setMarginAttribute($name, $value): static
     {
         $value = $this->convertUnit($value);
 
@@ -423,7 +423,7 @@ class Page extends Container
         return $this;
     }
 
-    private function translateMargin($name, $value)
+    private function translateMargin($name, $value): void
     {
         $boundary = $this->getBoundary();
         $x = $y = 0;
@@ -457,7 +457,7 @@ class Page extends Container
         }
     }
 
-    public function setFooter(Container $footer)
+    public function setFooter(Container $footer): void
     {
         $this->throwExceptionIfHeightIsntSet($footer);
         $footer->setAttribute('static-size', true);
@@ -478,7 +478,7 @@ class Page extends Container
         $this->footer = $footer;
     }
 
-    private function throwExceptionIfHeightIsntSet(Container $contaienr)
+    private function throwExceptionIfHeightIsntSet(Container $contaienr): void
     {
         $height = $contaienr->getHeight();
 
@@ -488,7 +488,7 @@ class Page extends Container
         }
     }
 
-    public function setHeader(Container $header)
+    public function setHeader(Container $header): void
     {
         $this->throwExceptionIfHeightIsntSet($header);
         $header->setAttribute('static-size', true);
@@ -510,7 +510,7 @@ class Page extends Container
         $this->header = $header;
     }
 
-    public function setWatermark(Container $watermark)
+    public function setWatermark(Container $watermark): void
     {
         $watermark->setParent($this);
         $watermark->setAttribute('vertical-align', self::VERTICAL_ALIGN_MIDDLE);
@@ -537,7 +537,7 @@ class Page extends Container
         return $this->watermark;
     }
 
-    public function prepareTemplate(Document $document)
+    public function prepareTemplate(Document $document): void
     {
         $this->prepareGraphicsContext($document);
 
@@ -548,7 +548,7 @@ class Page extends Container
         $this->preparedTemplate = true;
     }
 
-    private function getTemplateDrawingTasksAndFormatPlaceholders(Document $document)
+    private function getTemplateDrawingTasksAndFormatPlaceholders(Document $document): \PHPPdf\Core\DrawingTaskHeap
     {
         $this->formatConvertAttributes($document);
 
@@ -574,7 +574,7 @@ class Page extends Container
     {
     }
 
-    private function formatConvertAttributes(Document $document)
+    private function formatConvertAttributes(Document $document): void
     {
         $formatterName = 'PHPPdf\Core\Formatter\ConvertAttributesFormatter';
 
@@ -592,12 +592,12 @@ class Page extends Container
         return $this->context;
     }
 
-    public function setContext(PageContext $context)
+    public function setContext(PageContext $context): void
     {
         $this->context = $context;
     }
 
-    public function markAsRuntimeNode(Runtime $node)
+    public function markAsRuntimeNode(Runtime $node): void
     {
         $this->runtimeNodes[] = $node;
     }
@@ -631,18 +631,18 @@ class Page extends Container
         }
     }
 
-    public function hasPlaceholder($name)
+    public function hasPlaceholder($name): bool
     {
         return in_array($name, array('footer', 'header', 'watermark'));
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         parent::unserialize($serialized);
         $this->initializePlaceholders();
     }
 
-    public function setGraphicsContextFromSourceDocumentIfNecessary(Document $document)
+    public function setGraphicsContextFromSourceDocumentIfNecessary(Document $document): void
     {
         $gc = $this->getGraphicsContextFromSourceDocument($document);
 
@@ -687,7 +687,7 @@ class Page extends Container
         return null;
     }
 
-    public function flush()
+    public function flush(): void
     {
         $placeholders = array('footer', 'header', 'watermark');
         foreach($placeholders as $placeholder)
@@ -702,7 +702,7 @@ class Page extends Container
         parent::flush();
     }
 
-    public function removeGraphicsContext()
+    public function removeGraphicsContext(): void
     {
         $this->graphicsContext = null;
     }

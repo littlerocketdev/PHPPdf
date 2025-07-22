@@ -19,7 +19,7 @@ use PHPPdf\Core\Node as Nodes,
  */
 class TextResetPositionFormatter extends BaseFormatter
 {
-    public function format(Nodes\Node $node, Document $document)
+    public function format(Nodes\Node $node, Document $document): void
     {
         $boundary = $node->getBoundary();
         list($x, $y) = $node->getFirstPoint()->toArray();

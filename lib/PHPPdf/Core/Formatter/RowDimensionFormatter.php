@@ -13,7 +13,7 @@ use PHPPdf\Core\Node\Node,
 
 class RowDimensionFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $boundary = $node->getBoundary();
         $verticalMargins = $node->getMarginsBottomOfCells() + $node->getMarginsTopOfCells();

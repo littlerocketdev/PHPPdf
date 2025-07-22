@@ -28,7 +28,7 @@ class ColumnableContainer extends Container
         static::addAttribute('equals-columns', false);
     }
 
-    public function setNumberOfColumns($count)
+    public function setNumberOfColumns($count): static
     {
         $count = (int) $count;
 
@@ -57,7 +57,7 @@ class ColumnableContainer extends Container
         static::setAttributeSetters(array('equals-columns' => 'setEqualsColumns'));
     }
 
-    public function setEqualsColumns($flag)
+    public function setEqualsColumns($flag): void
     {
         $flag = Util::convertBooleanValue($flag);
         

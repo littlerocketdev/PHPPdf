@@ -17,9 +17,9 @@ use PHPPdf\Core\Node\Node,
  */
 abstract class Behaviour
 {
-    private $passive = false;
+    private bool $passive = false;
     
-    public function attach(GraphicsContext $gc, Node $node)
+    public function attach(GraphicsContext $gc, Node $node): void
     {
         if(!$this->isPassive())
         {
@@ -51,7 +51,7 @@ abstract class Behaviour
         return $this->passive;
     }
 
-    public function setPassive($flag)
+    public function setPassive($flag): void
     {
         $this->passive = (boolean) $flag;
     }

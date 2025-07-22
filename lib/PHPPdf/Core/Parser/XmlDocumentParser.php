@@ -39,28 +39,25 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     const PLACEHOLDERS_TAG = 'placeholders';
     const BEHAVIOURS_TAG = 'behaviours';
     
-    private $factory = null;
-    private $complexAttributeFactory = null;
-    private $stylesheetConstraint = null;
-    private $stylesheetParser = null;
-    private $ignoredTags = array('attribute', 'enhancement', 'complex-attribute');
-    private $tagStack = array();
-    private $innerParser = null;
-    /**
-     * @var DocumentParsingContext
-     */
-    private $context;
+    private ?\PHPPdf\Core\Node\NodeFactory $factory = null;
+    private ?\PHPPdf\Core\ComplexAttribute\ComplexAttributeFactory $complexAttributeFactory = null;
+    private ?\PHPPdf\Core\Parser\StylesheetConstraint $stylesheetConstraint = null;
+    private ?\PHPPdf\Core\Parser\StylesheetParser $stylesheetParser = null;
+    private array $ignoredTags = array('attribute', 'enhancement', 'complex-attribute');
+    private array $tagStack = array();
+    private ?\PHPPdf\Core\Parser\XmlDocumentParser $innerParser = null;
+    private \PHPPdf\Core\Parser\DocumentParsingContext $context;
     private $endTag = self::ROOT_TAG;
-    private $behaviourFactory = null;
-    private $nodeManager = null;
+    private ?\PHPPdf\Core\Node\Behaviour\Factory $behaviourFactory = null;
+    private \PHPPdf\Core\Node\Manager $nodeManager;
     
-    private $isPreviousText = false;
+    private bool $isPreviousText = false;
     
     private $currentParagraph = null;
     
-    private $document;
+    private ?\PHPPdf\Core\Document $document;
     
-    private $listeners = array();
+    private array $listeners = array();
 
     public function __construct(ComplexAttributeFactory $complexAttributeFactory, Document $document = null)
     {
@@ -78,17 +75,17 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         $this->initialize();
     }
     
-    public function setDocument(Document $document)
+    public function setDocument(Document $document): void
     {
         $this->document = $document;
     }
     
-    public function getNodeManager()
+    public function getNodeManager(): \PHPPdf\Core\Node\Manager
     {
         return $this->nodeManager;
     }
 
-    private function initialize()
+    private function initialize(): void
     {
         $stylesheetConstraint = new StylesheetConstraint();
         $this->setStylesheetConstraint($stylesheetConstraint);
@@ -101,17 +98,17 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         $this->nodeManager->clear();
     }
     
-    public function addListener(DocumentParserListener $listener)
+    public function addListener(DocumentParserListener $listener): void
     {
         $this->listeners[] = $listener;
     }
     
-    public function clearListeners()
+    public function clearListeners(): void
     {
         $this->listeners = array();
     }
 
-    protected function createReader($content)
+    protected function createReader($content): \XMLReader
     {
         $reader = new \XMLReader();
 
@@ -121,7 +118,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         return $reader;
     }
 
-    private function setEndTag($tag)
+    private function setEndTag($tag): void
     {
         $this->endTag = $tag;
     }
@@ -129,7 +126,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return XmlDocumentParser
      */
-    private function getInnerParser()
+    private function getInnerParser(): \PHPPdf\Core\Parser\XmlDocumentParser
     {
         if($this->innerParser === null)
         {
@@ -163,7 +160,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         return $pageCollection;
     }
     
-    private function fireOnEndParsing(PageCollection $root)
+    private function fireOnEndParsing(PageCollection $root): void
     {
         foreach($this->listeners as $listener)
         {
@@ -174,12 +171,12 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return PageCollection
      */
-    protected function createRoot()
+    protected function createRoot(): \PHPPdf\Core\Node\PageCollection
     {
         return new PageCollection();
     }
 
-    public function setNodeFactory(NodeFactory $factory)
+    public function setNodeFactory(NodeFactory $factory): void
     {
         $this->factory = $factory;
     }
@@ -187,12 +184,12 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return NodeFactory
      */
-    public function getNodeFactory()
+    public function getNodeFactory(): ?\PHPPdf\Core\Node\NodeFactory
     {
         return $this->factory;
     }
     
-    public function setBehaviourFactory(BehaviourFactory $factory)
+    public function setBehaviourFactory(BehaviourFactory $factory): void
     {
         $this->behaviourFactory = $factory;
         $factory->setNodeManager($this->nodeManager);
@@ -201,12 +198,12 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return ComplexAttributeFactory
      */
-    public function getComplexAttributeFactory()
+    public function getComplexAttributeFactory(): ?\PHPPdf\Core\ComplexAttribute\ComplexAttributeFactory
     {
         return $this->complexAttributeFactory;
     }
 
-    public function setComplexAttributeFactory(ComplexAttributeFactory $complexAttributeFactory)
+    public function setComplexAttributeFactory(ComplexAttributeFactory $complexAttributeFactory): void
     {
         $this->complexAttributeFactory = $complexAttributeFactory;
     }
@@ -214,7 +211,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return StylesheetConstraint
      */
-    protected function getStylesheetConstraint()
+    protected function getStylesheetConstraint(): ?\PHPPdf\Core\Parser\StylesheetConstraint
     {
         return $this->stylesheetConstraint;
     }
@@ -227,12 +224,12 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     /**
      * @return StylesheetParser
      */
-    public function getStylesheetParser()
+    public function getStylesheetParser(): ?\PHPPdf\Core\Parser\StylesheetParser
     {
         return $this->stylesheetParser;
     }
 
-    public function setStylesheetParser(StylesheetParser $stylesheetParser)
+    public function setStylesheetParser(StylesheetParser $stylesheetParser): void
     {
         $this->stylesheetParser = $stylesheetParser;
     }
@@ -268,7 +265,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         }
     }
 
-    private function parseStylesheet(\XMLReader $reader, Node $node)
+    private function parseStylesheet(\XMLReader $reader, Node $node): void
     {
         $this->seekReaderToNextTag($reader);
         $constraint = $this->getStylesheetParser()->parse($reader);
@@ -276,7 +273,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         $this->setNodeStylesheet($node, $constraint);
     }
 
-    private function parsePlaceholder(\XMLReader $reader, Node $parentNode)
+    private function parsePlaceholder(\XMLReader $reader, Node $parentNode): void
     {
         $placeholderName = $reader->name;
         $innerParser = $this->getInnerParser();
@@ -302,7 +299,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         }
     }
     
-    private function parseBehaviour(\XMLReader $reader, Node $parentNode)
+    private function parseBehaviour(\XMLReader $reader, Node $parentNode): void
     {
         $behaviourName = $reader->name;
         
@@ -320,17 +317,17 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         $parentNode->addBehaviour($this->behaviourFactory->create($behaviourName, $value, $options));
     }
 
-    private function isntIgnoredTag($tag)
+    private function isntIgnoredTag($tag): bool
     {
         return !in_array($tag, $this->ignoredTags);
     }
     
-    private function setNodeStylesheet(Node $node, BagContainer $bagContainer)
+    private function setNodeStylesheet(Node $node, BagContainer $bagContainer): void
     {
         $bagContainer->apply($node);
     }
 
-    private function parseNode(\XMLReader $reader, Node $parentNode)
+    private function parseNode(\XMLReader $reader, Node $parentNode): void
     {
         $tag = $reader->name;
         $isEmptyElement = $reader->isEmptyElement;
@@ -397,7 +394,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         return null;
     }
     
-    private function fireOnStartParseNode(Node $node)
+    private function fireOnStartParseNode(Node $node): void
     {
         foreach($this->listeners as $listener)
         {
@@ -444,17 +441,17 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         }
     }
     
-    private function isTextNode(Node $node)
+    private function isTextNode(Node $node): bool
     {
         return $node instanceof Text;
     }
     
-    private function isntTextNode(Node $node)
+    private function isntTextNode(Node $node): bool
     {
         return !$this->isTextNode($node);
     }
 
-    private function pushOnTagStack($tag, $class)
+    private function pushOnTagStack($tag, $class): void
     {
         $class = (string) $class;
         $classes = $class ? explode(' ', $class) : array();
@@ -462,7 +459,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         array_push($this->tagStack, array('tag' => $tag, 'classes' => $classes));
     }
 
-    private function setNodeAttributesFromReader(\XMLReader $reader, Node $node)
+    private function setNodeAttributesFromReader(\XMLReader $reader, Node $node): void
     {
         $bagContainer = new BagContainer();
         
@@ -475,7 +472,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         $this->setNodeStylesheet($node, $bagContainer);
     }
     
-    private function setBehavioursFromReader(\XMLReader $reader, Node $node)
+    private function setBehavioursFromReader(\XMLReader $reader, Node $node): void
     {
         foreach($this->behaviourFactory->getSupportedBehaviourNames() as $name)
         {
@@ -524,7 +521,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         }
     }
     
-    private function fireOnEndParsePlaceholders(Node $node)
+    private function fireOnEndParsePlaceholders(Node $node): void
     {
         foreach($this->listeners as $listener)
         {
@@ -532,7 +529,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         }
     }
     
-    private function fireOnEndParseNode(Node $node)
+    private function fireOnEndParseNode(Node $node): void
     {
         foreach($this->listeners as $listener)
         {
@@ -540,7 +537,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         }
     }
 
-    private function popFromTagStack()
+    private function popFromTagStack(): void
     {
         array_pop($this->tagStack);
     }
@@ -593,7 +590,7 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
         return $this->currentParagraph;
     }
 
-    protected function isEndOfParsedDocument(\XMLReader $reader)
+    protected function isEndOfParsedDocument(\XMLReader $reader): bool
     {
         return $reader->name == $this->endTag;
     }

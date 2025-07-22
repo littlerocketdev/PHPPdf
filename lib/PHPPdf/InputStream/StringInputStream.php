@@ -17,7 +17,7 @@ class StringInputStream implements InputStream
 {
     private $currentIndex = 0;
     private $content;
-    private $contentLength;
+    private ?int $contentLength = null;
     
     public function __construct($content)
     {
@@ -25,7 +25,7 @@ class StringInputStream implements InputStream
         $this->contentLength = strlen($this->content);
     }
 
-    public function seek($index, $mode = self::SEEK_CUR)
+    public function seek($index, $mode = self::SEEK_CUR): int
     {
         $newIndex = 0;
         switch($mode)
@@ -46,7 +46,7 @@ class StringInputStream implements InputStream
         return 0;
     }
     
-    public function read($length)
+    public function read($length): string
     {
         if($this->currentIndex >= $this->contentLength)
         {
@@ -66,7 +66,7 @@ class StringInputStream implements InputStream
         return $data;
     }
     
-    public function close()
+    public function close(): void
     {
         $this->content = $this->contentLength = $this->currentIndex = null;
     }
@@ -76,7 +76,7 @@ class StringInputStream implements InputStream
         return $this->currentIndex;
     }
     
-    public function size()
+    public function size(): ?int
     {
         return $this->contentLength;
     }

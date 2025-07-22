@@ -47,13 +47,13 @@ class Image extends Node
         parent::initializeType();
     }
     
-    public function setIgnoreError($flag)
+    public function setIgnoreError($flag): void
     {
         $flag = $this->filterBooleanValue($flag);
         $this->setAttributeDirectly('ignore-error', $flag);
     }
 
-    public function setKeepRatio($flag)
+    public function setKeepRatio($flag): void
     {
         $flag = $this->filterBooleanValue($flag);
         $this->setAttributeDirectly('keep-ratio', $flag);
@@ -62,7 +62,7 @@ class Image extends Node
     protected function doDraw(Document $document, DrawingTaskHeap $tasks)
     {
         $sourceImage = $this->createSource($document);
-        $callback = function(Node $node, $sourceImage)
+        $callback = function(Node $node, $sourceImage): void
         {
             $gc = $node->getGraphicsContext();
             
@@ -157,34 +157,34 @@ class Image extends Node
         }
     }
 
-    public function getCurrentRatio()
+    public function getCurrentRatio(): int|float
     {
         $height = $this->getHeight();
 
         return $height ? $this->getWidth()/$height : 0;
     }
 
-    public function getOriginalRatio()
+    public function getOriginalRatio(): int|float
     {
         return $this->originalHeight ? $this->originalWidth/$this->originalHeight : 0;
     }
 
-    public function breakAt($height)
+    public function breakAt($height): null
     {
         return null;
     }
     
-    public function getMinWidth()
+    public function getMinWidth(): float|int|array
     {
         return $this->getWidth() + $this->getMarginLeft() + $this->getMarginRight();
     }
     
-    public function isLeaf()
+    public function isLeaf(): bool
     {
         return true;
     }
     
-    protected function isAbleToExistsAboveCoord($yCoord)
+    protected function isAbleToExistsAboveCoord($yCoord): bool
     {
         $yCoord += $this->getHeight();
         return $this->getFirstPoint()->getY() > $yCoord;

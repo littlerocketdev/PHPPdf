@@ -15,27 +15,27 @@ namespace PHPPdf\Cache;
  */
 class NullCache implements Cache
 {
-    public static function getInstance()
+    public static function getInstance(): self
     {
         return new self();
     }
 
-    public function load($id)
+    public function load($id): bool
     {
         return false;
     }
 
-    public function test($id)
+    public function test($id): bool
     {
         return false;
     }
 
-    public function save($id, $value)
+    public function save($id, $value): bool
     {
         return true;
     }
 
-    public function remove($id)
+    public function remove($id): bool
     {
         return true;
     }

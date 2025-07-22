@@ -20,12 +20,12 @@ use PHPPdf\Bridge\Zend\Pdf\Resource\Image\Jpeg;
  */
 class Image implements BaseImage
 {
-    private $zendImage;
+    private \PHPPdf\Bridge\Zend\Pdf\Resource\Image\Jpeg|\PHPPdf\Bridge\Zend\Pdf\Resource\Image\Png|\PHPPdf\Bridge\Zend\Pdf\Resource\Image\Tiff|null $zendImage = null;
     private $path;
     private $width;
     private $height;
-    private $type;
-    private $unitConverter;
+    private int $type;
+    private ?\PHPPdf\Core\UnitConverter $unitConverter;
     
     /**
      * Constructor
@@ -48,7 +48,7 @@ class Image implements BaseImage
         $this->height = $unitConverter ? $unitConverter->convertUnit($data[1], UnitConverter::UNIT_PIXEL) : $data[1];
     }
     
-    private function createImage($path)
+    private function createImage($path): \PHPPdf\Bridge\Zend\Pdf\Resource\Image\Jpeg|\PHPPdf\Bridge\Zend\Pdf\Resource\Image\Png|\PHPPdf\Bridge\Zend\Pdf\Resource\Image\Tiff
     {
         try
         {
@@ -71,13 +71,13 @@ class Image implements BaseImage
                 throw InvalidResourceException::unsupportetImageTypeException($path);
             }
         }
-        catch(\ZendPdf\Exception $e)
+        catch(\LaminasPdf\Exception $e)
         {
             throw InvalidResourceException::invalidImageException($path, $e);
         }
     }
     
-    private function pathExists($path)
+    private function pathExists($path): bool
     {
         if(is_file($path))
         {
@@ -109,8 +109,6 @@ class Image implements BaseImage
     
     /**
      * @internal Public method within PHPPdf\Core\Engine\ZF namespace
-     * 
-     * @return ZendPdf\Resource\Image
      */
     public function getWrappedImage()
     {

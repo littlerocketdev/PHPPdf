@@ -8,6 +8,7 @@
 
 namespace PHPPdf\Core\Engine\ZF;
 
+use LaminasPdf\Exception\ExceptionInterface;
 use PHPPdf\Exception\RuntimeException;
 use PHPPdf\Exception\InvalidArgumentException;
 use PHPPdf\Bridge\Zend\Pdf\Page;
@@ -15,14 +16,19 @@ use PHPPdf\Core\Engine\AbstractGraphicsContext;
 use PHPPdf\Core\Engine\GraphicsContext as BaseGraphicsContext;
 use PHPPdf\Core\Engine\Font as BaseFont;
 use PHPPdf\Core\Engine\Image as BaseImage;
-use ZendPdf\Page as ZendPage;
-use ZendPdf\InternalType\NumericObject;
-use ZendPdf\InternalType\StringObject;
-use ZendPdf\InternalType\ArrayObject;
-use ZendPdf\Font as ZendFont;
-use ZendPdf\Resource\Font\AbstractFont as ZendResourceFont;
-use ZendPdf\Color\Html as ZendColor;
-use Zend\Barcode\Object\ObjectInterface as Barcode;
+use LaminasPdf\Page as ZendPage;
+use LaminasPdf\InternalType\NumericObject;
+use LaminasPdf\InternalType\StringObject;
+use LaminasPdf\InternalType\ArrayObject;
+use LaminasPdf\Font as ZendFont;
+use LaminasPdf\Resource\Font\AbstractFont as ZendResourceFont;
+use LaminasPdf\Color\Html as ZendColor;
+use Laminas\Barcode\Object\ObjectInterface as Barcode;
+use LaminasPdf\Action\GoToAction;
+use LaminasPdf\Annotation\Link;
+use LaminasPdf\Annotation\Text;
+use LaminasPdf\Destination\FitHorizontally;
+use LaminasPdf\Outline\AbstractOutline;
 
 /**
  * @author Piotr Śliwa <peter.pl7@gmail.com>
@@ -37,7 +43,7 @@ class GraphicsContext extends AbstractGraphicsContext
         'alpha' => 1,
     );
     
-    private static $originalState = array(
+    private static array $originalState = array(
         'fillColor' => null,
         'lineColor' => null,
         'lineWidth' => null,
@@ -47,19 +53,13 @@ class GraphicsContext extends AbstractGraphicsContext
 
     private $memento = null;
     
-    /**
-     * @var Engine
-     */
-    private $engine = null;
+    private \PHPPdf\Core\Engine\ZF\Engine $engine;
 
-    /**
-     * @var ZendPdf\Page
-     */
     private $page;
     
     private $width;
     private $height;
-    private $encoding;
+    private string $encoding;
     
     public function __construct(Engine $engine, $pageOrPageSize, $encoding)
     {
@@ -115,7 +115,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->getPage()->drawLine($x1, $y1, $x2, $y2);
     }
 
-    public function setFont(BaseFont $font, $size)
+    public function setFont(BaseFont $font, $size): void
     {
         $this->addToQueue('doSetFont', array($font->getCurrentWrappedFont(), $size));
     }
@@ -144,7 +144,7 @@ class GraphicsContext extends AbstractGraphicsContext
         
         if(!$colorData instanceof ZendColor)
         {
-            throw new InvalidArgumentException('Wrong color value, expected string or object of ZendPdf\Color\Html class.');
+            throw new InvalidArgumentException('Wrong color value, expected string or object of type ' . ZendColor::class);
         }
         
         return $colorData;
@@ -178,17 +178,17 @@ class GraphicsContext extends AbstractGraphicsContext
                 $this->richDrawText($text, $x, $y, $encoding, $wordSpacing, $fillType);
             }
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(ExceptionInterface $e)
         {
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
     }
     
-    private function richDrawText($text, $x, $y, $encoding, $wordSpacing, $fillType)
+    private function richDrawText($text, $x, $y, $encoding, $wordSpacing, $fillType): void
     {
         if($this->getPage()->getFont() === null) 
         {
-            throw new \ZendPdf\Exception\LogicException('Font has not been set');
+            throw new \LaminasPdf\Exception\LogicException('Font has not been set');
         }
   
         if($fillType == self::SHAPE_DRAW_FILL)
@@ -209,7 +209,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->getPage()->rawWrite($data, 'Text');
     }
     
-    private function getDataForTextDrawing($text, $x, $y, $encoding, $wordSpacing, $fillType)
+    private function getDataForTextDrawing($text, $x, $y, $encoding, $wordSpacing, int $fillType): string
     {
         $font = $this->getPage()->getFont();
         
@@ -250,12 +250,12 @@ class GraphicsContext extends AbstractGraphicsContext
         return $data;
     }
     
-    private function createTextObject(ZendResourceFont $font, $text, $encoding)
+    private function createTextObject(ZendResourceFont $font, $text, $encoding): \LaminasPdf\InternalType\StringObject
     {
         return new StringObject($font->encodeString($text, $encoding));
     }
     
-    private function isFontDefiningSpaceInSingleByte(ZendResourceFont $font)
+    private function isFontDefiningSpaceInSingleByte(ZendResourceFont $font): bool
     {
         return $font->getFontType() === ZendFont::TYPE_STANDARD;
     }
@@ -275,7 +275,7 @@ class GraphicsContext extends AbstractGraphicsContext
         $this->getPage()->drawRoundedRectangle($x1, $y1, $x2, $y2, $radius, $this->translateFillType($fillType));
     }
     
-    private function translateFillType($fillType)
+    private function translateFillType($fillType): int
     {
         switch($fillType)
         {
@@ -319,13 +319,13 @@ class GraphicsContext extends AbstractGraphicsContext
     {
         try
         {
-            $uriAction = \ZendPdf\Action\Uri::create($uri);
+            $uriAction = \LaminasPdf\Action\Uri::create($uri);
             
             $annotation = $this->createAnnotationLink($x1, $y1, $x2, $y2, $uriAction);
             
             $this->getPage()->attachAnnotation($annotation);
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(ExceptionInterface $e)
         {
             throw new RuntimeException(sprintf('Error wile adding uri action with uri="%s"', $uri), 0, $e);
         }
@@ -335,13 +335,13 @@ class GraphicsContext extends AbstractGraphicsContext
     {
         try
         {
-            $destination = \ZendPdf\Destination\FitHorizontally::create($gc->getPage(), $top);   
+            $destination = \LaminasPdf\Destination\FitHorizontally::create($gc->getPage(), $top);   
             
             $annotation = $this->createAnnotationLink($x1, $y1, $x2, $y2, $destination);
             
             $this->getPage()->attachAnnotation($annotation);
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(ExceptionInterface $e)
         {
             throw new RuntimeException('Error while adding goTo action', 0, $e);
         }        
@@ -349,7 +349,7 @@ class GraphicsContext extends AbstractGraphicsContext
     
     private function createAnnotationLink($x1, $y1, $x2, $y2, $target)
     {
-        $annotation = \ZendPdf\Annotation\Link::create($x1, $y1, $x2, $y2, $target);
+        $annotation = Link::create($x1, $y1, $x2, $y2, $target);
         $annotationDictionary = $annotation->getResource();
         
         $border = new ArrayObject();
@@ -363,29 +363,29 @@ class GraphicsContext extends AbstractGraphicsContext
         return $annotation;
     }
     
-    public function addBookmark($identifier, $name, $top, $parentIdentifier = null)
+    public function addBookmark($identifier, $name, $top, $parentIdentifier = null): void
     {
         try
         {   
-            $destination = \ZendPdf\Destination\FitHorizontally::create($this->getPage(), $top);
-            $action = \ZendPdf\Action\GoToAction::create($destination);
+            $destination = FitHorizontally::create($this->getPage(), $top);
+            $action = GoToAction::create($destination);
             
             //convert from input encoding to UTF-16
             $name = iconv($this->encoding, 'UTF-16', $name);
             
-            $outline = \ZendPdf\Outline\AbstractOutline::create($name, $action);
+            $outline = AbstractOutline::create($name, $action);
             
             $this->engine->registerOutline($identifier, $outline);     
             
             $this->addToQueue('doAddBookmark', array($identifier, $outline, $parentIdentifier));
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(\LaminasPdf\Exception\ExceptionInterface $e)
         {
             throw new RuntimeException('Error while bookmark adding', 0, $e);
         }
     }
 
-    protected function doAddBookmark($identifier, \ZendPdf\Outline\AbstractOutline $outline, $parentIdentifier = null)
+    protected function doAddBookmark($identifier, AbstractOutline $outline, $parentIdentifier = null)
     {
         try
         {            
@@ -399,7 +399,7 @@ class GraphicsContext extends AbstractGraphicsContext
                 $this->engine->getZendPdf()->outlines[] = $outline;
             }
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(\LaminasPdf\Exception\ExceptionInterface $e)
         {
             throw new RuntimeException('Error while bookmark adding', 0, $e);
         }
@@ -407,7 +407,7 @@ class GraphicsContext extends AbstractGraphicsContext
     
     protected function doAttachStickyNote($x1, $y1, $x2, $y2, $text)
     {
-        $annotation = \ZendPdf\Annotation\Text::create($x1, $y1, $x2, $y2, $text);
+        $annotation = Text::create($x1, $y1, $x2, $y2, $text);
         $this->getPage()->attachAnnotation($annotation);
     }
     
@@ -427,7 +427,7 @@ class GraphicsContext extends AbstractGraphicsContext
     
     protected function doDrawBarcode($x, $y, Barcode $barcode)
     {
-        $renderer = new \Zend\Barcode\Renderer\Pdf();
+        $renderer = new \Laminas\Barcode\Renderer\Pdf();
         
         $page = $this->getIndexOfPage();
         
@@ -454,7 +454,7 @@ class GraphicsContext extends AbstractGraphicsContext
         return null;
     }
     
-    public function copy()
+    public function copy(): static
     {
         $gc = clone $this;
         if($this->page)

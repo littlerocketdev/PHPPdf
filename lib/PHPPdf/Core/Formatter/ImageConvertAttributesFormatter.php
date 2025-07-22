@@ -19,7 +19,7 @@ use PHPPdf\Core\Document;
  */
 class ImageConvertAttributesFormatter extends ConvertAttributesFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $this->convertPercentageDimensions($node);
         $this->setSizesIfOneOfDimensionIsntSet($node, $document);
@@ -27,7 +27,7 @@ class ImageConvertAttributesFormatter extends ConvertAttributesFormatter
         $this->convertDegreesToRadians($node);
     }
     
-    private function setSizesIfOneOfDimensionIsntSet(Node $node, Document $document)
+    private function setSizesIfOneOfDimensionIsntSet(Node $node, Document $document): void
     {
         if($this->isImageAndSizesArentSet($node))
         {
@@ -51,12 +51,12 @@ class ImageConvertAttributesFormatter extends ConvertAttributesFormatter
         }
     }
 
-    private function isImageAndSizesArentSet(Node $node)
+    private function isImageAndSizesArentSet(Node $node): bool
     {
         return ($node instanceof Image && (!$node->getWidth() || !$node->getHeight()));
     }
 
-    private function setDimensionsFromParent(EngineImage $sourceImage, Node $node)
+    private function setDimensionsFromParent(EngineImage $sourceImage, Node $node): array
     {
         $parent = $node->getParent();
 

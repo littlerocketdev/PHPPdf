@@ -20,7 +20,7 @@ class ColorPaletteParser extends XmlParser
 {
     const ROOT_TAG = 'colors';
     
-    protected function createRoot()
+    protected function createRoot(): array
     {
         return array();
     }

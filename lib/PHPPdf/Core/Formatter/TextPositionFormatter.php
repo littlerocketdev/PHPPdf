@@ -14,7 +14,7 @@ use PHPPdf\Core\Document,
 
 class TextPositionFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $boundary = $node->getBoundary();
 

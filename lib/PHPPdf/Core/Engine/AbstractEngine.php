@@ -17,7 +17,7 @@ use PHPPdf\Core\UnitConverter;
  */
 abstract class AbstractEngine implements Engine
 {
-    protected $unitConverter;
+    protected ?\PHPPdf\Core\UnitConverter $unitConverter;
     
     public function __construct(UnitConverter $unitConverter = null)
     {

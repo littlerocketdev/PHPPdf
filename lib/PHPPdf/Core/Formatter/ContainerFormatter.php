@@ -19,7 +19,7 @@ use PHPPdf\Core\Formatter\Formatter,
  */
 class ContainerFormatter extends BaseFormatter
 {
-    public function format(Nodes\Node $node, \PHPPdf\Core\Document $document)
+    public function format(Nodes\Node $node, \PHPPdf\Core\Document $document): void
     {
         foreach($node->getChildren() as $child)
         {

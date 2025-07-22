@@ -19,9 +19,9 @@ use PHPPdf\Parser\Exception as Exceptions;
  */
 abstract class XmlParser implements Parser
 {
-    private $stack = array();
-    private $stackSize = 0;
-    private $xmlReaderProvidedFromOutside = false;
+    private array $stack = array();
+    private int $stackSize = 0;
+    private bool $xmlReaderProvidedFromOutside = false;
 
     public function parse($content)
     {
@@ -148,7 +148,7 @@ abstract class XmlParser implements Parser
         return $reader;
     }
     
-    private function isXmlDocument($content)
+    private function isXmlDocument(string $content): bool
     {
         return strpos($content, '<') === 0;
     }

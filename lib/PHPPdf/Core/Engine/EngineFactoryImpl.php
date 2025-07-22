@@ -37,7 +37,7 @@ class EngineFactoryImpl implements EngineFactory
     const FORMAT_JPEG = 'jpeg';
     const FORMAT_WBMP = 'wbmp';
 
-    public function createEngine($type, array $options = array())
+    public function createEngine($type, array $options = array()): \PHPPdf\Core\Engine\ZF\Engine|\PHPPdf\Core\Engine\Imagine\Engine
     {
         $dpi = isset($options[self::OPTION_DPI]) ? $options[self::OPTION_DPI] : 96;
         
@@ -71,7 +71,7 @@ class EngineFactoryImpl implements EngineFactory
         }
     }
     
-    private function getOption($name, array $options, $default = null)
+    private function getOption(string $name, array $options, $default = null)
     {
         return isset($options[$name]) ? $options[$name] : $default;
     }

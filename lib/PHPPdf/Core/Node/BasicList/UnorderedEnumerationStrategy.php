@@ -25,7 +25,7 @@ class UnorderedEnumerationStrategy extends TextEnumerationStrategy
         return $list->getType();
     }
     
-    protected function splitTextIntoChars($text)
+    protected function splitTextIntoChars($text): array
     {
         return array($text);
     }

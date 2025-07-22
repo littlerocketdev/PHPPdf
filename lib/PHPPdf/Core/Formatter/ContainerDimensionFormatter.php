@@ -19,7 +19,7 @@ use PHPPdf\Core\Formatter\BaseFormatter,
  */
 class ContainerDimensionFormatter extends BaseFormatter
 {
-    public function format(Nodes\Node $node, Document $document)
+    public function format(Nodes\Node $node, Document $document): void
     {
         $minX = $maxX = $minY = $maxY = null;
         foreach($node->getChildren() as $child)
@@ -56,7 +56,7 @@ class ContainerDimensionFormatter extends BaseFormatter
         }
     }
 
-    private function changeValueIfIsLess($value, $valueToSet)
+    private function changeValueIfIsLess($value, float|int|array $valueToSet)
     {
         if($value === null || $value < $valueToSet)
         {
@@ -66,7 +66,7 @@ class ContainerDimensionFormatter extends BaseFormatter
         return $value;
     }
 
-    private function changeValueIfIsGreater($value, $valueToSet)
+    private function changeValueIfIsGreater($value, int|float $valueToSet)
     {
         if($value === null || $value > $valueToSet)
         {

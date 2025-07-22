@@ -10,11 +10,12 @@ namespace PHPPdf\Bridge\Zend\Pdf\Resource\Image;
 
 use PHPPdf\InputStream\FopenInputStream;
 use PHPPdf\InputStream\StringInputStream;
-use ZendPdf\Resource\Image\Png as BasePng;
-use ZendPdf\Exception;
-use ZendPdf;
-use ZendPdf\ObjectFactory;
-use ZendPdf\InternalType;
+use LaminasPdf\Resource\Image\Png as BasePng;
+use LaminasPdf\Exception;
+use LaminasPdf;
+use LaminasPdf\ObjectFactory;
+use LaminasPdf\InternalType;
+use LaminasPdf\Resource\Image\AbstractImage;
 
 /**
  * Content loading type has been changed, remote files are supported.
@@ -23,7 +24,7 @@ use ZendPdf\InternalType;
  */
 class Png extends BasePng
 {
-    private $stream;
+    private \PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream|bool|null $stream = null;
     
     const PREDICATOR = 10;
     
@@ -36,7 +37,7 @@ class Png extends BasePng
             throw new Exception\IOException("Can not open '$imageFileName' file for reading.");
         }
 
-        \ZendPdf\Resource\Image\AbstractImage::__construct();
+        AbstractImage::__construct();
         
         //Check if the file is a PNG
         $this->seek(1);
@@ -277,7 +278,7 @@ class Png extends BasePng
         }
     }
     
-    private function decode($imageData, $width, $colors, $bits)
+    private function decode(string $imageData, $width, int $colors, int $bits)
     {
         $decodingObjFactory = ObjectFactory::createFactory(1);
         $decodingStream = $decodingObjFactory->newStreamObject($imageData);
@@ -292,7 +293,7 @@ class Png extends BasePng
         return $decodingStream->value;
     }
     
-    private function open($isRemote, $imageFileName)
+    private function open(bool $isRemote, $imageFileName): false|\PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream
     {
         try 
         {
@@ -318,7 +319,7 @@ class Png extends BasePng
         }
     }
     
-    private function seek($index)
+    private function seek(int|float $index): void
     {
         $this->stream->seek($index);
     }
@@ -328,7 +329,7 @@ class Png extends BasePng
         return $this->stream->read($length);
     }
     
-    private function close()
+    private function close(): void
     {
         $this->stream->close();
         $this->stream = null;

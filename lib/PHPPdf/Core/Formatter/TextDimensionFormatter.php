@@ -21,7 +21,7 @@ use PHPPdf\Core\Formatter\BaseFormatter,
  */
 class TextDimensionFormatter extends BaseFormatter
 {
-    public function format(Nodes\Node $node, Document $document)
+    public function format(Nodes\Node $node, Document $document): void
     {
         $maxPossibleWordLength = self::getMaxPossibleWordLength($node);
         $wordCandidates = self::createWordCandidates($node->getText());
@@ -43,7 +43,7 @@ class TextDimensionFormatter extends BaseFormatter
         $node->setWordsSizes($words, $wordsSizes);
     }
     
-    private static function createWordCandidates($text)
+    private static function createWordCandidates($text): array|false
     {
         $wordCandidates = preg_split('/[ \t]+/', $text);
         
@@ -55,7 +55,7 @@ class TextDimensionFormatter extends BaseFormatter
         return $wordCandidates;
     }
     
-    private static function processWordCandidate($wordCandidate, $maxPossibleWordWidth, Font $font, $fontSize, $encoding, array &$words, array &$wordSizes)
+    private static function processWordCandidate($wordCandidate, $maxPossibleWordWidth, Font $font, $fontSize, $encoding, array &$words, array &$wordSizes): void
     {
         $wordCandidateWidth = $font->getWidthOfText($wordCandidate, $fontSize);
         
@@ -70,7 +70,7 @@ class TextDimensionFormatter extends BaseFormatter
         }
     }
     
-    private static function buildWordsNoGreaterThanGivenWidth($wordCandidate, $maxPossibleWordWidth, Font $font, $fontSize, $encoding, array &$words, array &$wordSizes)
+    private static function buildWordsNoGreaterThanGivenWidth($wordCandidate, $maxPossibleWordWidth, Font $font, $fontSize, $encoding, array &$words, array &$wordSizes): void
     {
         $wordLength = mb_strlen($wordCandidate, $encoding);
 

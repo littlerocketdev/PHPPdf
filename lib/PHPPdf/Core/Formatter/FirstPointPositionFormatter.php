@@ -14,7 +14,7 @@ use PHPPdf\Core\Node\Node,
 
 class FirstPointPositionFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $node->makeAttributesSnapshot(array('height', 'width'));
         $boundary = $node->getBoundary();
@@ -35,7 +35,7 @@ class FirstPointPositionFormatter extends BaseFormatter
         $boundary->setNext($startX, $startY);
     }
 
-    private function setNodesPosition(Node $node, &$preferredXCoord, &$preferredYCoord)
+    private function setNodesPosition(Node $node, float|int|array &$preferredXCoord, int|float &$preferredYCoord): void
     {
         $parent = $node->getParent();
         list($parentX, $parentY) = $parent->getStartDrawingPoint();
@@ -89,7 +89,7 @@ class FirstPointPositionFormatter extends BaseFormatter
         return !$rowIsOverflowed;
     }
     
-    private function isLineBreak(Node $node, Node $previousSibling)
+    private function isLineBreak(Node $node, Node $previousSibling): bool
     {
         return ($node->getAttribute('line-break') && $previousSibling->getAttribute('line-break'));
     }

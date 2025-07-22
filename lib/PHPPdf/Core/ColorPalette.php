@@ -16,7 +16,7 @@ namespace PHPPdf\Core;
  */
 class ColorPalette
 {
-    private $colors;
+    private array $colors;
     
     public function __construct(array $colors = array())
     {
@@ -29,12 +29,12 @@ class ColorPalette
         return isset($this->colors[$name]) ? $this->colors[$name] : $name;
     }
     
-    public function merge(array $colors)
+    public function merge(array $colors): void
     {
         $this->colors = $colors + $this->colors;
     }
     
-    public function getAll()
+    public function getAll(): array
     {
         return $this->colors;
     }

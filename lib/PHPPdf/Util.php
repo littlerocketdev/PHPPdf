@@ -22,7 +22,7 @@ final class Util
         throw new BadMethodCallException(sprintf('Object of "%s" class can not be created.', __CLASS__));
     }
     
-    public static function convertBooleanValue($value)
+    public static function convertBooleanValue($value): bool
     {
         $knownValues = array('true' => true, 'false' => false, 1 => true, 0 => false, '1' => true, '0' => false, 'yes' => true, 'no' => false);
 
@@ -36,7 +36,7 @@ final class Util
      * 
      * @return float|null angle in radians or null
      */
-    public static function convertAngleValue($value)
+    public static function convertAngleValue($value): ?float
     {
         if($value !== null && strpos($value, 'deg') !== false)
         {
@@ -47,7 +47,7 @@ final class Util
         return $value !== null ? ((float) $value) : null;
     }
     
-    public static function calculateDependantSizes($width, $height, $ratio)
+    public static function calculateDependantSizes($width, $height, $ratio): array
     {
         if(!$width && $height)
         {

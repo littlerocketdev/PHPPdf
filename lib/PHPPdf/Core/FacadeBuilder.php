@@ -34,18 +34,18 @@ class FacadeBuilder extends AbstractStringFilterContainer
     const PARSER_XML = 'xml';
     const PARSER_MARKDOWN = 'markdown';
     
-    private $configurationLoader = null;
+    private ?\PHPPdf\Core\Configuration\Loader $configurationLoader = null;
     private $cacheType = null;
-    private $cacheOptions = null;
-    private $useCacheForStylesheetConstraint = true;
-    private $useCacheForConfigurationLoader = true;
+    private ?array $cacheOptions = null;
+    private bool $useCacheForStylesheetConstraint = true;
+    private bool $useCacheForConfigurationLoader = true;
     private $documentParserType = self::PARSER_XML;
     private $markdownStylesheetFilepath = null;
     private $markdownDocumentTemplateFilepath = null;
 
-    private $engineFactory;
+    private ?\PHPPdf\Core\Engine\EngineFactory $engineFactory;
     private $engineType = EngineFactoryImpl::TYPE_PDF;
-    private $engineOptions = array();
+    private array $engineOptions = array();
 
     private function __construct(Loader $configurationLoader = null, EngineFactory $engineFactory = null)
     {
@@ -68,7 +68,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
     /**
      * @return FacadeBuilder
      */    
-    public function addStringFilter(StringFilter $filter)
+    public function addStringFilter(StringFilter $filter): static
     {
         parent::addStringFilter($filter);
         
@@ -78,7 +78,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
     /**
      * @return FacadeBuilder
      */ 
-    public function setStringFilters(array $filters)
+    public function setStringFilters(array $filters): static
     {
         parent::setStringFilters($filters);
         
@@ -90,19 +90,19 @@ class FacadeBuilder extends AbstractStringFilterContainer
      * 
      * @return FacadeBuilder
      */
-    public static function create(Loader $configuration = null, EngineFactory $engineFactory = null)
+    public static function create(Loader $configuration = null, EngineFactory $engineFactory = null): self
     {
         return new self($configuration, $engineFactory);
     }
 
-    public function setConfigurationLoader(Loader $configurationLoader)
+    public function setConfigurationLoader(Loader $configurationLoader): static
     {
         $this->configurationLoader = $configurationLoader;
         
         return $this;
     }
     
-    public function setUseCacheForConfigurationLoader($flag)
+    public function setUseCacheForConfigurationLoader($flag): static
     {
         $this->useCacheForConfigurationLoader = (bool) $flag;
         
@@ -114,7 +114,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
      *
      * @return Facade
      */
-    public function build()
+    public function build(): \PHPPdf\Core\Facade
     {
         $documentParser = $this->createDocumentParser();
         $stylesheetParser = new StylesheetParser();
@@ -150,7 +150,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
         return $facade;
     }
     
-    private function addStringFiltersTo($obj)
+    private function addStringFiltersTo(\PHPPdf\Core\Document|\PHPPdf\Core\Facade $obj): void
     {
         $obj->setStringFilters($this->stringFilters);
     }
@@ -158,7 +158,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
     /**
      * @return DocumentParser
      */
-    private function createDocumentParser()
+    private function createDocumentParser(): \PHPPdf\Core\Parser\XmlDocumentParser|\PHPPdf\Core\Parser\MarkdownDocumentParser
     {
         $parser = new XmlDocumentParser($this->configurationLoader->createComplexAttributeFactory());
         
@@ -180,7 +180,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
      * 
      * @return FacadeBuilder
      */
-    public function setCache($type, array $options = array())
+    public function setCache($type, array $options = array()): static
     {
         $this->cacheType = $type;
         $this->cacheOptions = $options;
@@ -200,7 +200,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
      * 
      * @return FacadeBuilder
      */
-    public function setUseCacheForStylesheetConstraint($useCache)
+    public function setUseCacheForStylesheetConstraint($useCache): static
     {
         $this->useCacheForStylesheetConstraint = (bool) $useCache;
 
@@ -210,7 +210,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
     /**
      * @return FacadeBuilder
      */
-    public function setDocumentParserType($type)
+    public function setDocumentParserType($type): static
     {
         $parserTypes = array(self::PARSER_XML, self::PARSER_MARKDOWN);
         if(!in_array($type, $parserTypes))
@@ -230,7 +230,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
      * 
      * @return FacadeBuilder
      */
-    public function setMarkdownStylesheetFilepath($filepath)
+    public function setMarkdownStylesheetFilepath($filepath): static
     {
         $this->markdownStylesheetFilepath = $filepath;
         
@@ -244,7 +244,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
      * 
      * @return FacadeBuilder
      */
-    public function setMarkdownDocumentTemplateFilepath($filepath)
+    public function setMarkdownDocumentTemplateFilepath($filepath): static
     {
         $this->markdownDocumentTemplateFilepath = $filepath;
         
@@ -254,7 +254,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
     /**
      * @return FacadeBuilder
      */
-    public function setEngineType($type)
+    public function setEngineType($type): static
     {
         $this->engineType = $type;
         
@@ -264,7 +264,7 @@ class FacadeBuilder extends AbstractStringFilterContainer
     /**
      * @return FacadeBuilder
      */
-    public function setEngineOptions(array $options)
+    public function setEngineOptions(array $options): static
     {
         $this->engineOptions = $options;
         

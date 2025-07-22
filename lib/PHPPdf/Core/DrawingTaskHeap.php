@@ -17,9 +17,9 @@ namespace PHPPdf\Core;
  */
 class DrawingTaskHeap extends \SplHeap
 {
-    private $elements = 0;
+    private int $elements = 0;
 
-    public function insert($value)
+    public function insert($value): void
     {
         $value->setOrder($this->elements++);
         parent::insert($value);

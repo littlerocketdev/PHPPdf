@@ -17,7 +17,7 @@ use PHPPdf\Exception\InvalidArgumentException;
  */
 class FileDataSource extends DataSource
 {
-    private $filePath;
+    private string $filePath;
 
     public function __construct($filePath)
     {
@@ -29,7 +29,7 @@ class FileDataSource extends DataSource
         $this->filePath = (string) $filePath;
     }
 
-    public function read()
+    public function read(): string|false
     {
         return file_get_contents($this->filePath);
     }

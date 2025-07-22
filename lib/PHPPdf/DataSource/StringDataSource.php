@@ -15,14 +15,14 @@ namespace PHPPdf\DataSource;
  */
 class StringDataSource extends DataSource
 {
-    private $content;
+    private string $content;
 
     public function __construct($content)
     {
         $this->content = (string) $content;
     }
 
-    public function read()
+    public function read(): string
     {
         return $this->content;
     }

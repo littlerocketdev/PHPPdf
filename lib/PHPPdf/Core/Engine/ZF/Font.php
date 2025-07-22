@@ -12,19 +12,17 @@ use PHPPdf\Exception\InvalidArgumentException;
 
 use PHPPdf\Exception\InvalidResourceException;
 use PHPPdf\Core\Engine\AbstractFont;
-use ZendPdf\Font as ZendFont;
+use LaminasPdf\Font as ZendFont;
 
 /**
  * @author Piotr Śliwa <peter.pl7@gmail.com>
  */
 class Font extends AbstractFont
 {
-    private $fonts = array();
+    private array $fonts = array();
     
     /**
      * @internal Public method within PHPPdf\Core\Engine\ZF namespace
-     * 
-     * @return ZendPdf\Resource\Font
      */
     public function getCurrentWrappedFont()
     {
@@ -51,20 +49,20 @@ class Font extends AbstractFont
             
             return $this->fonts[$style];
         }
-        catch(\ZendPdf\Exception\ExceptionInterface $e)
+        catch(\LaminasPdf\Exception\ExceptionInterface $e)
         {
             throw InvalidResourceException::invalidFontException($this->fontResources[$style], $e);
         }
     }
     
-    private function isNamedFont($fontData)
+    private function isNamedFont($fontData): bool
     {
         return strpos($fontData, '/') === false;
     }
     
-    private static function retrieveFontName($name)
+    private static function retrieveFontName($name): mixed
     {
-        $const = sprintf('ZendPdf\Font::FONT_%s', str_replace('-', '_', strtoupper($name)));
+        $const = sprintf('LaminasPdf\Font::FONT_%s', str_replace('-', '_', strtoupper($name)));
 
         if(!defined($const))
         {
@@ -74,7 +72,7 @@ class Font extends AbstractFont
         return constant($const);
     }
 
-    public function getWidthOfText($text, $fontSize)
+    public function getWidthOfText($text, $fontSize): int|float
     {
         $chars = $this->convertTextToChars($text);
         
@@ -85,7 +83,10 @@ class Font extends AbstractFont
         return $textWidth;
     }
     
-    private function convertTextToChars($text)
+    /**
+     * @return list<mixed>
+     */
+    private function convertTextToChars(array $text): array
     {
         $length = strlen($text);
         $chars = array();
@@ -105,7 +106,7 @@ class Font extends AbstractFont
     /**
      * code from http://php.net/manual/en/function.ord.php#78032
      */
-    private function ordUtf8($text, $index = 0, $bytes = null)
+    private function ordUtf8(array $text, int|float $index = 0, $bytes = null): array
     {
         $len = strlen($text);
         $bytes = 0;

@@ -14,7 +14,7 @@ use PHPPdf\Core\Document,
 
 class ListFormatter extends BaseFormatter
 {
-    public function format(Node $node, Document $document)
+    public function format(Node $node, Document $document): void
     {
         $position = $node->getAttribute('list-position');
         

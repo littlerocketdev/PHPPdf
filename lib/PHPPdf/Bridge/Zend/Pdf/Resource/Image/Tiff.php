@@ -11,10 +11,11 @@ namespace PHPPdf\Bridge\Zend\Pdf\Resource\Image;
 use PHPPdf\InputStream\InputStream;
 use PHPPdf\InputStream\StringInputStream;
 use PHPPdf\InputStream\FopenInputStream;
-use ZendPdf\Resource\Image\Tiff as BaseTiff;
-use ZendPdf\Exception;
-use ZendPdf;
-use ZendPdf\InternalType;
+use LaminasPdf\Resource\Image\Tiff as BaseTiff;
+use LaminasPdf\Exception;
+use LaminasPdf;
+use LaminasPdf\InternalType;
+use LaminasPdf\Resource\Image;
 
 /**
  * Content loading type has been changed, remote files are supported.
@@ -23,7 +24,7 @@ use ZendPdf\InternalType;
  */
 class Tiff extends BaseTiff
 {
-    private $stream;
+    private \PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream|bool|null $stream = null;
     
     public function __construct($imageFileName)
     {
@@ -260,7 +261,7 @@ class Tiff extends BaseTiff
 
         $this->close();
 
-        \ZendPdf\Resource\Image::__construct();
+        Image::__construct();
 
         $imageDictionary = $this->_resource->dictionary;
         if(!isset($this->_width) || !isset($this->_width)) {
@@ -295,7 +296,7 @@ class Tiff extends BaseTiff
         $this->_resource->skipFilters();
     }
     
-    private function open($isRemote, $imageFileName)
+    private function open(bool $isRemote, $imageFileName): false|\PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream
     {
         try 
         {
@@ -321,7 +322,7 @@ class Tiff extends BaseTiff
         }
     }
     
-    private function seek($index, $seekMode = InputStream::SEEK_CUR)
+    private function seek($index, int $seekMode = InputStream::SEEK_CUR)
     {
         return $this->stream->seek($index, $seekMode);
     }
@@ -331,7 +332,7 @@ class Tiff extends BaseTiff
         return $this->stream->read($length);
     }
     
-    private function close()
+    private function close(): void
     {
         $this->stream->close();
     }

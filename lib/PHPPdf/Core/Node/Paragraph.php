@@ -20,9 +20,9 @@ use PHPPdf\Core\Document,
  */
 class Paragraph extends Container
 {
-    private $lines = array();
+    private array $lines = array();
     
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->setAttribute('text-align', null);
@@ -39,7 +39,7 @@ class Paragraph extends Container
         return 0;
     }
     
-    public function setWidth($width)
+    public function setWidth($width): static
     {
         $parent = $this->getParent();
         
@@ -66,7 +66,7 @@ class Paragraph extends Container
         return $this->getParent()->getWidthWithoutPaddings();
     }
 
-    public function add(Node $text)
+    public function add(Node $text): static
     {
         $previousText = $this->getLastChild();
         
@@ -93,27 +93,27 @@ class Paragraph extends Container
         return null;
     }
     
-    private function endsWithWhiteChars(Text $text)
+    private function endsWithWhiteChars(Text $text): bool
     {
         return rtrim($text->getText()) != $text->getText();
     }
     
-    private function startsWithWhiteChars(Text $text)
+    private function startsWithWhiteChars(Text $text): bool
     {
         return ltrim($text->getText()) != $text->getText();
     }
     
-    public function addLine(Line $line)
+    public function addLine(Line $line): void
     {
         $this->lines[] = $line;
     }
     
-    public function getLines()
+    public function getLines(): array
     {
         return $this->lines;
     }
     
-    public function collectOrderedDrawingTasks(Document $document, DrawingTaskHeap $tasks)
+    public function collectOrderedDrawingTasks(Document $document, DrawingTaskHeap $tasks): DrawingTaskHeap
     {
         $lastIndex = count($this->lines) - 1;
         foreach($this->lines as $i => $line)
@@ -235,7 +235,7 @@ class Paragraph extends Container
         return $copy;
     }
     
-    public function getMinWidth()
+    public function getMinWidth(): float|int|array
     {
         $minWidth = 0;
         
@@ -247,7 +247,7 @@ class Paragraph extends Container
         return $minWidth;
     }
     
-    public function flush()
+    public function flush(): void
     {
         foreach($this->lines as $line)
         {
@@ -259,7 +259,7 @@ class Paragraph extends Container
         parent::flush();
     }
     
-    public function resize($x, $y)
+    public function resize($x, $y): void
     {
     }
 }

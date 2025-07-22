@@ -31,7 +31,7 @@ class ImageEnumerationStrategy extends AbstractEnumerationStrategy
         $gc->drawImage($image, $xCoord, $yCoord - $this->imageWidth, $xCoord + $this->imageHeight, $yCoord);
     }
 
-    protected function getEnumerationElementTranslations(Document $document, BasicList $list)
+    protected function getEnumerationElementTranslations(Document $document, BasicList $list): array
     {
         $image = $this->getImage($list);
         $fontSize = $list->getRecurseAttribute('font-size');
@@ -60,7 +60,7 @@ class ImageEnumerationStrategy extends AbstractEnumerationStrategy
         return $image;
     }
     
-    private function getImageDimension(UnitConverter $converter, $image, $fontSize)
+    private function getImageDimension(UnitConverter $converter, $image, $fontSize): array
     {
         if($this->imageWidth === null && $this->imageHeight === null)
         {

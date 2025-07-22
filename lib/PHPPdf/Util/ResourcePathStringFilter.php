@@ -17,14 +17,14 @@ namespace PHPPdf\Util;
  */
 class ResourcePathStringFilter implements StringFilter
 {
-    private $path;
+    private ?string $path = null;
     
     public function filter($value)
     {
         return str_replace('%resources%', $this->getPathToResources(), $value);;
     }
     
-    private function getPathToResources()
+    private function getPathToResources(): string|array
     {
         if($this->path === null)
         {

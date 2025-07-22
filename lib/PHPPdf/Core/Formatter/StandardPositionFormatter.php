@@ -19,7 +19,7 @@ use PHPPdf\Core\Node as Nodes,
  */
 class StandardPositionFormatter extends BaseFormatter
 {
-    public function format(Nodes\Node $node, Document $document)
+    public function format(Nodes\Node $node, Document $document): void
     {
         $boundary = $node->getBoundary();
         if(!$boundary->isClosed())

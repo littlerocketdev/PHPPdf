@@ -22,21 +22,21 @@ use PHPPdf\Core\Node\Node;
  */
 class Row extends Container implements Listener
 {
-    private $numberOfColumns = 0;
+    private int $numberOfColumns = 0;
     private $maxHeightOfCells = 0;
-    private $marginsOfCells = array(
+    private array $marginsOfCells = array(
         'margin-top' => 0,
         'margin-bottom' => 0,
     );
     
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         
         $this->setAttribute('breakable', false);
     }
 
-    public function add(Node $node)
+    public function add(Node $node): static
     {
         if(!$node instanceof Cell)
         {
@@ -61,7 +61,7 @@ class Row extends Container implements Listener
         return parent::add($node);
     }
 
-    private function setMaxHeightOfCellsIfHeightOfPassedCellIsGreater(Cell $node)
+    private function setMaxHeightOfCellsIfHeightOfPassedCellIsGreater(Cell $node): void
     {
         $height = $node->getHeight();
 
@@ -71,7 +71,7 @@ class Row extends Container implements Listener
         }
     }
 
-    private function setCellMarginIfNecessary(Cell $cell, $marginType)
+    private function setCellMarginIfNecessary(Cell $cell, string $marginType): void
     {
         $margin = $cell->getAttribute($marginType);
 
@@ -108,13 +108,13 @@ class Row extends Container implements Listener
         return $this->getParent()->getWidth();
     }
 
-    public function reset()
+    public function reset(): void
     {
         parent::reset();
         $this->numberOfColumns = 0;
     }
 
-    public function attributeChanged(Node $node, $attributeName, $oldValue)
+    public function attributeChanged(Node $node, $attributeName, $oldValue): void
     {
         if($attributeName === 'height')
         {
@@ -122,7 +122,7 @@ class Row extends Container implements Listener
         }
     }
 
-    public function parentBind(Node $node)
+    public function parentBind(Node $node): void
     {
         $this->setMaxHeightOfCellsIfHeightOfPassedCellIsGreater($node);
     }

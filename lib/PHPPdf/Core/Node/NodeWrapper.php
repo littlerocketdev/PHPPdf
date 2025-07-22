@@ -15,19 +15,19 @@ namespace PHPPdf\Core\Node;
  */
 final class NodeWrapper implements NodeAware
 {
-    private $node;
+    private ?\PHPPdf\Core\Node\Node $node;
     
     public function __construct(Node $node = null)
     {
         $this->node = $node;
     }
     
-    public function getNode()
+    public function getNode(): ?\PHPPdf\Core\Node\Node
     {
         return $this->node;
     }
     
-    public function setNode(Node $node)
+    public function setNode(Node $node): void
     {
         $this->node = $node;
     }

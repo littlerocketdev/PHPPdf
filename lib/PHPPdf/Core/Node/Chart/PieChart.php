@@ -34,7 +34,7 @@ class PieChart extends Circle
         static::setAttributeSetters(array('chart-colors' => 'setChartColors'));
     }
     
-    public function setChartValues($values)
+    public function setChartValues($values): void
     {
         if(is_string($values))
         {
@@ -49,7 +49,7 @@ class PieChart extends Circle
         $this->setAttributeDirectly('chart-values', $values);
     }
     
-    public function setChartColors($colors)
+    public function setChartColors($colors): void
     {
         if(is_string($colors))
         {
@@ -67,7 +67,7 @@ class PieChart extends Circle
     {
         parent::doDraw($document, $tasks);
         
-        $callback = function(PieChart $node, Document $document, Point $point){
+        $callback = function(PieChart $node, Document $document, Point $point): void{
             $gc = $node->getGraphicsContext();
             
             $values = $node->getAttribute('chart-values');

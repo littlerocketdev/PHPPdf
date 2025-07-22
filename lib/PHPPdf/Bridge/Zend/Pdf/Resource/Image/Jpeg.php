@@ -10,10 +10,10 @@ namespace PHPPdf\Bridge\Zend\Pdf\Resource\Image;
 
 use PHPPdf\InputStream\FopenInputStream;
 use PHPPdf\InputStream\StringInputStream;
-use ZendPdf\Resource\Image\AbstractImage;
-use ZendPdf\Resource\Image\Jpeg as BaseJpeg;
-use ZendPdf\InternalType;
-use ZendPdf\Exception;
+use LaminasPdf\Resource\Image\AbstractImage;
+use LaminasPdf\Resource\Image\Jpeg as BaseJpeg;
+use LaminasPdf\InternalType;
+use LaminasPdf\Exception;
 
 /**
  * Content loading type has been changed, remote files are supported.
@@ -89,7 +89,7 @@ class Jpeg extends BaseJpeg
         $this->_imageProperties['jpegColorType'] = $imageInfo['channels'];
     }
     
-    private function open($isRemote, $imageFileName)
+    private function open(bool $isRemote, $imageFileName): false|\PHPPdf\InputStream\StringInputStream|\PHPPdf\InputStream\FopenInputStream
     {
         try 
         {

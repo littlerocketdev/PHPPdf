@@ -33,7 +33,7 @@ abstract class ComplexAttribute
         $this->setRadius($radius);
     }
 
-    private function setRadius($radius)
+    private function setRadius($radius): void
     {
         if(is_string($radius) && \strpos($radius, ' ') !== false)
         {
@@ -65,7 +65,7 @@ abstract class ComplexAttribute
         return $this->color;
     }
 
-    public function enhance(Node $node, Document $document)
+    public function enhance(Node $node, Document $document): void
     {
         $color = $document->getColorFromPalette($this->getColor());
         $alpha = $node->getAlpha();

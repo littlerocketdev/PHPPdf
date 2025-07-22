@@ -33,12 +33,12 @@ class EmptyImage implements Image
         return $instance;
     }
     
-	public function getOriginalHeight()
+	public function getOriginalHeight(): int
 	{
 		return 0;
 	}
 
-	public function getOriginalWidth()
+	public function getOriginalWidth(): int
 	{
 		return 0;
 	}

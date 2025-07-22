@@ -20,13 +20,13 @@ use PHPPdf\Core\Document,
  */
 class Container extends Node
 {
-    private $children = array();
+    private array $children = array();
 
     /**
      * @param Node $node Child node object
      * @return PHPPdf\Core\Node\Container
      */
-    public function add(Node $node)
+    public function add(Node $node): static
     {
         $node->setParent($this);
         $node->reset();
@@ -36,12 +36,12 @@ class Container extends Node
         return $this;
     }
 
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }
 
-    public function remove(Node $node)
+    public function remove(Node $node): bool
     {
         foreach($this->children as $key => $child)
         {
@@ -55,12 +55,12 @@ class Container extends Node
         return false;
     }
 
-    public function removeAll()
+    public function removeAll(): void
     {
         $this->children = array();
     }
 
-    public function reset()
+    public function reset(): void
     {
         parent::reset();
 
@@ -97,7 +97,7 @@ class Container extends Node
         return $copy;
     }
 
-    public function translate($x, $y)
+    public function translate($x, $y): void
     {
         if(!$x && !$y)
         {
@@ -209,7 +209,7 @@ class Container extends Node
         return $brokenCompose;
     }
 
-    public function getMinWidth()
+    public function getMinWidth(): float|int|array
     {
         $minWidth = $this->getAttributeDirectly('min-width');
 
@@ -221,7 +221,7 @@ class Container extends Node
         return $minWidth + $this->getPaddingLeft() + $this->getPaddingRight() + $this->getMarginLeft() + $this->getMarginRight();
     }
     
-    public function hasLeafDescendants($bottomYCoord = null)
+    public function hasLeafDescendants($bottomYCoord = null): bool
     {
         foreach($this->getChildren() as $child)
         {

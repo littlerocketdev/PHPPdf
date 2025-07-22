@@ -17,7 +17,7 @@ class AbstractStringFilterContainer implements StringFilterContainer
 {
     protected $stringFilters = array();
     
-    public function setStringFilters(array $filters)
+    public function setStringFilters(array $filters): void
     {
         $this->stringFilters = array();
         
