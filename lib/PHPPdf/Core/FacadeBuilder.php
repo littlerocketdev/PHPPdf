@@ -68,21 +68,17 @@ class FacadeBuilder extends AbstractStringFilterContainer
     /**
      * @return FacadeBuilder
      */    
-    public function addStringFilter(StringFilter $filter): static
+    public function addStringFilter(StringFilter $filter)
     {
         parent::addStringFilter($filter);
-        
-        return $this;
     }
     
     /**
      * @return FacadeBuilder
      */ 
-    public function setStringFilters(array $filters): static
+    public function setStringFilters(array $filters): void
     {
         parent::setStringFilters($filters);
-        
-        return $this;
     }
 
     /**
