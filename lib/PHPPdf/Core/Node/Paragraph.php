@@ -113,7 +113,7 @@ class Paragraph extends Container
         return $this->lines;
     }
     
-    public function collectOrderedDrawingTasks(Document $document, DrawingTaskHeap $tasks): DrawingTaskHeap
+    public function collectOrderedDrawingTasks(Document $document, DrawingTaskHeap $tasks): void
     {
         $lastIndex = count($this->lines) - 1;
         foreach($this->lines as $i => $line)
@@ -132,8 +132,6 @@ class Paragraph extends Container
         {
             $tasks->insert($this->createDumpTask());
         }
-
-        return $tasks;
     }
     
     protected function doBreakAt($height)

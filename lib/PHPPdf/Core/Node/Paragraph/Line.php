@@ -22,7 +22,7 @@ class Line
     private array $parts = array();
     private $yTranslation;
     private $xTranslation;
-    private \PHPPdf\Core\Node\Paragraph $paragraph;
+    private ?Paragraph $paragraph;
     
     public function __construct(Paragraph $paragraph, $xTranslation, $yTranslation)
     {
@@ -70,7 +70,7 @@ class Line
         return $this->parts;
     }
     
-    public function setParagraph(\PHPPdf\Core\Node\Paragraph $paragraph): void
+    public function setParagraph(Paragraph $paragraph): void
     {
         $this->paragraph = $paragraph;
     }

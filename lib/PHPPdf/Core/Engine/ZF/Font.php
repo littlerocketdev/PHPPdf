@@ -82,11 +82,8 @@ class Font extends AbstractFont
 
         return $textWidth;
     }
-    
-    /**
-     * @return list<mixed>
-     */
-    private function convertTextToChars(array $text): array
+
+    private function convertTextToChars(string $text): array
     {
         $length = strlen($text);
         $chars = array();
@@ -106,7 +103,7 @@ class Font extends AbstractFont
     /**
      * code from http://php.net/manual/en/function.ord.php#78032
      */
-    private function ordUtf8(array $text, int|float $index = 0, $bytes = null): array
+    private function ordUtf8(string $text, int|float $index = 0, $bytes = null)
     {
         $len = strlen($text);
         $bytes = 0;
