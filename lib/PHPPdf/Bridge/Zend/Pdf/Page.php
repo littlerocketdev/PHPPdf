@@ -19,7 +19,7 @@ use LaminasPdf\InternalType;
 class Page extends ZendPage
 {
     public function drawRoundedRectangle($x1, $y1, $x2, $y2, $radius,
-                                         $fillType = self::SHAPE_DRAW_FILL_AND_STROKE)
+                                         $fillType = self::SHAPE_DRAW_FILL_AND_STROKE): ZendPage
     {
 
         $this->_addProcSet('PDF');

@@ -8,8 +8,8 @@
 
 namespace PHPPdf\Cache;
 
-use Zend\Cache\StorageFactory;
-use Zend\Cache\Storage\StorageInterface;
+//use Zend\Cache\StorageFactory;
+//use Zend\Cache\Storage\StorageInterface;
 use PHPPdf\Exception\RuntimeException;
 
 /**
@@ -33,40 +33,40 @@ class CacheImpl implements Cache
 
     public function __construct($engine = self::ENGINE_FILE, array $options = array())
     {
-        if(!$engine instanceof StorageInterface)
-        {
-            $engine = $this->createAdapter($engine);
-        }
-        
-        $this->adapter = $engine;
-        
-        if(isset($options['automatic_serialization']))
-        {
-            $this->automaticSerialization = $options['automatic_serialization'];
-            unset($options['automatic_serialization']);
-        }
-        
-        $this->adapter->setOptions($options);
+//        if(!$engine instanceof StorageInterface)
+//        {
+//            $engine = $this->createAdapter($engine);
+//        }
+//
+//        $this->adapter = $engine;
+//
+//        if(isset($options['automatic_serialization']))
+//        {
+//            $this->automaticSerialization = $options['automatic_serialization'];
+//            unset($options['automatic_serialization']);
+//        }
+//
+//        $this->adapter->setOptions($options);
     }
     
     private function createAdapter($name)
     {
-        $name = ucfirst(strtolower($name));
-
-        if($name === self::ENGINE_FILE)
-        {
-            $name = self::ENGINE_FILESYSTEM;
-        }
-        
-        $const = 'PHPPdf\Cache\CacheImpl::ENGINE_'.strtoupper($name);
-        if(!defined($const))
-        {
-            throw $this->cacheEngineDosntExistException($name);
-        }
-        
-        $name = constant($const);
-        
-        return StorageFactory::adapterFactory($name);
+//        $name = ucfirst(strtolower($name));
+//
+//        if($name === self::ENGINE_FILE)
+//        {
+//            $name = self::ENGINE_FILESYSTEM;
+//        }
+//
+//        $const = 'PHPPdf\Cache\CacheImpl::ENGINE_'.strtoupper($name);
+//        if(!defined($const))
+//        {
+//            throw $this->cacheEngineDosntExistException($name);
+//        }
+//
+//        $name = constant($const);
+//
+//        return StorageFactory::adapterFactory($name);
     }
 
     private function cacheEngineDosntExistException(string $engine, \Exception $e = null): \PHPPdf\Exception\RuntimeException
@@ -76,27 +76,27 @@ class CacheImpl implements Cache
 
     public function load($id)
     {
-        try
-        {
-            $data = $this->adapter->getItem($id);
-            
-            if($this->automaticSerialization)
-            {
-                $data = @unserialize($data);
-                
-                if($data === false)
-                {
-                    $this->remove($id);
-                    throw new RuntimeException(sprintf('Invalid data under "%s" key. Cache has been remove.', $id));
-                }
-            }
-            
-            return $data;
-        }
-        catch(\Zend\Cache\Exception\ExceptionInterface $e)
-        {
-            $this->wrapLowLevelException($e, __METHOD__);
-        }
+//        try
+//        {
+//            $data = $this->adapter->getItem($id);
+//
+//            if($this->automaticSerialization)
+//            {
+//                $data = @unserialize($data);
+//
+//                if($data === false)
+//                {
+//                    $this->remove($id);
+//                    throw new RuntimeException(sprintf('Invalid data under "%s" key. Cache has been remove.', $id));
+//                }
+//            }
+//
+//            return $data;
+//        }
+//        catch(\Zend\Cache\Exception\ExceptionInterface $e)
+//        {
+//            $this->wrapLowLevelException($e, __METHOD__);
+//        }
     }
 
     private function wrapLowLevelException(\Zend\Cache\Exception\ExceptionInterface&\Throwable $e, string $methodName): never
@@ -106,14 +106,14 @@ class CacheImpl implements Cache
 
     public function test($id)
     {
-        try
-        {
-            return $this->adapter->hasItem($id);
-        }
-        catch(\Zend\Cache\Exception\ExceptionInterface $e)
-        {
-            $this->wrapLowLevelException($e, __METHOD__);
-        }
+//        try
+//        {
+//            return $this->adapter->hasItem($id);
+//        }
+//        catch(\Zend\Cache\Exception\ExceptionInterface $e)
+//        {
+//            $this->wrapLowLevelException($e, __METHOD__);
+//        }
     }
 
     /**
@@ -124,30 +124,30 @@ class CacheImpl implements Cache
      */
     public function save($data, $id)
     {
-        try
-        {
-            if($this->automaticSerialization)
-            {
-                $data = serialize($data);
-            }
-            
-            return $this->adapter->setItem($id, $data);
-        }
-        catch(\Zend\Cache\Exception\ExceptionInterface $e)
-        {
-            $this->wrapLowLevelException($e, __METHOD__);
-        }
+//        try
+//        {
+//            if($this->automaticSerialization)
+//            {
+//                $data = serialize($data);
+//            }
+//
+//            return $this->adapter->setItem($id, $data);
+//        }
+//        catch(\Zend\Cache\Exception\ExceptionInterface $e)
+//        {
+//            $this->wrapLowLevelException($e, __METHOD__);
+//        }
     }
 
     public function remove($id)
     {
-        try
-        {
-            return $this->adapter->removeItem($id);
-        }
-        catch(\Zend\Cache\Exception\ExceptionInterface $e)
-        {
-            $this->wrapLowLevelException($e, __METHOD__);
-        }
+//        try
+//        {
+//            return $this->adapter->removeItem($id);
+//        }
+//        catch(\Zend\Cache\Exception\ExceptionInterface $e)
+//        {
+//            $this->wrapLowLevelException($e, __METHOD__);
+//        }
     }
 }
