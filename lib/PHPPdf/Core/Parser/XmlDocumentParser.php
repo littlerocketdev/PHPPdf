@@ -59,6 +59,8 @@ class XmlDocumentParser extends XmlParser implements DocumentParser
     
     private array $listeners = array();
 
+    private $prototypes = array();
+
     public function __construct(ComplexAttributeFactory $complexAttributeFactory, Document $document = null)
     {
         $this->document = $document;

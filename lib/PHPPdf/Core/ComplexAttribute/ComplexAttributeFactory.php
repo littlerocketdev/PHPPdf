@@ -261,4 +261,19 @@ class ComplexAttributeFactory implements \Serializable
             $this->addDefinition($name, $className);
         }
     }
+
+    public function __serialize(): array
+    {
+        return [
+            'definitions' => $this->definitions,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->definitions = [];
+        foreach ($data['definitions'] as $name => $className) {
+            $this->addDefinition($name, $className);
+        }
+    }
 }

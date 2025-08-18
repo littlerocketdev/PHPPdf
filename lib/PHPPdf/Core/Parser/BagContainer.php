@@ -98,6 +98,19 @@ class BagContainer implements \Serializable
         $this->attributeBag = new AttributeBag($data['attributes']);
         $this->weight = (float) $data['weight'];
     }
+
+    public function __serialize(): array
+    {
+        return [
+            'attributes' => $this->getAttributeBag()->getAll(),
+            'weight'     => $this->weight,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->restoreDataAfterUnserialize($data);
+    }
     
     public function apply(Node $node): void
     {

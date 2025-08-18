@@ -190,4 +190,38 @@ class NodeFactory implements \Serializable
         
         $this->aliases = (array) $data['aliases'];
     }
+
+    public function __serialize()
+    {
+        return [
+            'prototypes' => $this->prototypes,
+            'invocationsMethodsOnCreate' => $this->invocationsMethodsOnCreate,
+            'invokeArgs' => $this->invokeArgs,
+            'aliases' => $this->aliases,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $prototypes = $data['prototypes'] ?? [];
+        $invOnCreate = $data['invocationsMethodsOnCreate'] ?? [];
+        $invokeArgs  = $data['invokeArgs'] ?? [];
+        $aliases     = $data['aliases'] ?? [];
+
+        $this->prototypes = [];
+        $this->invocationsMethodsOnCreate = [];
+        $this->invokeArgs = [];
+        $this->aliases = [];
+
+        foreach ($prototypes as $name => $prototype) {
+            $invocationsMethods = $invOnCreate[$name] ?? [];
+            $this->addPrototype($name, $prototype, $invocationsMethods);
+        }
+
+        foreach ($invokeArgs as $tag => $value) {
+            $this->addInvokeArg($tag, $value);
+        }
+
+        $this->aliases = (array) $aliases;
+    }
 }

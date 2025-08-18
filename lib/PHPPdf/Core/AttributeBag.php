@@ -39,7 +39,7 @@ class AttributeBag implements \Countable, \Serializable
         return $this;
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->elements);
     }
@@ -91,5 +91,17 @@ class AttributeBag implements \Countable, \Serializable
     public function unserialize($serialized): void
     {
         $this->elements = \unserialize($serialized);
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'elements' => $this->elements,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->elements = $data['elements'] ?? [];
     }
 }
