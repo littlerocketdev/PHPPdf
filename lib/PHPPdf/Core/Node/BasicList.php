@@ -37,7 +37,8 @@ class BasicList extends Container
     const LIST_POSITION_INSIDE = 'inside';
     const LIST_POSITION_OUTSIDE = 'outside';
     
-    private $enumerationStrategy;
+    private ?EnumerationStrategy $enumerationStrategy;
+    private ?EnumerationStrategyFactory $enumerationStrategyFactory;
     private bool $omitEnumerationOfFirstElement = false;
 
     protected static function setDefaultAttributes()

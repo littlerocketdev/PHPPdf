@@ -169,12 +169,12 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
     /**
      * @return integer Number of points in boundary
      */
-    public function count()
+    public function count(): int
     {
         return $this->numberOfPoints;
     }
 
-    public function current()
+    public function current(): mixed
     {
         $points = $this->getPoints();
         return $this->valid() ? $points[$this->current] : null;
@@ -193,7 +193,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
         return $this->offsetGet($i);
     }
 
-    public function key()
+    public function key(): int
     {
         return $this->current;
     }
@@ -208,7 +208,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
         $this->current = 0;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         $points = $this->getPoints();
         return isset($points[$this->current]);
@@ -279,7 +279,7 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
     }
     
     /**
-     * @return PHPPdf\Core\Point Point that divides line between first and diagonal points on half
+     * @return Point Point that divides line between first and diagonal points on half
      */
     public function getMiddlePoint()
     {
@@ -314,12 +314,12 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
         return $this->closed;
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return (is_int($offset) && $offset < $this->numberOfPoints);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         if(!$this->offsetExists($offset))
         {
@@ -329,12 +329,12 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
         return $this->points[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new BadMethodCallException('You can not set point directly.');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new BadMethodCallException('You can not unset point directly.');
     }
@@ -360,6 +360,32 @@ class Boundary implements \Countable, \Iterator, \ArrayAccess, \Serializable
     public function unserialize($serialized): void
     {
         $data = unserialize($serialized);
+        $points = $data['points'];
+
+        foreach($points as $point)
+        {
+            $this->setNext($point[0], $point[1]);
+        }
+
+        $this->closed = (bool) $data['closed'];
+    }
+
+    public function __serialize()
+    {
+        $points = array();
+        foreach($this->getPoints() as $point)
+        {
+            $points[] = $point->toArray();
+        }
+
+        return serialize(array(
+            'closed' => $this->closed,
+            'points' => $points,
+        ));
+    }
+
+    public function __unserialize(array $data): void
+    {
         $points = $data['points'];
 
         foreach($points as $point)

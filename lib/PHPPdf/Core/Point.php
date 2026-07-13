@@ -132,9 +132,9 @@ final class Point implements \ArrayAccess
     /**
      * @param integer $x First coordinate of vector
      * @param integer $y Second coordinate of vector
-     * @return PHPPdf\Core\Point Translated point by given vector
+     * @return Point Translated point by given vector
      */
-    public function translate($x, $y)
+    public function translate(int $x, int $y): Point
     {
         if(!$x && !$y)
         {
@@ -144,22 +144,18 @@ final class Point implements \ArrayAccess
         return self::getInstance($this->x + $x, $this->y - $y);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return ($offset == 1 || $offset == 0);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
-        switch($offset)
-        {
-            case 0:
-                return $this->x;
-            case 1:
-                return $this->y;
-            default:
-                throw new OutOfBoundsException(sprintf('Point implementation of ArrayAccess interface accept only "0" and "1" key, "%s" given.', $offset));
-        }
+        return match ($offset) {
+            0 => $this->x,
+            1 => $this->y,
+            default => throw new OutOfBoundsException(sprintf('Point implementation of ArrayAccess interface accept only "0" and "1" key, "%s" given.', $offset)),
+        };
     }
 
     public function offsetSet($offset, $value): void

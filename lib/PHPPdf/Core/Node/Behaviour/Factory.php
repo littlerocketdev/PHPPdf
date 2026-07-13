@@ -31,7 +31,7 @@ class Factory
         switch($name)
         {
             case 'href':
-                if(strpos($mainArg, '#') === 0)
+                if(str_starts_with($mainArg, '#'))
                 {
                     //anchor detected, go to "ref" section
                     $mainArg = substr($mainArg, 1);

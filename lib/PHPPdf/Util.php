@@ -24,7 +24,7 @@ final class Util
     
     public static function convertBooleanValue($value): bool
     {
-        $knownValues = array('true' => true, 'false' => false, 1 => true, 0 => false, '1' => true, '0' => false, 'yes' => true, 'no' => false);
+        $knownValues = array('true' => true, 'false' => false, 1 => true, 0 => false, 'yes' => true, 'no' => false);
 
         return isset($knownValues[$value]) ? $knownValues[$value] : (boolean) $value;
     }
@@ -38,7 +38,7 @@ final class Util
      */
     public static function convertAngleValue($value): ?float
     {
-        if($value !== null && strpos($value, 'deg') !== false)
+        if($value !== null && str_contains($value, 'deg'))
         {
             $value = (float) $value;
             $value = deg2rad($value);

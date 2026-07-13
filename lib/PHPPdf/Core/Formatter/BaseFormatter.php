@@ -25,7 +25,17 @@ abstract class BaseFormatter implements Formatter, \Serializable
         return '';
     }
 
+    public function __serialize(): array
+    {
+        return [];
+    }
+
     public function unserialize($serialized)
     {
+    }
+
+    public function __unserialize(array $data): void
+    {
+
     }
 }

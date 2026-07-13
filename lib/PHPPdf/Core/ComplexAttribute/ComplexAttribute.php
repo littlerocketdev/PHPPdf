@@ -35,7 +35,7 @@ abstract class ComplexAttribute
 
     private function setRadius($radius): void
     {
-        if(is_string($radius) && \strpos($radius, ' ') !== false)
+        if(is_string($radius) && str_contains($radius, ' '))
         {
             $radius = explode(' ', $radius);
             $count = count($radius);
