@@ -1,6 +1,6 @@
 <?php
 
-function get_examples()
+function get_examples(): array
 {
     $examples = array();
     
@@ -8,7 +8,7 @@ function get_examples()
     foreach($iter as $file)
     {
         $name = $file->getBasename('.xml');
-        if(strpos($name, '-style') === false)
+        if(!str_contains($name, '-style'))
         {
             $examples[] = $name;
         }

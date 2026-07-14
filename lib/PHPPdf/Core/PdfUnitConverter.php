@@ -37,6 +37,9 @@ class PdfUnitConverter extends AbstractUnitConverter
         {
             return $value;
         }
+        if ($value === null) {
+            return null;
+        }
         
         $unit = $unit ? : strtolower(substr($value, -2, 2));
 

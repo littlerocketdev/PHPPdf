@@ -79,7 +79,7 @@ class Border extends ComplexAttribute
     {
         if(!is_numeric($style) && !is_array($style))
         {
-            if(strpos($style, ' ') !== false)
+            if(str_contains($style, ' '))
             {
                 $style = explode(' ', $style);
             }

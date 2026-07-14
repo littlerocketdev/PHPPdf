@@ -81,7 +81,7 @@ class Background extends ComplexAttribute
         
         $numericValue = (string) (double) $value;
         
-        return $numericValue === substr($value, 0, strlen($numericValue));
+        return str_starts_with($value, $numericValue);
     }
 
     private function setRepeat($repeat): void

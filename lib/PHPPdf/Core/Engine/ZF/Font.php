@@ -57,7 +57,7 @@ class Font extends AbstractFont
     
     private function isNamedFont($fontData): bool
     {
-        return strpos($fontData, '/') === false;
+        return !str_contains($fontData, '/');
     }
     
     private static function retrieveFontName($name): mixed

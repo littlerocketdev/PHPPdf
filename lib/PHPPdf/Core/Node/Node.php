@@ -233,19 +233,6 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
     {
         return $this->unitConverter;
     }
-    
-    protected function addDrawingTasks(array $tasks)
-    {
-        foreach($tasks as $task)
-        {
-            $this->addDrawingTask($task);
-        }
-    }
-    
-    protected function addDrawingTask(DrawingTask $task)
-    {
-        $this->drawingTasks[] = $task;
-    }
 
     /**
      * Add complexAttribute attributes, if complexAttribute with passed name is exists, it will be
@@ -276,7 +263,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
     }
 
     /**
-     * @return PHPPdf\Core\Boundary
+     * @return Boundary
      */
     public function getBoundary()
     {
@@ -289,7 +276,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
     }
     
     /**
-     * @return PHPPdf\Core\Boundary Boundary with no translated points by margins, paddings etc.
+     * @return Boundary Boundary with no translated points by margins, paddings etc.
      */
     public function getRealBoundary()
     {
@@ -305,7 +292,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
      * Gets point of left upper corner of this node or null if boundaries have not been
      * calculated yet.
      *
-     * @return PHPPdf\Core\Point
+     * @return Point
      */
     public function getFirstPoint()
     {
@@ -316,7 +303,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
      * Gets point of left upper corner of this node, this method works on boundary from {@see getRealBoundary()}
      * on contrast to {@see getFirstPoint()} method.
      * 
-     * @return PHPPdf\Core\Point
+     * @return Point
      */
     public function getRealFirstPoint()
     {
@@ -327,7 +314,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
      * Get point of right bottom corner of this node or null if boundaries have not been
      * calculated yet.
      *
-     * @return PHPPdf\Core\Point
+     * @return Point
      */
     public function getDiagonalPoint()
     {
@@ -338,7 +325,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
      * Gets point of right bottom corner of this node, this method works on boundary from {@see getRealBoundary()}
      * on contrast to {@see getDiagonalPoint()} method.
      * 
-     * @return PHPPdf\Core\Point
+     * @return Point
      */
     public function getRealDiagonalPoint()
     {
@@ -346,7 +333,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
     }
     
     /**
-     * @return PHPPdf\Core\Point Point that divides line between first and diagonal points on half
+     * @return Point Point that divides line between first and diagonal points on half
      */
     public function getMiddlePoint()
     {
@@ -378,7 +365,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
      * Gets ancestor with passed type. If ancestor has not been found, null will be returned.
      * 
      * @param string $type Full class name with namespace
-     * @return PHPPdf\Core\Node\Node Nearest ancestor in $type
+     * @return Node Nearest ancestor in $type
      */
     public function getAncestorByType($type)
     {
@@ -439,7 +426,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
     }
 
     /**
-     * @return Page Page of current objects
+     * @return Node|\PHPPdf\Core\Node\Container Page of current objects
      * @throws LogicException If object has not been attached to any page
      */
     public function getPage()
@@ -540,7 +527,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
         $width = $this->convertUnit($width);
         $this->setAttributeDirectly('width', $width);
 
-        if(\strpos($width, '%') !== false)
+        if(str_contains($width, '%'))
         {
             $this->setRelativeWidth($width);
         }
@@ -1238,7 +1225,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
         return $task;
     }
 
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
@@ -1247,12 +1234,12 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
     {
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->hasAttribute($offset);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->getAttribute($offset);
     }
@@ -1267,7 +1254,7 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
         $this->setAttribute($offset, null);
     }
 
-    public function getStartDrawingPoint()
+    public function getStartDrawingPoint(): array
     {
         list($x, $y) = $this->getFirstPoint()->toArray();
 
@@ -1275,9 +1262,9 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
     }
 
     /**
-     * @return Node Previous sibling node, null if previous sibling dosn't exist
+     * @return Node|null Previous sibling node, null if previous sibling dosn't exist
      */
-    public function getPreviousSibling()
+    public function getPreviousSibling(): ?Node
     {
         $siblings = $this->getSiblings();
         $previous = null;
@@ -1324,7 +1311,6 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
         $copy->parent = null;
         $copy->boundary = null;
         $copy->complexAttributeBag = clone $this->complexAttributeBag;
-        $copy->drawingTasks = array();
         $copy->positionTranslation = null;
         $copy->ancestorWithFontSize = null;
         $copy->ancestorWithRotation = null;
@@ -1701,11 +1687,23 @@ abstract class Node implements Drawable, NodeAware, \ArrayAccess, \Serializable
         return serialize($data);
     }
 
+    public function __serialize(): array
+    {
+        return $this->getDataForSerialize();
+    }
+
     public function unserialize($serialized): void
     {
         static::initializeTypeIfNecessary();
 
         $data = unserialize($serialized);
+
+        $this->setDataFromUnserialize($data);
+    }
+
+    public function __unserialize(array $data): void
+    {
+        static::initializeTypeIfNecessary();
 
         $this->setDataFromUnserialize($data);
     }

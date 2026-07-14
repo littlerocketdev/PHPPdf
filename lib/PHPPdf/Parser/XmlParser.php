@@ -150,7 +150,7 @@ abstract class XmlParser implements Parser
     
     private function isXmlDocument(string $content): bool
     {
-        return strpos($content, '<') === 0;
+        return str_starts_with($content, '<');
     }
 
     protected function seekReaderToNextTag(\XMLReader $reader)

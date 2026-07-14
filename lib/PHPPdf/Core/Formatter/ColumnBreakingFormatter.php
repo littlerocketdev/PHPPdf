@@ -231,6 +231,7 @@ class ColumnBreakingFormatter extends BaseFormatter
             
             return $productOfBroke;
         }
+        return null;
     }
     
     private function resizeAndMoveContainersToColumnHeight(Container $originalContainer, Container $productOfBroke, int $numberOfBreaks): void

@@ -74,7 +74,7 @@ class Table extends Container implements Listener
         $columnNumber = $node->getNumberOfColumn();
         $colspan = $node->getAttribute('colspan');
 
-        $isWidthRelative = strpos($width, '%') !== false;
+        $isWidthRelative = str_contains($width, '%');
 
         $currentWidth = 0;
         for($i=0; $i<$colspan; $i++)
