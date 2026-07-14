@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^8.3",
-        "littlerocket/laminas-pdf":  "^3.0.5"
+        "littlerocket/laminas-pdf":  "^3.0.10"
     },
     "require-dev": {
         "imagine/imagine": "^1.5",
